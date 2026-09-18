@@ -1,0 +1,19 @@
+name: llm_benchmark
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - xtb=6.7.1
+  - crest=3.0.2
+  - rdkit=2024.03.3
+  - scipy
+  - pandas
+  - pyyaml
+  - matplotlib
+  - pip:
+    - SciencePlots
+    - tqdm
+    - python-dotenv
+    - requests
+    - torch

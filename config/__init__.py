@@ -1,0 +1,43 @@
+"""Repository configuration (models, paths, baselines)."""
+
+from config.models_config import (
+    MARKER_DEFAULT,
+    MARKER_REASONING,
+    ModelSpec,
+    add_baseline_arguments,
+    colors_by_id,
+    default_models_table,
+    geom_seed_dirs,
+    geom_seed_paths,
+    is_reasoning_or_thinking,
+    load_config,
+    marker_for_display,
+    model_files_by_display,
+    models_by_id,
+    models_in_group,
+    release_dates_by_display,
+    repo_root,
+    resolve_deltae_json,
+    tag_display_map,
+)
+
+__all__ = [
+    "MARKER_DEFAULT",
+    "MARKER_REASONING",
+    "ModelSpec",
+    "add_baseline_arguments",
+    "colors_by_id",
+    "default_models_table",
+    "geom_seed_dirs",
+    "geom_seed_paths",
+    "is_reasoning_or_thinking",
+    "load_config",
+    "marker_for_display",
+    "model_files_by_display",
+    "models_by_id",
+    "models_in_group",
+    "release_dates_by_display",
+    "repo_root",
+    "resolve_deltae_json",
+    "tag_display_map",
+]

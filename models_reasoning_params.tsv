@@ -1,0 +1,29 @@
+Model	Reasoning	Parameters
+GPT-6 Astra	Effort high; T omitted	---
+Claude Opus 5	Effort high	---
+Claude Sonnet 5	Effort high	---
+Claude Sonnet 4.5	Reasoning enabled	---
+Claude Sonnet 4	Reasoning enabled	---
+GPT-5.6 Sol	Effort high; T omitted	---
+GPT-5	Effort high; T omitted	---
+o4-mini	Reasoning enabled; T omitted	---
+Gemini 3.6 Flash	Effort high	---
+Gemini 3 Flash	Effort high	---
+Gemini 2.5 Flash	Reasoning enabled	---
+Gemma 3 27B	No thinking	27B dense
+Gemma 4 31B	Thinking; effort high	31B dense
+Kimi K3	Effort high	2,800B (104B) MoE
+Kimi K2 Thinking	Reasoning enabled	1,100B (32B) MoE
+Qwen 3.8 27B	Thinking; effort high	27.8B dense
+Qwen 3.7 Max	Reasoning enabled	---
+Qwen 3.6 27B	Thinking; effort high	27.8B dense
+Qwen 3.5 27B	Thinking; effort high	27.8B dense
+Qwen 3.5 Plus 20260420	Reasoning enabled	397B (17B) MoE
+Qwen 2.5 32B	No thinking	32.8B dense
+Qwen 3 32B	Thinking; effort high	32.8B dense
+Qwen 3.5 35B A3B	Thinking; effort high	35B (3B) MoE
+Qwen 3.6 35B A3B	Thinking; effort high	35B (3B) MoE
+DeepSeek V4 Flash 0731	Effort high	284B (13B) MoE
+DeepSeek V3.2	Reasoning enabled	671B (37B) MoE
+DeepSeek-R1 32B	Thinking; effort high	32.8B dense
+Muse Glimmer 30B	Thinking; effort high	30B dense

@@ -1,0 +1,99 @@
+{
+  "pilot_root": "llm_pp",
+  "smiles": "C[C@@H](O)/C=C/[C@@H](C)OO",
+  "mol_id": "C_C__H__O__C_C__C__H__C_OO",
+  "reproducibility": {
+    "conda_env": "llm_benchmark",
+    "random_seed": 42,
+    "rdkit_etkdg_randomSeed": 42,
+    "rdkit_SeedRandomNumberGenerator": 42,
+    "subprocess_OMP_NUM_THREADS": "16",
+    "xtb": "xtb",
+    "crest": "crest",
+    "orca": "orca",
+    "crest_note": "CREST MTD may differ in ensemble size; xTB+RDKit path is deterministic"
+  },
+  "n_embed": 50,
+  "skip_mmff": true,
+  "seed_conf_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "crest_input_conf_id": 5,
+  "crest_input_energy_hartree": -31.052940404069,
+  "energy_units": "kcal/mol (\u0394E vs xTB minimum in CREST ensemble)",
+  "e_min_hartree": -31.05308507,
+  "n_crest_conformers": 98,
+  "n_exported": 30,
+  "output_dir": "geom-qm9/output_30_confs/C_C__H__O__C_C__C__H__C_OO",
+  "xtb_seeds": [
+    {
+      "rank": 0,
+      "conf_id": 0,
+      "energy_hartree": -31.052080357717,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_0/xtbopt.xyz"
+    },
+    {
+      "rank": 1,
+      "conf_id": 1,
+      "energy_hartree": -31.050017017563,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_1/xtbopt.xyz"
+    },
+    {
+      "rank": 2,
+      "conf_id": 2,
+      "energy_hartree": -31.050476545975,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_2/xtbopt.xyz"
+    },
+    {
+      "rank": 3,
+      "conf_id": 3,
+      "energy_hartree": -31.048986816532,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_3/xtbopt.xyz"
+    },
+    {
+      "rank": 4,
+      "conf_id": 4,
+      "energy_hartree": -31.049559715751,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_4/xtbopt.xyz"
+    },
+    {
+      "rank": 5,
+      "conf_id": 5,
+      "energy_hartree": -31.052940404069,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_5/xtbopt.xyz"
+    },
+    {
+      "rank": 6,
+      "conf_id": 6,
+      "energy_hartree": -31.05025582273,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_6/xtbopt.xyz"
+    },
+    {
+      "rank": 7,
+      "conf_id": 7,
+      "energy_hartree": -31.049736793812,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_7/xtbopt.xyz"
+    },
+    {
+      "rank": 8,
+      "conf_id": 8,
+      "energy_hartree": -31.048329258355,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_8/xtbopt.xyz"
+    },
+    {
+      "rank": 9,
+      "conf_id": 9,
+      "energy_hartree": -31.051862683832,
+      "xtbopt": "geom-qm9/_work/C_C__H__O__C_C__C__H__C_OO/xtb_seed_9/xtbopt.xyz"
+    }
+  ]
+}
