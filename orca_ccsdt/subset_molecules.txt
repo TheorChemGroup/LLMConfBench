@@ -1,0 +1,12 @@
+# DLPNO-CCSD(T) subset of the 30-mol r2SCAN-3c set (10 molecules).
+# C_C_H_1N_C__1_CO_CC_O is in the 30-mol DFT set, not the paper 25-mol LLM cohort.
+O_CCCC_C_C_H_1CN1
+C_C___NH__OCCCCO
+CCC_C__H__CO_N1CC1
+CCc1ccc_CO__nH_1
+OCC_C_H_1C_C_H_2OC_C__H_12
+CC_C__H__COC_N1CC1
+CC__O__C_H__C_O__C__H__C_O
+CC_C__C__H__O_C1_O_CC1
+CC__O_C_C___1_O_C_C_H_1O
+C_C_H_1N_C__1_CO_CC_O

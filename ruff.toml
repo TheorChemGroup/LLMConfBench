@@ -1,0 +1,9 @@
+exclude = [
+    "sand.ipynb",
+    "_archive", "_archive2",
+]
+
+[lint]
+ignore = [
+    "EXE001", 
+]

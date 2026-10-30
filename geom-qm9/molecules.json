@@ -1,0 +1,104 @@
+{
+  "molecules": [
+    {
+      "id": "CCC_C__H__CO_N1CC1",
+      "smiles": "CCC[C@@H](CO)N1CC1"
+    },
+    {
+      "id": "CCN_C__H__C_N_C_N__O",
+      "smiles": "CCN[C@@H](C#N)C(N)=O"
+    },
+    {
+      "id": "CCOC__O__C__H__C_N",
+      "smiles": "CCOC(=O)[C@@H](C)N"
+    },
+    {
+      "id": "CC_CCOC_C__H__C_O",
+      "smiles": "CC#CCOC[C@@H](C)O"
+    },
+    {
+      "id": "CC_C__C__H__O_C1_O_CC1",
+      "smiles": "CC(C)[C@@H](O)C1(O)CC1"
+    },
+    {
+      "id": "CC_C__H__COC_N1CC1",
+      "smiles": "CC[C@@H](COC)N1CC1"
+    },
+    {
+      "id": "CC_C__H__O__C__H__C_CCO",
+      "smiles": "CC[C@@H](O)[C@@H](C)CCO"
+    },
+    {
+      "id": "CC__O_C_C___1_O_C_C_H_1O",
+      "smiles": "CC(=O)C[C@@]1(O)C[C@H]1O"
+    },
+    {
+      "id": "CC__O__C_H__C_O__C__H__C_O",
+      "smiles": "CC(=O)[C@H](C=O)[C@@H](C)O"
+    },
+    {
+      "id": "CCc1ccc_CO__nH_1",
+      "smiles": "CCc1ccc(CO)[nH]1"
+    },
+    {
+      "id": "C_CC_C___C__O_CC_O",
+      "smiles": "C#CC[C@](C)(O)CC=O"
+    },
+    {
+      "id": "C_C_H_1CCO_C_H_1CCO",
+      "smiles": "C[C@H]1CCO[C@H]1CCO"
+    },
+    {
+      "id": "C_C_H__C_O_CO_CH__NH_",
+      "smiles": "C[C@H](C=O)COC=N"
+    },
+    {
+      "id": "C_C__H_1C_CC_C_H__CO_C1",
+      "smiles": "C[C@@H]1C=CC[C@H](CO)C1"
+    },
+    {
+      "id": "C_C__H__CO_CCNC_O",
+      "smiles": "C[C@@H](CO)CCNC=O"
+    },
+    {
+      "id": "C_C__H__CO__C__H__O__C_H_1CN1",
+      "smiles": "C[C@@H](CO)[C@@H](O)[C@H]1CN1"
+    },
+    {
+      "id": "C_C___NH__OCCCCO",
+      "smiles": "CC(=N)OCCCCO"
+    },
+    {
+      "id": "N_CCOCCC1CC1",
+      "smiles": "N#CCOCCC1CC1"
+    },
+    {
+      "id": "OCC1_CCCCOC1",
+      "smiles": "OCC1=CCCCOC1"
+    },
+    {
+      "id": "OCC_C_H_1C_C_H_2OC_C__H_12",
+      "smiles": "OCC[C@H]1C[C@H]2OC[C@@H]12"
+    },
+    {
+      "id": "OCC_C_H_1C_C__H__O_C1",
+      "smiles": "OCC[C@H]1C[C@@H](O)C1"
+    },
+    {
+      "id": "O_CCCC_C_C_H_1CN1",
+      "smiles": "O=CCCC#C[C@H]1CN1"
+    },
+    {
+      "id": "O_CC_C__H_1CO_C__H_1CO",
+      "smiles": "O=CC[C@@H]1CO[C@@H]1CO"
+    },
+    {
+      "id": "O_CNC_C_H__O__C_H_1CO1",
+      "smiles": "O=CNC[C@H](O)[C@H]1CO1"
+    },
+    {
+      "id": "O_C_H_1C_C_H_1CCC1CC1",
+      "smiles": "O[C@H]1C[C@H]1CCC1CC1"
+    }
+  ]
+}
