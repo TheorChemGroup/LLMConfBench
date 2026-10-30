@@ -1,0 +1,19 @@
+benchmark	n	r2	r2_declustered	p_value
+AIME	7	0.499		0.076
+Agentic	15	0.608		6.04e-04
+Coding	12	0.473		0.013
+GPQA Diamond	25	0.551	0.606	2.16e-05
+HLE	20	0.748		8.55e-07
+IFBench	13	0.331		0.040
+Intelligence	20	0.604		5.57e-05
+LCR	20	0.399		0.003
+LiveCodeBench	7	0.598		0.041
+MMLU-Pro	7	0.538		0.061
+Math	7	0.498		0.076
+SciCode	20	0.648		1.87e-05
+TerminalBench	13	0.612		0.002
+ARC-AGI-1	15	0.702		9.58e-05
+ARC-AGI-2	15	0.826		2.74e-06
+Release date	28	0.445		1.05e-04
+Total parameters (log10)	16	0.228		0.061
+Total API cost ($)	17	0.820		5.81e-07

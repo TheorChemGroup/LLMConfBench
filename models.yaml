@@ -1,0 +1,365 @@
+
+paths:
+  geom_root: geom-qm9
+  seeds:
+    "42": geom-qm9/prompt_30x30_NEW
+    "43": geom-qm9/prompt_30x30_NEW_43
+    "44": geom-qm9/prompt_30x30_NEW_44
+  conformers: geom-qm9/output_30_confs
+  mols_md: MDs/MOLS.md
+
+baselines:
+  gfn2-xtb:
+    label: GFN2-xTB
+    deltae_json: null
+  r2scan3c:
+    label: r2SCAN-3c
+    deltae_json: orca_r2scan-3c/deltaE_r2scan3c_kcal_mol.json
+
+groups:
+  geom_benchmark:
+    - claudeopus5
+    - claudesonnet5
+    - claudesonnet45
+    - claudesonnet4
+    - gpt56sol
+    - gpt6astra
+    - gpt5
+    - o4mini
+    - gemini36flash
+    - gemini3flash
+    - gemini25flash
+    - gemma327b
+    - gemma431b
+    - kimik3
+    - kimik2thinking
+    - qwen3827b
+    - qwen37max
+    - qwen3627b
+    - qwen3527b
+    - qwen35plus
+    - qwen2532b
+    - qwen332b
+    - qwen3535ba3b
+    - qwen3635ba3b
+    - deepseekv4flash
+    - deepseekr132b
+    - deepseekv32
+    - museglimmer30b
+
+models:
+  random:
+    display: Random
+    short: random
+    answers: null
+    color: "#9ca3af"
+    class: baseline
+
+  claudeopus5:
+    display: Claude Opus 5
+    short: claude-opus-5
+    answers: answers_claudeopus5.jsonl
+    color: "#c2410c"
+    class: closed
+    reasoning: true
+    release_date: "2026-07-24"
+    params_total_b: null  
+    params_active_b: null
+    arch: null  
+  claudesonnet5:
+    display: Claude Sonnet 5
+    short: claude-sonnet-5
+    answers: answers_claudesonnet5.jsonl
+    color: "#c2410c"
+    class: closed
+    reasoning: true
+    release_date: "2026-06-30"
+    params_total_b: null  
+    params_active_b: null
+    arch: null
+  claudesonnet4:
+    display: Claude Sonnet 4
+    short: claude-sonnet-4
+    answers: answers_claudesonnet4.jsonl
+    color: "#c2410c"
+    class: closed
+    reasoning: true
+    release_date: "2025-05-22"
+    params_total_b: null
+    params_active_b: null
+    arch: null
+  claudesonnet45:
+    display: Claude Sonnet 4.5
+    short: claude-sonnet-4.5
+    answers: answers_claudesonnet45.jsonl
+    color: "#c2410c"
+    class: closed
+    reasoning: true
+    release_date: "2025-09-29"
+    params_total_b: null
+    params_active_b: null
+    arch: null
+  gpt56sol:
+    display: GPT-5.6 Sol
+    short: gpt-5.6-sol
+    answers: answers_gpt56sol.jsonl
+    color: "#34d399"
+    class: closed
+    reasoning: true
+    release_date: "2026-07-09"
+    params_total_b: null  
+    params_active_b: null
+    arch: null
+  gpt6astra:
+    display: GPT-6 Astra
+    short: gpt-6-astra
+    answers: answers_gpt6astra.jsonl
+    color: "#34d399"
+    class: closed
+    reasoning: true
+    release_date: "2026-09-03"
+    params_total_b: null
+    params_active_b: null
+    arch: null
+  gpt5:
+    display: GPT-5
+    short: gpt-5
+    answers: answers_gpt5.jsonl
+    color: "#34d399"
+    class: closed
+    reasoning: true
+    release_date: "2025-08-07"
+    params_total_b: null
+    params_active_b: null
+    arch: null
+  o4mini:
+    display: O4 Mini
+    short: o4-mini
+    answers: answers_o4mini.jsonl
+    color: "#34d399"
+    class: closed
+    reasoning: true
+    release_date: "2025-04-16"
+    params_total_b: null
+    params_active_b: null
+    arch: null
+  gemini36flash:
+    display: Gemini 3.6 Flash
+    short: gemini-3.6-flash
+    answers: answers_gemini36flash.jsonl
+    color: "#38bdf8"
+    class: closed
+    reasoning: true
+    release_date: "2026-07-21"
+    params_total_b: null  
+    params_active_b: null
+    arch: null
+  gemini3flash:
+    display: Gemini 3 Flash
+    short: gemini-3-flash-preview
+    answers: answers_gemini3flash.jsonl
+    color: "#38bdf8"
+    class: closed
+    reasoning: true
+    release_date: "2025-12-17"
+    params_total_b: null
+    params_active_b: null
+    arch: null
+  gemini25flash:
+    display: Gemini 2.5 Flash
+    short: gemini-2.5-flash
+    answers: answers_gemini25flash.jsonl
+    color: "#38bdf8"
+    class: closed
+    reasoning: true
+    release_date: "2025-06-17"
+    params_total_b: null  
+    params_active_b: null
+    arch: null
+  gemma327b:
+    display: Gemma 3 27B
+    short: gemma-3-27b
+    answers: answers_gemma327b.jsonl
+    color: "#0f766e"
+    class: os
+    reasoning: false
+    release_date: "2025-03-12"
+    params_total_b: 27  
+    params_active_b: 27
+    arch: dense
+  gemma431b:
+    display: Gemma 4 31B
+    short: gemma-4-31b
+    answers: answers_gemma431b.jsonl
+    color: "#0f766e"
+    class: os
+    reasoning: true
+    release_date: "2026-04-02"
+    params_total_b: 31
+    params_active_b: 31
+    arch: dense
+  kimik3:
+    display: Kimi K3
+    short: kimi-k3
+    answers: answers_kimik3.jsonl
+    color: "#db2777"
+    class: os
+    reasoning: true
+    release_date: "2026-07-16"
+    params_total_b: 2800  
+    params_active_b: 104
+    arch: moe
+  kimik2thinking:
+    display: Kimi K2 Thinking
+    short: kimi-k2-thinking
+    answers: answers_kimik2thinking.jsonl
+    color: "#db2777"
+    class: os
+    reasoning: true
+    release_date: "2025-11-06"
+    params_total_b: 1100
+    params_active_b: 32
+    arch: moe
+  qwen3827b:
+    display: Qwen 3.8 27B
+    short: qwen3.8-27b
+    answers: answers_qwen3827b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2026-08-14"
+    params_total_b: 27.8
+    params_active_b: 27.8
+    arch: dense
+  qwen37max:
+    display: Qwen 3.7 Max
+    short: qwen3.7-max
+    answers: answers_qwen37max.jsonl
+    color: "#818cf8"
+    class: closed
+    reasoning: true
+    release_date: "2026-05-21"
+    params_total_b: null  
+    params_active_b: null
+    arch: null  
+  qwen3627b:
+    display: Qwen 3.6 27B
+    short: qwen3.6-27b
+    answers: answers_qwen3627b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2026-04-21"
+    params_total_b: 27.8
+    params_active_b: 27.8
+    arch: dense  
+  qwen3527b:
+    display: Qwen 3.5 27B
+    short: qwen3.5-27b
+    answers: answers_qwen3527b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2026-02-24"
+    params_total_b: 27.8
+    params_active_b: 27.8
+    arch: dense
+  qwen35plus:
+    display: Qwen 3.5 Plus
+    short: qwen3.5-plus-20260420
+    answers: answers_qwen35plus.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2026-04-20"
+    params_total_b: 397  
+    params_active_b: 17
+    arch: moe  
+  qwen2532b:
+    display: Qwen 2.5 32B
+    short: qwen2.5-32b
+    answers: answers_qwen2532b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: false
+    release_date: "2024-09-19"
+    params_total_b: 32.8
+    params_active_b: 32.8
+    arch: dense
+  qwen332b:
+    display: Qwen 3 32B
+    short: qwen3-32b
+    answers: answers_qwen332b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2025-04-28"
+    params_total_b: 32.8
+    params_active_b: 32.8
+    arch: dense
+  qwen3535ba3b:
+    display: Qwen 3.5 35B A3B
+    short: qwen3.5-35b-a3b
+    answers: answers_qwen3535ba3b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2026-02-24"
+    params_total_b: 35
+    params_active_b: 3
+    arch: moe
+  qwen3635ba3b:
+    display: Qwen 3.6 35B A3B
+    short: qwen3.6-35b-a3b
+    answers: answers_qwen3635ba3b.jsonl
+    color: "#818cf8"
+    class: os
+    reasoning: true
+    release_date: "2026-04-14"
+    params_total_b: 35
+    params_active_b: 3
+    arch: moe
+  deepseekv4flash:
+    display: DeepSeek V4 Flash 0731
+    short: deepseek-v4-flash-0731
+    answers: answers_deepseekv4flash.jsonl
+    color: "#1d4ed8"
+    class: os
+    reasoning: true
+    release_date: "2026-07-31"
+    params_total_b: 284
+    params_active_b: 13
+    arch: moe  
+  deepseekv32:
+    display: DeepSeek V3.2
+    short: deepseek-v3.2
+    answers: answers_deepseekv32.jsonl
+    color: "#1d4ed8"
+    class: os
+    reasoning: true
+    release_date: "2025-12-01"
+    params_total_b: 671
+    params_active_b: 37
+    arch: moe  
+  deepseekr132b:
+    display: DeepSeek-R1 32B
+    short: deepseek-r1-32b
+    answers: answers_deepseekr132b.jsonl
+    color: "#1d4ed8"
+    class: os
+    reasoning: true
+    release_date: "2025-01-20"
+    params_total_b: 32.8 
+    params_active_b: 32.8
+    arch: dense
+  museglimmer30b:
+    display: Muse Glimmer 30B
+    short: muse-glimmer-30b
+    answers: answers_muse-glimmer30b.jsonl
+    color: "#FF87F7"
+    class: os
+    reasoning: true
+    release_date: "2026-08-10"
+    params_total_b: 30
+    params_active_b: 30
+    arch: dense
