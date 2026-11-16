@@ -24,6 +24,11 @@ Produces:
   figures/deltae_energy_profiles.png
   figures/deltae_pair_diff_profiles.png
   figures/energy_probe_mae_heatmap.png
+  figures/fig1c_term_contributions.png
+  figures/fig3a_decoy_gallery.png
+  figures/fig3c_decoy_accuracy_vs_angle.png
+  figures/ed_mmff94_alignment_r2.png
+  figures/ed_mmff94_alignment_scatter.png
   figures/ConcretenessCRA_GPT5_square.png
   figures/ConcretenessCRA_GPT6_square.png
   figures/ConcretenessCRA_all_horizontal.png
@@ -32,6 +37,9 @@ Produces:
   figures/ensemble_flexibility.tsv
   figures/cra_floor2_table.tsv
   figures/paired_llm_minus_uff_floor2.tsv
+  figures/mmff94_alignment_per_molecule.tsv
+  figures/term_contributions_nohb_anyhb.tsv
+  figures/decoy_hbond_geometry.tsv
   figures/terms_old_neutral_museglimmer30b.tsv (+ _agg.tsv)
   figures/models_table.tsv
   figures/models_reasoning_params.tsv
@@ -39,7 +47,11 @@ Produces:
 
 Intermediate tables written by the same steps: concreteness_vs_cra.tsv,
 seed_spread_heatmap_molecules.tsv, cra_benchmark_correlations_2.tsv,
-concept_counts_vs_cra.tsv.
+concept_counts_vs_cra.tsv, mmff94_alignment_per_molecule.tsv,
+term_contributions_nohb_anyhb.tsv, decoy_hbond_geometry.tsv.
+
+Fig. 3a assets are rendered with xyzrender by render_decoy_gallery.py within
+the decoy-gallery step.
 """
 
 from __future__ import annotations
@@ -83,17 +95,22 @@ def main() -> int:
     from concepts import build_table as build_concepts
     from concreteness import build_table as build_concreteness
     from concreteness import load_setup as load_concreteness_setup
+    from decoy_angle import main as write_decoy_angle
+    from decoy_gallery import main as write_decoy_gallery
     from energy_probe_mae_heatmap import plot_mae_heatmap as write_energy_probe
     from fair_pair_tables import main as write_fair_tables
     from legend_common import main as write_common_legend
+    from mmff_alignment import main as write_mmff_alignment
     from plot_dataset_diversity_panels import write_figures as write_diversity
     from plot_decoy_vs_release import collect_and_write as write_decoy_vs_release
     from plot_eqhb_vs_benchmarks import main as write_eqhb_bench
     from plot_equal_hbond_vs_release import collect_and_write as write_equal_hbond
     from plot_favorable_vs_release import collect_and_write as write_favorable
     from plot_tau_vs_release_square import collect_and_write as write_tau_square
+    from render_decoy_gallery import main as render_decoy_gallery
     from seed_spread_heatmap import collect_and_write as write_seed_heatmap
     from tau_floor2_table import collect_and_write as write_floor2_table
+    from term_contributions import main as write_term_contributions
     from terms_old_neutral import main as write_terms_old_neutral
 
     from viz.three_mol_rows import main as write_mol_grid
@@ -130,6 +147,10 @@ def main() -> int:
             out.append(dst)
         return out
 
+    def _decoy_gallery():
+        render_decoy_gallery()
+        return write_decoy_gallery()
+
     steps: tuple[tuple[str, Callable[[], Any]], ...] = (
         (
             "all-pairs CRA vs release (supplementary AP panel)",
@@ -158,6 +179,10 @@ def main() -> int:
         ("prompt-vocabulary ablation TSVs (Muse Glimmer 30B)", write_terms_old_neutral),
         ("cohort tables (identities / reasoning+params)", _cohort_tables),
         ("fair-pair tables (*_fp.tsv)", write_fair_tables),
+        ("MMFF94-r2SCAN alignment (ED S9)", write_mmff_alignment),
+        ("MMFF94 term contributions (Fig. 1c)", write_term_contributions),
+        ("decoy gallery render + assembly (Fig. 3a)", _decoy_gallery),
+        ("decoy accuracy vs H-bond angle (Fig. 3c)", write_decoy_angle),
     )
     for label, run in steps:
         _run_step(label, run)

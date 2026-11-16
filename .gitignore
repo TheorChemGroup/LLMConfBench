@@ -1,12 +1,42 @@
+# Secrets and local state
+.env
+.jupyter_token
+
+# Caches
 __pycache__/
-*.py[cod]
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
+*.pyc
 .ipynb_checkpoints/
+.ruff_cache/
+.ff_cache/
+.pytest_cache/
+.mypy_cache/
+.codegraph/
+.cursor/
 .DS_Store
 
-.env
-texts/
+# Archives, backups and local logs (not part of the paper workflow)
+_archive*/
 logs/
-*.log
+local_bench_logs/
+*.bak
+*.2bak
+
+# Regenerated per-run explanations (viz_helper/build_texts.py)
+texts/
+
+# Raw ORCA job trees and generated reports (rebuild from XYZ + make_*_inputs.py)
+orca_r2scan-3c/orca_r2scan3c/
+orca_ccsdt/orca_dlpno_ccsdt/
+orca_r2scan-3c/*.txt
+orca_ccsdt/*.txt
+!orca_ccsdt/subset_molecules.txt
+orca_ccsdt/*.png
+
+# Internal working notes
+MDs/*
+!MDs/MOLS.md
+sand.ipynb
+casestudy.ipynb
+benchmark_corr.ipynb
+*.sh
+tex_v04/

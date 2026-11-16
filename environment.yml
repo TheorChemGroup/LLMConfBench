@@ -18,3 +18,5 @@ dependencies:
     - python-dotenv
     - requests
     - torch
+    - cairosvg
+    - xyzrender

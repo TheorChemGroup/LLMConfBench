@@ -8,6 +8,7 @@ conda activate llmconfbench
 ## Figures
 
 ```bash
+python viz_helper/build_pair_table.py  # pair_runs_reliable.csv (120 deg H-bonds)
 python viz_helper/build_texts.py   # explanation texts used by the concreteness figures
 python viz/first_plots.py          # manuscript figures and tables -> figures/
 ```
