@@ -8,10 +8,18 @@ conda activate llmconfbench
 ## Figures
 
 ```bash
-python viz_helper/build_pair_table.py  # pair_runs_reliable.csv (120 deg H-bonds)
-python viz_helper/build_texts.py   # explanation texts used by the concreteness figures
-python viz/first_plots.py          # manuscript figures and tables -> figures/
+python viz_helper/build_texts.py   # explanation texts (texts/, not tracked)
+python viz/first_plots.py          # rebuilds pair_runs_reliable.csv, then figures/ and tables
 ```
+
+`pair_runs_reliable.csv` is derived (model answers + r2SCAN-3c energies + MMFF94 terms,
+H-bonds at H···A <= 2.5 Å and D–H···A >= 120°), so it is rebuilt by the first step and is
+not tracked. `viz_helper/build_pair_table.py` can still be run on its own.
+
+Main outputs in `figures/`: `cra_allpairs_vs_release.png`, `cra_no_hbond_vs_release.png`,
+`cra_conventional_vs_release.png`, `cra_unconventional_vs_release.png`,
+`concreteness_{gpt5,gpt6,opus5}.png`, `fig1c_amplified_term_contributions.png`,
+`fig3a_decoy_gallery.png`, `fig3b_quotes.png`.
 
 ## Citation
 
