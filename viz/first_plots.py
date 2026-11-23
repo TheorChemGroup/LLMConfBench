@@ -25,7 +25,7 @@ Produces:
   figures/deltae_energy_profiles.png
   figures/deltae_pair_diff_profiles.png
   figures/energy_probe_mae_heatmap.png
-  figures/fig1c_amplified_term_contributions.png
+  figures/recovery_pooled_fit8_normalised_above_uff.png
   figures/cra_no_hbond_vs_release.png
   figures/fig3a_decoy_gallery.png
   figures/fig3b_quotes.png (+ .json)
@@ -110,7 +110,7 @@ def main() -> int:
     from tau_floor2_table import collect_and_write as write_floor2_table
     from plot_no_hbond_vs_release import collect_and_write as write_no_hbond
     from term_contributions import main as write_term_contributions
-    from term_contributions_amplified import main as write_amplified
+    from recovery_above_uff import main as write_recovery_uff
     from terms_old_neutral import main as write_terms_old_neutral
 
     from viz.three_mol_rows import main as write_mol_grid
@@ -171,8 +171,8 @@ def main() -> int:
         ("cohort tables from models.yaml (identities / reasoning+params)", write_cohort_tables),
         ("fair-pair tables (*_fp.tsv)", write_fair_tables),
         ("MMFF94-r2SCAN alignment (ED S9)", write_mmff_alignment),
-        ("MMFF94 term contributions (Fig. 1c)", write_term_contributions),
-        ("amplified term contributions (Fig. 1c)", write_amplified),
+        ("MMFF94 term shares per class (TSV)", write_term_contributions),
+        ("term recovery above UFF (Fig. 1c, normalised)", write_recovery_uff),
         ("decoy gallery render + assembly (Fig. 3a)", _decoy_gallery),
         ("quotes panel (Fig. 3b)", write_quotes),
         ("decoy H-bond geometry table", write_decoy_angle),

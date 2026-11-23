@@ -1,9 +1,10 @@
-"""Fitted MMFF94 term contributions to CRA, split by H-bond class (Fig. 1c).
+"""Normalised MMFF94 term shares per H-bond class (table only).
 
 Coefficients from a per-LLM logistic fit on the eight MMFF94-aligned molecules
-are scaled by mean term amplitudes on the 19 held-out molecules and normalised
-to shares. Depends on ``figures/mmff94_alignment_per_molecule.tsv`` written by
-``mmff_alignment.py``.
+are scaled by mean term amplitudes over all 27 molecules and normalised to
+shares. Writes ``figures/term_contributions_nohb_anyhb.tsv``; the plotted
+version of this decomposition is ``recovery_above_uff.py``. Depends on
+``figures/mmff94_alignment_per_molecule.tsv`` written by ``mmff_alignment.py``.
 
     python viz_helper/term_contributions.py
 """
@@ -57,7 +58,7 @@ def class_frames(d: pd.DataFrame) -> dict[str, pd.DataFrame]:
     return {"noHB": d[d.cls == "noHB"], "other": d[d.cls != "noHB"]}
 
 
-def fit_terms(g: pd.DataFrame) -> np.ndarray:
+def fit_terms(g: pd.DataFrame, lam: float = 1e-2) -> np.ndarray:
     """Non-negative coefficients of the per-model logistic fit, one per term."""
     mols = sorted(g.molecule_number.unique())
     X = g[COLS].values
@@ -70,14 +71,13 @@ def fit_terms(g: pd.DataFrame) -> np.ndarray:
         z = M @ b + X @ c
         p = expit(z)
         r = (p - y) / len(y)
-        return (np.mean(np.logaddexp(0, z) - y * z) + 1e-3 * np.sum(c * c),
-                np.r_[M.T @ r, X.T @ r + 2e-3 * c])
+        return (np.mean(np.logaddexp(0, z) - y * z) + lam * np.sum(c * c),
+                np.r_[M.T @ r, X.T @ r + 2 * lam * c])
 
-    th = minimize(fg, np.r_[np.zeros(k), np.ones(7)], jac=True,
-                  bounds=[(None, None)] * k + [(0, None)] * 7,
-                  method="L-BFGS-B",
-                  options={"maxiter": 5000, "ftol": 1e-14, "gtol": 1e-10}).x
-    return th[k:]
+    return minimize(fg, np.r_[np.zeros(k), np.ones(7)], jac=True,
+                    bounds=[(None, None)] * k + [(0, None)] * 7,
+                    method="L-BFGS-B",
+                    options={"maxiter": 5000, "ftol": 1e-14, "gtol": 1e-10}).x[-7:]
 
 
 def amplitudes(q_all: pd.DataFrame, mols: set[int]) -> np.ndarray:

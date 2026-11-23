@@ -1,200 +1,200 @@
 model	class	term	share
-Claude Opus 5	no_H-bond	Bond	0.014048
+Claude Opus 5	no_H-bond	Bond	0.005050
 Claude Sonnet 4	no_H-bond	Bond	0.000000
 Claude Sonnet 4.5	no_H-bond	Bond	0.000000
-Claude Sonnet 5	no_H-bond	Bond	0.111454
+Claude Sonnet 5	no_H-bond	Bond	0.038301
 DeepSeek V3.2	no_H-bond	Bond	0.000000
-DeepSeek V4 Flash 0731	no_H-bond	Bond	0.096130
-DeepSeek-R1 32B	no_H-bond	Bond	0.116413
+DeepSeek V4 Flash 0731	no_H-bond	Bond	0.033746
+DeepSeek-R1 32B	no_H-bond	Bond	0.028470
 GPT-5	no_H-bond	Bond	0.000000
-GPT-5.6 Sol	no_H-bond	Bond	0.074151
+GPT-5.6 Sol	no_H-bond	Bond	0.023817
 GPT-6 Astra	no_H-bond	Bond	0.000000
-Gemini 2.5 Flash	no_H-bond	Bond	0.314271
-Gemini 3 Flash	no_H-bond	Bond	0.053011
+Gemini 2.5 Flash	no_H-bond	Bond	0.120778
+Gemini 3 Flash	no_H-bond	Bond	0.016901
 Gemini 3.6 Flash	no_H-bond	Bond	0.000000
 Gemma 3 27B	no_H-bond	Bond	0.000000
-Gemma 4 31B	no_H-bond	Bond	0.006936
-Kimi K2 Thinking	no_H-bond	Bond	0.234461
-Kimi K3	no_H-bond	Bond	0.197076
+Gemma 4 31B	no_H-bond	Bond	0.001850
+Kimi K2 Thinking	no_H-bond	Bond	0.226991
+Kimi K3	no_H-bond	Bond	0.066053
 Muse Glimmer 30B	no_H-bond	Bond	0.000000
-O4 Mini	no_H-bond	Bond	0.159756
-Qwen 2.5 32B	no_H-bond	Bond	0.000000
+O4 Mini	no_H-bond	Bond	0.064763
+Qwen 2.5 32B	no_H-bond	Bond	0.005530
 Qwen 3 32B	no_H-bond	Bond	0.000000
 Qwen 3.5 27B	no_H-bond	Bond	0.000000
 Qwen 3.5 35B A3B	no_H-bond	Bond	0.000000
 Qwen 3.5 Plus	no_H-bond	Bond	0.000000
 Qwen 3.6 27B	no_H-bond	Bond	0.000000
-Qwen 3.6 35B A3B	no_H-bond	Bond	0.120380
-Qwen 3.7 Max	no_H-bond	Bond	0.022956
+Qwen 3.6 35B A3B	no_H-bond	Bond	0.046110
+Qwen 3.7 Max	no_H-bond	Bond	0.008215
 Qwen 3.8 27B	no_H-bond	Bond	0.000000
-Claude Opus 5	no_H-bond	Angle	0.130767
-Claude Sonnet 4	no_H-bond	Angle	0.102224
-Claude Sonnet 4.5	no_H-bond	Angle	0.203059
-Claude Sonnet 5	no_H-bond	Angle	0.228689
-DeepSeek V3.2	no_H-bond	Angle	0.045251
-DeepSeek V4 Flash 0731	no_H-bond	Angle	0.295012
+Claude Opus 5	no_H-bond	Angle	0.136506
+Claude Sonnet 4	no_H-bond	Angle	0.237512
+Claude Sonnet 4.5	no_H-bond	Angle	0.222287
+Claude Sonnet 5	no_H-bond	Angle	0.259866
+DeepSeek V3.2	no_H-bond	Angle	0.035262
+DeepSeek V4 Flash 0731	no_H-bond	Angle	0.316927
 DeepSeek-R1 32B	no_H-bond	Angle	0.000000
-GPT-5	no_H-bond	Angle	0.237771
-GPT-5.6 Sol	no_H-bond	Angle	0.147820
-GPT-6 Astra	no_H-bond	Angle	0.139288
-Gemini 2.5 Flash	no_H-bond	Angle	0.193247
-Gemini 3 Flash	no_H-bond	Angle	0.079371
-Gemini 3.6 Flash	no_H-bond	Angle	0.166193
-Gemma 3 27B	no_H-bond	Angle	0.361648
-Gemma 4 31B	no_H-bond	Angle	0.142949
+GPT-5	no_H-bond	Angle	0.248104
+GPT-5.6 Sol	no_H-bond	Angle	0.154148
+GPT-6 Astra	no_H-bond	Angle	0.130527
+Gemini 2.5 Flash	no_H-bond	Angle	0.231638
+Gemini 3 Flash	no_H-bond	Angle	0.075470
+Gemini 3.6 Flash	no_H-bond	Angle	0.178142
+Gemma 3 27B	no_H-bond	Angle	0.356289
+Gemma 4 31B	no_H-bond	Angle	0.149955
 Kimi K2 Thinking	no_H-bond	Angle	0.000000
-Kimi K3	no_H-bond	Angle	0.147470
+Kimi K3	no_H-bond	Angle	0.167425
 Muse Glimmer 30B	no_H-bond	Angle	0.000000
 O4 Mini	no_H-bond	Angle	0.000000
-Qwen 2.5 32B	no_H-bond	Angle	0.730187
-Qwen 3 32B	no_H-bond	Angle	0.351305
-Qwen 3.5 27B	no_H-bond	Angle	0.089054
-Qwen 3.5 35B A3B	no_H-bond	Angle	0.206310
-Qwen 3.5 Plus	no_H-bond	Angle	0.097308
-Qwen 3.6 27B	no_H-bond	Angle	0.037138
-Qwen 3.6 35B A3B	no_H-bond	Angle	0.262207
-Qwen 3.7 Max	no_H-bond	Angle	0.163199
-Qwen 3.8 27B	no_H-bond	Angle	0.130128
+Qwen 2.5 32B	no_H-bond	Angle	0.662027
+Qwen 3 32B	no_H-bond	Angle	0.768787
+Qwen 3.5 27B	no_H-bond	Angle	0.086084
+Qwen 3.5 35B A3B	no_H-bond	Angle	0.209658
+Qwen 3.5 Plus	no_H-bond	Angle	0.100136
+Qwen 3.6 27B	no_H-bond	Angle	0.006944
+Qwen 3.6 35B A3B	no_H-bond	Angle	0.292051
+Qwen 3.7 Max	no_H-bond	Angle	0.167525
+Qwen 3.8 27B	no_H-bond	Angle	0.140648
 Claude Opus 5	no_H-bond	StrBnd	0.000000
-Claude Sonnet 4	no_H-bond	StrBnd	0.292325
-Claude Sonnet 4.5	no_H-bond	StrBnd	0.129877
-Claude Sonnet 5	no_H-bond	StrBnd	0.050033
-DeepSeek V3.2	no_H-bond	StrBnd	0.099406
-DeepSeek V4 Flash 0731	no_H-bond	StrBnd	0.024904
-DeepSeek-R1 32B	no_H-bond	StrBnd	0.188534
-GPT-5	no_H-bond	StrBnd	0.059044
-GPT-5.6 Sol	no_H-bond	StrBnd	0.119078
+Claude Sonnet 4	no_H-bond	StrBnd	0.161179
+Claude Sonnet 4.5	no_H-bond	StrBnd	0.048307
+Claude Sonnet 5	no_H-bond	StrBnd	0.013215
+DeepSeek V3.2	no_H-bond	StrBnd	0.035670
+DeepSeek V4 Flash 0731	no_H-bond	StrBnd	0.006090
+DeepSeek-R1 32B	no_H-bond	StrBnd	0.059857
+GPT-5	no_H-bond	StrBnd	0.018487
+GPT-5.6 Sol	no_H-bond	StrBnd	0.044993
 GPT-6 Astra	no_H-bond	StrBnd	0.000000
 Gemini 2.5 Flash	no_H-bond	StrBnd	0.000000
 Gemini 3 Flash	no_H-bond	StrBnd	0.000000
-Gemini 3.6 Flash	no_H-bond	StrBnd	0.038840
+Gemini 3.6 Flash	no_H-bond	StrBnd	0.010525
 Gemma 3 27B	no_H-bond	StrBnd	0.000000
-Gemma 4 31B	no_H-bond	StrBnd	0.045959
+Gemma 4 31B	no_H-bond	StrBnd	0.014063
 Kimi K2 Thinking	no_H-bond	StrBnd	0.000000
-Kimi K3	no_H-bond	StrBnd	0.086843
-Muse Glimmer 30B	no_H-bond	StrBnd	0.114840
-O4 Mini	no_H-bond	StrBnd	0.066448
-Qwen 2.5 32B	no_H-bond	StrBnd	0.057884
-Qwen 3 32B	no_H-bond	StrBnd	0.635903
-Qwen 3.5 27B	no_H-bond	StrBnd	0.175981
+Kimi K3	no_H-bond	StrBnd	0.027399
+Muse Glimmer 30B	no_H-bond	StrBnd	0.040334
+O4 Mini	no_H-bond	StrBnd	0.024782
+Qwen 2.5 32B	no_H-bond	StrBnd	0.007265
+Qwen 3 32B	no_H-bond	StrBnd	0.225435
+Qwen 3.5 27B	no_H-bond	StrBnd	0.071296
 Qwen 3.5 35B A3B	no_H-bond	StrBnd	0.000000
-Qwen 3.5 Plus	no_H-bond	StrBnd	0.024769
-Qwen 3.6 27B	no_H-bond	StrBnd	0.299326
-Qwen 3.6 35B A3B	no_H-bond	StrBnd	0.072574
+Qwen 3.5 Plus	no_H-bond	StrBnd	0.007101
+Qwen 3.6 27B	no_H-bond	StrBnd	0.135475
+Qwen 3.6 35B A3B	no_H-bond	StrBnd	0.025679
 Qwen 3.7 Max	no_H-bond	StrBnd	0.000000
-Qwen 3.8 27B	no_H-bond	StrBnd	0.168279
+Qwen 3.8 27B	no_H-bond	StrBnd	0.062203
 Claude Opus 5	no_H-bond	Torsion	0.000000
 Claude Sonnet 4	no_H-bond	Torsion	0.000000
 Claude Sonnet 4.5	no_H-bond	Torsion	0.000000
 Claude Sonnet 5	no_H-bond	Torsion	0.000000
-DeepSeek V3.2	no_H-bond	Torsion	0.392483
+DeepSeek V3.2	no_H-bond	Torsion	0.433982
 DeepSeek V4 Flash 0731	no_H-bond	Torsion	0.000000
-DeepSeek-R1 32B	no_H-bond	Torsion	0.011340
+DeepSeek-R1 32B	no_H-bond	Torsion	0.055704
 GPT-5	no_H-bond	Torsion	0.000000
 GPT-5.6 Sol	no_H-bond	Torsion	0.000000
-GPT-6 Astra	no_H-bond	Torsion	0.342825
-Gemini 2.5 Flash	no_H-bond	Torsion	0.192415
-Gemini 3 Flash	no_H-bond	Torsion	0.169315
+GPT-6 Astra	no_H-bond	Torsion	0.345497
+Gemini 2.5 Flash	no_H-bond	Torsion	0.300471
+Gemini 3 Flash	no_H-bond	Torsion	0.182300
 Gemini 3.6 Flash	no_H-bond	Torsion	0.000000
-Gemma 3 27B	no_H-bond	Torsion	0.638352
+Gemma 3 27B	no_H-bond	Torsion	0.643711
 Gemma 4 31B	no_H-bond	Torsion	0.000000
 Kimi K2 Thinking	no_H-bond	Torsion	0.000000
-Kimi K3	no_H-bond	Torsion	0.030051
+Kimi K3	no_H-bond	Torsion	0.090028
 Muse Glimmer 30B	no_H-bond	Torsion	0.000000
 O4 Mini	no_H-bond	Torsion	0.000000
 Qwen 2.5 32B	no_H-bond	Torsion	0.000000
 Qwen 3 32B	no_H-bond	Torsion	0.000000
 Qwen 3.5 27B	no_H-bond	Torsion	0.000000
-Qwen 3.5 35B A3B	no_H-bond	Torsion	0.032719
+Qwen 3.5 35B A3B	no_H-bond	Torsion	0.017023
 Qwen 3.5 Plus	no_H-bond	Torsion	0.000000
 Qwen 3.6 27B	no_H-bond	Torsion	0.000000
 Qwen 3.6 35B A3B	no_H-bond	Torsion	0.000000
 Qwen 3.7 Max	no_H-bond	Torsion	0.000000
 Qwen 3.8 27B	no_H-bond	Torsion	0.000000
-Claude Opus 5	no_H-bond	OOP	0.000679
-Claude Sonnet 4	no_H-bond	OOP	0.101632
-Claude Sonnet 4.5	no_H-bond	OOP	0.002196
-Claude Sonnet 5	no_H-bond	OOP	0.005952
+Claude Opus 5	no_H-bond	OOP	0.000133
+Claude Sonnet 4	no_H-bond	OOP	0.107972
+Claude Sonnet 4.5	no_H-bond	OOP	0.000219
+Claude Sonnet 5	no_H-bond	OOP	0.002289
 DeepSeek V3.2	no_H-bond	OOP	0.000000
 DeepSeek V4 Flash 0731	no_H-bond	OOP	0.000000
-DeepSeek-R1 32B	no_H-bond	OOP	0.036038
+DeepSeek-R1 32B	no_H-bond	OOP	0.008416
 GPT-5	no_H-bond	OOP	0.000000
 GPT-5.6 Sol	no_H-bond	OOP	0.000000
 GPT-6 Astra	no_H-bond	OOP	0.000000
-Gemini 2.5 Flash	no_H-bond	OOP	0.005849
+Gemini 2.5 Flash	no_H-bond	OOP	0.004588
 Gemini 3 Flash	no_H-bond	OOP	0.000000
-Gemini 3.6 Flash	no_H-bond	OOP	0.005536
+Gemini 3.6 Flash	no_H-bond	OOP	0.001057
 Gemma 3 27B	no_H-bond	OOP	0.000000
 Gemma 4 31B	no_H-bond	OOP	0.000000
-Kimi K2 Thinking	no_H-bond	OOP	0.081035
+Kimi K2 Thinking	no_H-bond	OOP	0.107153
 Kimi K3	no_H-bond	OOP	0.000000
 Muse Glimmer 30B	no_H-bond	OOP	0.000000
 O4 Mini	no_H-bond	OOP	0.000000
-Qwen 2.5 32B	no_H-bond	OOP	0.031841
-Qwen 3 32B	no_H-bond	OOP	0.012792
+Qwen 2.5 32B	no_H-bond	OOP	0.005979
+Qwen 3 32B	no_H-bond	OOP	0.005778
 Qwen 3.5 27B	no_H-bond	OOP	0.000000
-Qwen 3.5 35B A3B	no_H-bond	OOP	0.035095
+Qwen 3.5 35B A3B	no_H-bond	OOP	0.009741
 Qwen 3.5 Plus	no_H-bond	OOP	0.000000
 Qwen 3.6 27B	no_H-bond	OOP	0.000000
-Qwen 3.6 35B A3B	no_H-bond	OOP	0.001069
+Qwen 3.6 35B A3B	no_H-bond	OOP	0.000000
 Qwen 3.7 Max	no_H-bond	OOP	0.000000
-Qwen 3.8 27B	no_H-bond	OOP	0.007196
-Claude Opus 5	no_H-bond	VDW	0.262554
-Claude Sonnet 4	no_H-bond	VDW	0.000000
-Claude Sonnet 4.5	no_H-bond	VDW	0.229307
-Claude Sonnet 5	no_H-bond	VDW	0.000000
+Qwen 3.8 27B	no_H-bond	OOP	0.001382
+Claude Opus 5	no_H-bond	VDW	0.269170
+Claude Sonnet 4	no_H-bond	VDW	0.227507
+Claude Sonnet 4.5	no_H-bond	VDW	0.267994
+Claude Sonnet 5	no_H-bond	VDW	0.002441
 DeepSeek V3.2	no_H-bond	VDW	0.000000
-DeepSeek V4 Flash 0731	no_H-bond	VDW	0.117228
-DeepSeek-R1 32B	no_H-bond	VDW	0.129745
+DeepSeek V4 Flash 0731	no_H-bond	VDW	0.130305
+DeepSeek-R1 32B	no_H-bond	VDW	0.292372
 GPT-5	no_H-bond	VDW	0.000000
-GPT-5.6 Sol	no_H-bond	VDW	0.034526
+GPT-5.6 Sol	no_H-bond	VDW	0.028088
 GPT-6 Astra	no_H-bond	VDW	0.000000
 Gemini 2.5 Flash	no_H-bond	VDW	0.000000
 Gemini 3 Flash	no_H-bond	VDW	0.000000
-Gemini 3.6 Flash	no_H-bond	VDW	0.045504
+Gemini 3.6 Flash	no_H-bond	VDW	0.059774
 Gemma 3 27B	no_H-bond	VDW	0.000000
-Gemma 4 31B	no_H-bond	VDW	0.041343
+Gemma 4 31B	no_H-bond	VDW	0.033938
 Kimi K2 Thinking	no_H-bond	VDW	0.000000
-Kimi K3	no_H-bond	VDW	0.084593
+Kimi K3	no_H-bond	VDW	0.103070
 Muse Glimmer 30B	no_H-bond	VDW	0.000000
 O4 Mini	no_H-bond	VDW	0.000000
-Qwen 2.5 32B	no_H-bond	VDW	0.180088
+Qwen 2.5 32B	no_H-bond	VDW	0.319200
 Qwen 3 32B	no_H-bond	VDW	0.000000
-Qwen 3.5 27B	no_H-bond	VDW	0.080081
-Qwen 3.5 35B A3B	no_H-bond	VDW	0.000000
-Qwen 3.5 Plus	no_H-bond	VDW	0.060270
+Qwen 3.5 27B	no_H-bond	VDW	0.079237
+Qwen 3.5 35B A3B	no_H-bond	VDW	0.098876
+Qwen 3.5 Plus	no_H-bond	VDW	0.055113
 Qwen 3.6 27B	no_H-bond	VDW	0.000000
-Qwen 3.6 35B A3B	no_H-bond	VDW	0.060223
-Qwen 3.7 Max	no_H-bond	VDW	0.176357
-Qwen 3.8 27B	no_H-bond	VDW	0.175526
-Claude Opus 5	no_H-bond	Elec	0.591953
-Claude Sonnet 4	no_H-bond	Elec	0.503820
-Claude Sonnet 4.5	no_H-bond	Elec	0.435561
-Claude Sonnet 5	no_H-bond	Elec	0.603871
-DeepSeek V3.2	no_H-bond	Elec	0.462860
-DeepSeek V4 Flash 0731	no_H-bond	Elec	0.466725
-DeepSeek-R1 32B	no_H-bond	Elec	0.517931
-GPT-5	no_H-bond	Elec	0.703185
-GPT-5.6 Sol	no_H-bond	Elec	0.624426
-GPT-6 Astra	no_H-bond	Elec	0.517887
-Gemini 2.5 Flash	no_H-bond	Elec	0.294218
-Gemini 3 Flash	no_H-bond	Elec	0.698303
-Gemini 3.6 Flash	no_H-bond	Elec	0.743926
+Qwen 3.6 35B A3B	no_H-bond	VDW	0.073100
+Qwen 3.7 Max	no_H-bond	VDW	0.181320
+Qwen 3.8 27B	no_H-bond	VDW	0.231574
+Claude Opus 5	no_H-bond	Elec	0.589141
+Claude Sonnet 4	no_H-bond	Elec	0.265830
+Claude Sonnet 4.5	no_H-bond	Elec	0.461194
+Claude Sonnet 5	no_H-bond	Elec	0.683888
+DeepSeek V3.2	no_H-bond	Elec	0.495086
+DeepSeek V4 Flash 0731	no_H-bond	Elec	0.512931
+DeepSeek-R1 32B	no_H-bond	Elec	0.555182
+GPT-5	no_H-bond	Elec	0.733409
+GPT-5.6 Sol	no_H-bond	Elec	0.748954
+GPT-6 Astra	no_H-bond	Elec	0.523976
+Gemini 2.5 Flash	no_H-bond	Elec	0.342525
+Gemini 3 Flash	no_H-bond	Elec	0.725329
+Gemini 3.6 Flash	no_H-bond	Elec	0.750501
 Gemma 3 27B	no_H-bond	Elec	0.000000
-Gemma 4 31B	no_H-bond	Elec	0.762813
-Kimi K2 Thinking	no_H-bond	Elec	0.684504
-Kimi K3	no_H-bond	Elec	0.453967
-Muse Glimmer 30B	no_H-bond	Elec	0.885160
-O4 Mini	no_H-bond	Elec	0.773796
+Gemma 4 31B	no_H-bond	Elec	0.800194
+Kimi K2 Thinking	no_H-bond	Elec	0.665857
+Kimi K3	no_H-bond	Elec	0.546025
+Muse Glimmer 30B	no_H-bond	Elec	0.959666
+O4 Mini	no_H-bond	Elec	0.910455
 Qwen 2.5 32B	no_H-bond	Elec	0.000000
 Qwen 3 32B	no_H-bond	Elec	0.000000
-Qwen 3.5 27B	no_H-bond	Elec	0.654884
-Qwen 3.5 35B A3B	no_H-bond	Elec	0.725875
-Qwen 3.5 Plus	no_H-bond	Elec	0.817653
-Qwen 3.6 27B	no_H-bond	Elec	0.663536
-Qwen 3.6 35B A3B	no_H-bond	Elec	0.483546
-Qwen 3.7 Max	no_H-bond	Elec	0.637488
-Qwen 3.8 27B	no_H-bond	Elec	0.518871
+Qwen 3.5 27B	no_H-bond	Elec	0.763382
+Qwen 3.5 35B A3B	no_H-bond	Elec	0.664702
+Qwen 3.5 Plus	no_H-bond	Elec	0.837650
+Qwen 3.6 27B	no_H-bond	Elec	0.857582
+Qwen 3.6 35B A3B	no_H-bond	Elec	0.563060
+Qwen 3.7 Max	no_H-bond	Elec	0.642940
+Qwen 3.8 27B	no_H-bond	Elec	0.564194
 Claude Opus 5	any_H-bond	Bond	0.000000
 Claude Sonnet 4	any_H-bond	Bond	0.000000
 Claude Sonnet 4.5	any_H-bond	Bond	0.000000
@@ -209,11 +209,11 @@ Gemini 2.5 Flash	any_H-bond	Bond	0.000000
 Gemini 3 Flash	any_H-bond	Bond	0.000000
 Gemini 3.6 Flash	any_H-bond	Bond	0.000000
 Gemma 3 27B	any_H-bond	Bond	0.000000
-Gemma 4 31B	any_H-bond	Bond	0.002432
+Gemma 4 31B	any_H-bond	Bond	0.000532
 Kimi K2 Thinking	any_H-bond	Bond	0.000000
 Kimi K3	any_H-bond	Bond	0.000000
 Muse Glimmer 30B	any_H-bond	Bond	0.000000
-O4 Mini	any_H-bond	Bond	0.113797
+O4 Mini	any_H-bond	Bond	0.058727
 Qwen 2.5 32B	any_H-bond	Bond	0.000000
 Qwen 3 32B	any_H-bond	Bond	0.000000
 Qwen 3.5 27B	any_H-bond	Bond	0.000000
@@ -224,8 +224,8 @@ Qwen 3.6 35B A3B	any_H-bond	Bond	0.000000
 Qwen 3.7 Max	any_H-bond	Bond	0.000000
 Qwen 3.8 27B	any_H-bond	Bond	0.000000
 Claude Opus 5	any_H-bond	Angle	0.000000
-Claude Sonnet 4	any_H-bond	Angle	0.363361
-Claude Sonnet 4.5	any_H-bond	Angle	0.289310
+Claude Sonnet 4	any_H-bond	Angle	0.399524
+Claude Sonnet 4.5	any_H-bond	Angle	0.303182
 Claude Sonnet 5	any_H-bond	Angle	0.000000
 DeepSeek V3.2	any_H-bond	Angle	0.000000
 DeepSeek V4 Flash 0731	any_H-bond	Angle	0.000000
@@ -233,31 +233,31 @@ DeepSeek-R1 32B	any_H-bond	Angle	0.000000
 GPT-5	any_H-bond	Angle	0.000000
 GPT-5.6 Sol	any_H-bond	Angle	0.000000
 GPT-6 Astra	any_H-bond	Angle	0.000000
-Gemini 2.5 Flash	any_H-bond	Angle	0.125295
+Gemini 2.5 Flash	any_H-bond	Angle	0.140506
 Gemini 3 Flash	any_H-bond	Angle	0.000000
 Gemini 3.6 Flash	any_H-bond	Angle	0.000000
-Gemma 3 27B	any_H-bond	Angle	0.099769
+Gemma 3 27B	any_H-bond	Angle	0.116962
 Gemma 4 31B	any_H-bond	Angle	0.000000
 Kimi K2 Thinking	any_H-bond	Angle	0.000000
 Kimi K3	any_H-bond	Angle	0.000000
 Muse Glimmer 30B	any_H-bond	Angle	0.000000
-O4 Mini	any_H-bond	Angle	0.459090
-Qwen 2.5 32B	any_H-bond	Angle	0.094932
-Qwen 3 32B	any_H-bond	Angle	0.410718
+O4 Mini	any_H-bond	Angle	0.595588
+Qwen 2.5 32B	any_H-bond	Angle	0.113243
+Qwen 3 32B	any_H-bond	Angle	0.468859
 Qwen 3.5 27B	any_H-bond	Angle	0.000000
 Qwen 3.5 35B A3B	any_H-bond	Angle	0.000000
 Qwen 3.5 Plus	any_H-bond	Angle	0.000000
-Qwen 3.6 27B	any_H-bond	Angle	0.017271
+Qwen 3.6 27B	any_H-bond	Angle	0.020029
 Qwen 3.6 35B A3B	any_H-bond	Angle	0.000000
 Qwen 3.7 Max	any_H-bond	Angle	0.000000
 Qwen 3.8 27B	any_H-bond	Angle	0.000000
 Claude Opus 5	any_H-bond	StrBnd	0.000000
-Claude Sonnet 4	any_H-bond	StrBnd	0.126419
+Claude Sonnet 4	any_H-bond	StrBnd	0.044425
 Claude Sonnet 4.5	any_H-bond	StrBnd	0.000000
 Claude Sonnet 5	any_H-bond	StrBnd	0.000000
-DeepSeek V3.2	any_H-bond	StrBnd	0.014612
+DeepSeek V3.2	any_H-bond	StrBnd	0.004364
 DeepSeek V4 Flash 0731	any_H-bond	StrBnd	0.000000
-DeepSeek-R1 32B	any_H-bond	StrBnd	0.256116
+DeepSeek-R1 32B	any_H-bond	StrBnd	0.118520
 GPT-5	any_H-bond	StrBnd	0.000000
 GPT-5.6 Sol	any_H-bond	StrBnd	0.000000
 GPT-6 Astra	any_H-bond	StrBnd	0.000000
@@ -269,125 +269,125 @@ Gemma 4 31B	any_H-bond	StrBnd	0.000000
 Kimi K2 Thinking	any_H-bond	StrBnd	0.000000
 Kimi K3	any_H-bond	StrBnd	0.000000
 Muse Glimmer 30B	any_H-bond	StrBnd	0.000000
-O4 Mini	any_H-bond	StrBnd	0.140497
+O4 Mini	any_H-bond	StrBnd	0.040717
 Qwen 2.5 32B	any_H-bond	StrBnd	0.000000
-Qwen 3 32B	any_H-bond	StrBnd	0.067933
-Qwen 3.5 27B	any_H-bond	StrBnd	0.103351
+Qwen 3 32B	any_H-bond	StrBnd	0.020987
+Qwen 3.5 27B	any_H-bond	StrBnd	0.030616
 Qwen 3.5 35B A3B	any_H-bond	StrBnd	0.000000
 Qwen 3.5 Plus	any_H-bond	StrBnd	0.000000
-Qwen 3.6 27B	any_H-bond	StrBnd	0.015959
-Qwen 3.6 35B A3B	any_H-bond	StrBnd	0.481133
+Qwen 3.6 27B	any_H-bond	StrBnd	0.005378
+Qwen 3.6 35B A3B	any_H-bond	StrBnd	0.331734
 Qwen 3.7 Max	any_H-bond	StrBnd	0.000000
 Qwen 3.8 27B	any_H-bond	StrBnd	0.000000
-Claude Opus 5	any_H-bond	Torsion	0.059812
+Claude Opus 5	any_H-bond	Torsion	0.058277
 Claude Sonnet 4	any_H-bond	Torsion	0.000000
 Claude Sonnet 4.5	any_H-bond	Torsion	0.000000
-Claude Sonnet 5	any_H-bond	Torsion	0.019888
-DeepSeek V3.2	any_H-bond	Torsion	0.262243
-DeepSeek V4 Flash 0731	any_H-bond	Torsion	0.029323
-DeepSeek-R1 32B	any_H-bond	Torsion	0.466048
-GPT-5	any_H-bond	Torsion	0.038257
-GPT-5.6 Sol	any_H-bond	Torsion	0.072689
-GPT-6 Astra	any_H-bond	Torsion	0.191976
+Claude Sonnet 5	any_H-bond	Torsion	0.007415
+DeepSeek V3.2	any_H-bond	Torsion	0.258713
+DeepSeek V4 Flash 0731	any_H-bond	Torsion	0.026328
+DeepSeek-R1 32B	any_H-bond	Torsion	0.531181
+GPT-5	any_H-bond	Torsion	0.027612
+GPT-5.6 Sol	any_H-bond	Torsion	0.063932
+GPT-6 Astra	any_H-bond	Torsion	0.188616
 Gemini 2.5 Flash	any_H-bond	Torsion	0.000000
 Gemini 3 Flash	any_H-bond	Torsion	0.000000
-Gemini 3.6 Flash	any_H-bond	Torsion	0.052762
-Gemma 3 27B	any_H-bond	Torsion	0.219568
-Gemma 4 31B	any_H-bond	Torsion	0.012185
-Kimi K2 Thinking	any_H-bond	Torsion	0.049763
-Kimi K3	any_H-bond	Torsion	0.007720
-Muse Glimmer 30B	any_H-bond	Torsion	0.052148
+Gemini 3.6 Flash	any_H-bond	Torsion	0.044098
+Gemma 3 27B	any_H-bond	Torsion	0.222503
+Gemma 4 31B	any_H-bond	Torsion	0.000000
+Kimi K2 Thinking	any_H-bond	Torsion	0.028009
+Kimi K3	any_H-bond	Torsion	0.008687
+Muse Glimmer 30B	any_H-bond	Torsion	0.041680
 O4 Mini	any_H-bond	Torsion	0.000000
-Qwen 2.5 32B	any_H-bond	Torsion	0.431781
+Qwen 2.5 32B	any_H-bond	Torsion	0.447149
 Qwen 3 32B	any_H-bond	Torsion	0.000000
 Qwen 3.5 27B	any_H-bond	Torsion	0.000000
 Qwen 3.5 35B A3B	any_H-bond	Torsion	0.000000
 Qwen 3.5 Plus	any_H-bond	Torsion	0.000000
 Qwen 3.6 27B	any_H-bond	Torsion	0.000000
-Qwen 3.6 35B A3B	any_H-bond	Torsion	0.386090
-Qwen 3.7 Max	any_H-bond	Torsion	0.145778
-Qwen 3.8 27B	any_H-bond	Torsion	0.087821
-Claude Opus 5	any_H-bond	OOP	0.001459
-Claude Sonnet 4	any_H-bond	OOP	0.008323
-Claude Sonnet 4.5	any_H-bond	OOP	0.002717
-Claude Sonnet 5	any_H-bond	OOP	0.005054
+Qwen 3.6 35B A3B	any_H-bond	Torsion	0.494662
+Qwen 3.7 Max	any_H-bond	Torsion	0.139401
+Qwen 3.8 27B	any_H-bond	Torsion	0.080923
+Claude Opus 5	any_H-bond	OOP	0.000117
+Claude Sonnet 4	any_H-bond	OOP	0.000783
+Claude Sonnet 4.5	any_H-bond	OOP	0.000357
+Claude Sonnet 5	any_H-bond	OOP	0.000734
 DeepSeek V3.2	any_H-bond	OOP	0.000000
 DeepSeek V4 Flash 0731	any_H-bond	OOP	0.000000
-DeepSeek-R1 32B	any_H-bond	OOP	0.021286
-GPT-5	any_H-bond	OOP	0.005316
-GPT-5.6 Sol	any_H-bond	OOP	0.003898
+DeepSeek-R1 32B	any_H-bond	OOP	0.002907
+GPT-5	any_H-bond	OOP	0.000751
+GPT-5.6 Sol	any_H-bond	OOP	0.000505
 GPT-6 Astra	any_H-bond	OOP	0.000000
-Gemini 2.5 Flash	any_H-bond	OOP	0.019038
-Gemini 3 Flash	any_H-bond	OOP	0.001877
-Gemini 3.6 Flash	any_H-bond	OOP	0.003571
-Gemma 3 27B	any_H-bond	OOP	0.017990
-Gemma 4 31B	any_H-bond	OOP	0.022832
-Kimi K2 Thinking	any_H-bond	OOP	0.021716
-Kimi K3	any_H-bond	OOP	0.002318
-Muse Glimmer 30B	any_H-bond	OOP	0.004065
-O4 Mini	any_H-bond	OOP	0.053685
-Qwen 2.5 32B	any_H-bond	OOP	0.021471
-Qwen 3 32B	any_H-bond	OOP	0.024820
-Qwen 3.5 27B	any_H-bond	OOP	0.030762
-Qwen 3.5 35B A3B	any_H-bond	OOP	0.017458
-Qwen 3.5 Plus	any_H-bond	OOP	0.012019
-Qwen 3.6 27B	any_H-bond	OOP	0.004115
-Qwen 3.6 35B A3B	any_H-bond	OOP	0.004034
+Gemini 2.5 Flash	any_H-bond	OOP	0.003246
+Gemini 3 Flash	any_H-bond	OOP	0.000229
+Gemini 3.6 Flash	any_H-bond	OOP	0.000502
+Gemma 3 27B	any_H-bond	OOP	0.003266
+Gemma 4 31B	any_H-bond	OOP	0.003990
+Kimi K2 Thinking	any_H-bond	OOP	0.003771
+Kimi K3	any_H-bond	OOP	0.000267
+Muse Glimmer 30B	any_H-bond	OOP	0.000509
+O4 Mini	any_H-bond	OOP	0.009531
+Qwen 2.5 32B	any_H-bond	OOP	0.003972
+Qwen 3 32B	any_H-bond	OOP	0.004144
+Qwen 3.5 27B	any_H-bond	OOP	0.005113
+Qwen 3.5 35B A3B	any_H-bond	OOP	0.003129
+Qwen 3.5 Plus	any_H-bond	OOP	0.002099
+Qwen 3.6 27B	any_H-bond	OOP	0.000572
+Qwen 3.6 35B A3B	any_H-bond	OOP	0.000000
 Qwen 3.7 Max	any_H-bond	OOP	0.000000
-Qwen 3.8 27B	any_H-bond	OOP	0.002160
-Claude Opus 5	any_H-bond	VDW	0.266405
-Claude Sonnet 4	any_H-bond	VDW	0.130256
-Claude Sonnet 4.5	any_H-bond	VDW	0.545036
-Claude Sonnet 5	any_H-bond	VDW	0.166135
-DeepSeek V3.2	any_H-bond	VDW	0.111935
-DeepSeek V4 Flash 0731	any_H-bond	VDW	0.284088
-DeepSeek-R1 32B	any_H-bond	VDW	0.230623
-GPT-5	any_H-bond	VDW	0.214358
-GPT-5.6 Sol	any_H-bond	VDW	0.221639
-GPT-6 Astra	any_H-bond	VDW	0.258640
-Gemini 2.5 Flash	any_H-bond	VDW	0.405759
-Gemini 3 Flash	any_H-bond	VDW	0.238288
-Gemini 3.6 Flash	any_H-bond	VDW	0.209613
-Gemma 3 27B	any_H-bond	VDW	0.432766
-Gemma 4 31B	any_H-bond	VDW	0.281454
-Kimi K2 Thinking	any_H-bond	VDW	0.189263
-Kimi K3	any_H-bond	VDW	0.299500
-Muse Glimmer 30B	any_H-bond	VDW	0.211753
-O4 Mini	any_H-bond	VDW	0.017042
-Qwen 2.5 32B	any_H-bond	VDW	0.139386
-Qwen 3 32B	any_H-bond	VDW	0.432477
+Qwen 3.8 27B	any_H-bond	OOP	0.000242
+Claude Opus 5	any_H-bond	VDW	0.237789
+Claude Sonnet 4	any_H-bond	VDW	0.136133
+Claude Sonnet 4.5	any_H-bond	VDW	0.552163
+Claude Sonnet 5	any_H-bond	VDW	0.121995
+DeepSeek V3.2	any_H-bond	VDW	0.108500
+DeepSeek V4 Flash 0731	any_H-bond	VDW	0.261740
+DeepSeek-R1 32B	any_H-bond	VDW	0.340850
+GPT-5	any_H-bond	VDW	0.178472
+GPT-5.6 Sol	any_H-bond	VDW	0.195967
+GPT-6 Astra	any_H-bond	VDW	0.244035
+Gemini 2.5 Flash	any_H-bond	VDW	0.384978
+Gemini 3 Flash	any_H-bond	VDW	0.199578
+Gemini 3.6 Flash	any_H-bond	VDW	0.172621
+Gemma 3 27B	any_H-bond	VDW	0.434027
+Gemma 4 31B	any_H-bond	VDW	0.246174
+Kimi K2 Thinking	any_H-bond	VDW	0.158143
+Kimi K3	any_H-bond	VDW	0.265204
+Muse Glimmer 30B	any_H-bond	VDW	0.192166
+O4 Mini	any_H-bond	VDW	0.000000
+Qwen 2.5 32B	any_H-bond	VDW	0.114903
+Qwen 3 32B	any_H-bond	VDW	0.429772
 Qwen 3.5 27B	any_H-bond	VDW	0.000000
-Qwen 3.5 35B A3B	any_H-bond	VDW	0.527618
+Qwen 3.5 35B A3B	any_H-bond	VDW	0.520183
 Qwen 3.5 Plus	any_H-bond	VDW	0.000000
-Qwen 3.6 27B	any_H-bond	VDW	0.244707
+Qwen 3.6 27B	any_H-bond	VDW	0.232485
 Qwen 3.6 35B A3B	any_H-bond	VDW	0.000000
-Qwen 3.7 Max	any_H-bond	VDW	0.184511
-Qwen 3.8 27B	any_H-bond	VDW	0.222930
-Claude Opus 5	any_H-bond	Elec	0.672325
-Claude Sonnet 4	any_H-bond	Elec	0.371640
-Claude Sonnet 4.5	any_H-bond	Elec	0.162937
-Claude Sonnet 5	any_H-bond	Elec	0.808924
-DeepSeek V3.2	any_H-bond	Elec	0.611209
-DeepSeek V4 Flash 0731	any_H-bond	Elec	0.686589
-DeepSeek-R1 32B	any_H-bond	Elec	0.025927
-GPT-5	any_H-bond	Elec	0.742069
-GPT-5.6 Sol	any_H-bond	Elec	0.701774
-GPT-6 Astra	any_H-bond	Elec	0.549383
-Gemini 2.5 Flash	any_H-bond	Elec	0.449908
-Gemini 3 Flash	any_H-bond	Elec	0.759835
-Gemini 3.6 Flash	any_H-bond	Elec	0.734055
-Gemma 3 27B	any_H-bond	Elec	0.229906
-Gemma 4 31B	any_H-bond	Elec	0.681097
-Kimi K2 Thinking	any_H-bond	Elec	0.739258
-Kimi K3	any_H-bond	Elec	0.690462
-Muse Glimmer 30B	any_H-bond	Elec	0.732034
-O4 Mini	any_H-bond	Elec	0.215888
-Qwen 2.5 32B	any_H-bond	Elec	0.312430
-Qwen 3 32B	any_H-bond	Elec	0.064053
-Qwen 3.5 27B	any_H-bond	Elec	0.865886
-Qwen 3.5 35B A3B	any_H-bond	Elec	0.454923
-Qwen 3.5 Plus	any_H-bond	Elec	0.987981
-Qwen 3.6 27B	any_H-bond	Elec	0.717948
-Qwen 3.6 35B A3B	any_H-bond	Elec	0.128743
-Qwen 3.7 Max	any_H-bond	Elec	0.669711
-Qwen 3.8 27B	any_H-bond	Elec	0.687089
+Qwen 3.7 Max	any_H-bond	VDW	0.170926
+Qwen 3.8 27B	any_H-bond	VDW	0.198249
+Claude Opus 5	any_H-bond	Elec	0.703817
+Claude Sonnet 4	any_H-bond	Elec	0.419136
+Claude Sonnet 4.5	any_H-bond	Elec	0.144298
+Claude Sonnet 5	any_H-bond	Elec	0.869856
+DeepSeek V3.2	any_H-bond	Elec	0.628423
+DeepSeek V4 Flash 0731	any_H-bond	Elec	0.711932
+DeepSeek-R1 32B	any_H-bond	Elec	0.006542
+GPT-5	any_H-bond	Elec	0.793165
+GPT-5.6 Sol	any_H-bond	Elec	0.739595
+GPT-6 Astra	any_H-bond	Elec	0.567349
+Gemini 2.5 Flash	any_H-bond	Elec	0.471270
+Gemini 3 Flash	any_H-bond	Elec	0.800193
+Gemini 3.6 Flash	any_H-bond	Elec	0.782780
+Gemma 3 27B	any_H-bond	Elec	0.223242
+Gemma 4 31B	any_H-bond	Elec	0.749304
+Kimi K2 Thinking	any_H-bond	Elec	0.810076
+Kimi K3	any_H-bond	Elec	0.725842
+Muse Glimmer 30B	any_H-bond	Elec	0.765645
+O4 Mini	any_H-bond	Elec	0.295438
+Qwen 2.5 32B	any_H-bond	Elec	0.320732
+Qwen 3 32B	any_H-bond	Elec	0.076238
+Qwen 3.5 27B	any_H-bond	Elec	0.964271
+Qwen 3.5 35B A3B	any_H-bond	Elec	0.476688
+Qwen 3.5 Plus	any_H-bond	Elec	0.997901
+Qwen 3.6 27B	any_H-bond	Elec	0.741535
+Qwen 3.6 35B A3B	any_H-bond	Elec	0.173604
+Qwen 3.7 Max	any_H-bond	Elec	0.689673
+Qwen 3.8 27B	any_H-bond	Elec	0.720587
