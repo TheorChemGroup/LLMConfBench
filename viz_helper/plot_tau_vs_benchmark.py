@@ -38,6 +38,7 @@ from plot_tau_vs_release_square import (
     ylim_with_references,
 )
 
+from metrics.grouped_metrics import fmt_p
 from config.models_config import (
     TAU_FLOOR,
     geom_conformers_dir,
@@ -87,12 +88,6 @@ def _ols_r2(xs: list[float], ys: list[float]) -> tuple[float, float, float, floa
         float(fit.rvalue) ** 2,
         float(fit.pvalue),
     )
-
-
-def _fmt_p(p: float) -> str:
-    if p < 0.001:
-        return f"{p:.2e}"
-    return f"{p:.3f}"
 
 
 def _draw_trend(
@@ -149,11 +144,12 @@ def write_tau_vs_aa(
 
     fig, ax, legend_ax = open_square_figure()
 
-    y_rand = 0.0
-    ax.axhline(
-        y_rand,
-        color=REF_RANDOM, linestyle="--", linewidth=1.1, zorder=0,
-    )
+    y_rand = _y_of(rand, y_key)
+    if y_rand is not None:
+        ax.axhline(
+            y_rand,
+            color=REF_RANDOM, linestyle="--", linewidth=1.1, zorder=0,
+        )
     y_uff = _y_of(uff, y_key)
     if y_uff is not None:
         ax.axhline(y_uff, color=REF_UFF, linestyle=":", linewidth=1.3, zorder=1)
@@ -186,8 +182,8 @@ def write_tau_vs_aa(
     r2, pval = _draw_trend(ax, score_x, tau_y, linestyle="-")
     rho, rho_p = spearmanr(score_x, tau_y)
     print(
-        f"{xlabel}  n={len(plotted)}  R²={r2:.3f}  p={_fmt_p(pval)}  "
-        f"Spearman ρ={float(rho):.3f}  p={_fmt_p(float(rho_p))}"
+        f"{xlabel}  n={len(plotted)}  R²={r2:.3f}  p={fmt_p(pval)}  "
+        f"Spearman ρ={float(rho):.3f}  p={fmt_p(float(rho_p))}"
     )
     if second_trend_exclude:
         sub_x = [row[1] for row in plotted if row[0] not in second_trend_exclude]
@@ -196,7 +192,7 @@ def write_tau_vs_aa(
         if len(sub_x) >= 2:
             r2b, pb = _draw_trend(ax, sub_x, sub_y, linestyle="--", color="#A21717")
             print(
-                f"{xlabel}  n={len(sub_x)}  R²={r2b:.3f}  p={_fmt_p(pb)}  "
+                f"{xlabel}  n={len(sub_x)}  R²={r2b:.3f}  p={fmt_p(pb)}  "
                 f"(excl. {', '.join(dropped) or 'none plotted'})"
             )
 

@@ -24,6 +24,7 @@ from config.models_config import (
     resolve_deltae_json,
     short_label_for_display,
 )
+from metrics.grouped_metrics import summary_stats
 from metrics.kendall_tau_ranking import (
     augment_meta,
     load_deltae_override,
@@ -39,16 +40,6 @@ TAU_KEY = f"tau_f{FLOOR}"
 CONFORMERS_DIR = geom_conformers_dir()
 DEFAULT_OUT = Path("figures/cra_floor2_table.tsv")
 FORCEFIELDS = {"UFF", "GFN-FF", MMFF94_NAME}
-
-
-def _row_from_vals(name: str, vals: np.ndarray) -> tuple[str, float, float, float, int]:
-    return (
-        name,
-        float(np.mean(vals)),
-        float(np.median(vals)),
-        float(np.std(vals, ddof=1)) if vals.size > 1 else 0.0,
-        int(vals.size),
-    )
 
 
 def _tau_for_ranking(letter_to_de: dict, ranking: list[str]) -> float | None:
@@ -89,7 +80,7 @@ def forcefield_rows(
         if vals:
             arr = np.asarray(vals, dtype=float)
             print(f"  {name}: {len(arr)}/{len(molecules)} molecules, mean τ@2.0={arr.mean():+.3f}")
-            out.append(_row_from_vals(name, arr))
+            out.append((name, *summary_stats(arr)))
         else:
             print(f"  {name}: no scores")
     return out
@@ -124,7 +115,7 @@ def model_rows(
             continue
         arr = np.asarray(mol_means, dtype=float)
         label = short_label_for_display(display)
-        rows.append(_row_from_vals(label, arr))
+        rows.append((label, *summary_stats(arr)))
     rows.sort(key=lambda r: -r[1])
     return rows
 

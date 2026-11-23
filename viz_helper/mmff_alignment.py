@@ -57,26 +57,6 @@ def alignment_table() -> pd.DataFrame:
     return a
 
 
-def plot_r2(a: pd.DataFrame, out: Path) -> Path:
-    fig = plt.figure(figsize=(183 / 25.4, 78 / 25.4))
-    ax = fig.add_axes([0.105, 0.30, 0.88, 0.62])
-    cols = [OK if ok else GREY for ok in a.aligned]
-    ax.bar(a.mol.astype(str), a.R2, color=cols, width=0.75, lw=0)
-    ax.axhline(0, color="#888888", lw=0.6, zorder=1)
-    ax.axhline(R2_MIN, color=TEXT_COLOR, lw=0.9, ls="--", zorder=2)
-    ax.text(1.0, 1.025, r"dashed: $R^2 = 0.8$", transform=ax.transAxes,
-            ha="right", va="bottom", fontsize=FONTSIZE, color=TEXT_COLOR)
-    ax.set_xlabel("Molecule", fontsize=FONTSIZE_LABEL, color=TEXT_COLOR)
-    ax.set_ylabel(r"$R^2$ (through origin)", fontsize=FONTSIZE_LABEL,
-                  color=TEXT_COLOR)
-    ax.set_ylim(-3.05, 1.05)
-    ax.set_yticks(np.arange(-3, 1.01, 1))
-    ax.tick_params(axis="x", labelsize=7)
-    ax.set_xlim(-0.7, 26.7)
-    style_ax(ax)
-    return save_fig(fig, out, dpi=SAVE_DPI)
-
-
 def plot_scatter(a: pd.DataFrame, out: Path) -> Path:
     fit = sorted(a[a.aligned].mol.tolist())
     u = load_pairs().drop_duplicates(KEYS).copy()
@@ -109,14 +89,54 @@ def plot_scatter(a: pd.DataFrame, out: Path) -> Path:
     return save_fig(fig, out, dpi=SAVE_DPI)
 
 
+def plot_scatter_all(a: pd.DataFrame, out: Path) -> Path:
+    """MMFF94 vs r2SCAN-3c facets for all 27 molecules (R^2 >= 0.8 green)."""
+    u = load_pairs().drop_duplicates(KEYS).copy()
+    u["MMFF"] = u[TERMS].sum(axis=1)
+    p = u.merge(a[["mol", "b", "R2"]], left_on="molecule_number", right_on="mol")
+    aligned = set(a[a.aligned].mol)
+    mols = sorted(a.mol)
+
+    fig, axes = plt.subplots(5, 6, figsize=(183 / 25.4, 168 / 25.4))
+    fig.subplots_adjust(left=0.06, right=0.995, bottom=0.075, top=0.965,
+                        wspace=0.40, hspace=0.60)
+    for ax, mol in zip(axes.ravel(), mols):
+        q = p[p.mol == mol]
+        ok = mol in aligned
+        col = OK if ok else GREY
+        ax.scatter(q.MMFF, q.dE_signed, s=3, color=col, alpha=0.5, lw=0,
+                   zorder=3)
+        lo = float(min(q.MMFF.min(), q.dE_signed.min()))
+        hi = float(max(q.MMFF.max(), q.dE_signed.max()))
+        pad = 0.06 * (hi - lo) if hi > lo else 1.0
+        xs = np.array([lo - pad, hi + pad])
+        ax.plot(xs, float(q.b.iloc[0]) * xs,
+                color=TEXT_COLOR if ok else "#9e9e9e", lw=0.8, zorder=4)
+        ax.set_xlim(xs)
+        ax.set_ylim(xs)
+        ax.locator_params(nbins=3)
+        ax.set_title(f"mol {mol}   $R^2$ = {q.R2.iloc[0]:.2f}",
+                     fontsize=6.5, color=OK if ok else "#777777", pad=2)
+        style_ax(ax)
+        ax.tick_params(labelsize=6.0, length=1.8, width=0.5)
+    for ax in axes.ravel()[len(mols):]:
+        ax.axis("off")
+
+    fig.supxlabel("MMFF94 $\\Delta E$ (kcal mol$^{-1}$)",
+                  fontsize=FONTSIZE_LABEL, color="black", y=0.012)
+    fig.supylabel("r$^2$SCAN-3c $\\Delta E$ (kcal mol$^{-1}$)",
+                  fontsize=FONTSIZE_LABEL, color="black", x=0.008)
+    return save_fig(fig, out, dpi=SAVE_DPI)
+
+
 def main() -> list[Path]:
     a = alignment_table()
     tsv = OUT / "mmff94_alignment_per_molecule.tsv"
     a.to_csv(tsv, sep="\t", index=False, float_format="%.6f")
     return [
         tsv,
-        plot_r2(a, OUT / "ed_mmff94_alignment_r2.png"),
         plot_scatter(a, OUT / "ed_mmff94_alignment_scatter.png"),
+        plot_scatter_all(a, OUT / "ed_mmff94_alignment_scatter_all.png"),
     ]
 
 

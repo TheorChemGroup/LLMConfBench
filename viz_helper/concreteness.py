@@ -1,19 +1,13 @@
-"""Explanation-text concreteness analysis.
+"""Per-explanation counts of H-bond vocabulary, measurements and energy mentions.
 
-Two independent pipelines:
+Produces ``figures/concreteness_vs_cra_fp.tsv``: one row per explanation with the
+term counts and the CRA on the equal-H-bond pair set for that molecule, model
+and run. The Fig. 2d-f panels (``concreteness_panel.py``) and the fair-pair
+tables read it.
 
-1. REGEX analysis (fast, deterministic): per-explanation counts of H-bond
-   vocabulary, quantified measurements and energy mentions, plus vague-term
-   counts; writes ``concreteness_vs_cra.tsv`` and the grid/quantile figures.
-   Accuracy in that table is computed on the equal-H-bond pair set (2,997
-   pairs), not on all reliable pairs.
-2. LLM extraction (slow, optional via ``--llm``): asks a local Ollama model to
-   split each explanation into SPECIFIC vs VAGUE effects; writes
-   ``specific_effects_vs_cra.tsv``.
-
-    python viz_helper/concreteness.py            # regex tables + figures
-    python viz_helper/concreteness.py --llm      # also run the LLM extractor
+    from concreteness import build_table
 """
+
 from __future__ import annotations
 
 import json
@@ -28,6 +22,7 @@ sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(_REPO / "viz_helper"))
 
 from decoy_common import (
+    cra_from_counts,
     BUNDLES,
     bench_molecules,
     equal_hbond_pair_tables,
@@ -37,16 +32,15 @@ from decoy_common import (
     score_pairs_letters,
 )
 
-from config.models_config import models_by_id
+from config.models_config import SEEDS, models_by_id
 
 TEXTS_DIR = Path("texts")
-LABELS_TSV = Path("figures/seed_spread_heatmap_molecules.tsv")
+LABELS_TSV = Path("figures/seed_spread_heatmap_molecules_fp.tsv")
 OUT_DIR = Path("figures")
-TABLE_TSV = OUT_DIR / "concreteness_vs_cra.tsv"
+TABLE_TSV = OUT_DIR / "concreteness_vs_cra_fp.tsv"
 RATIO_CURVE_TSV = OUT_DIR / "concreteness_ratio_curve.tsv"
 QTY_CURVE_TSV = OUT_DIR / "concreteness_qty_curve.tsv"
 SPECIFIC_TSV = OUT_DIR / "specific_effects_vs_cra.tsv"
-SEEDS = ("42", "43", "44")
 BUNDLE_ROOT = _REPO / "geom-qm9"
 
 
@@ -151,7 +145,7 @@ def equal_hbond_taus(models: dict) -> dict[tuple[str, str], dict[str, float | No
                 [BUNDLE_ROOT / bundle], pred, {"eq": pairs}, override
             )["eq"]
             out[(mid, seed)] = {
-                mol: (2.0 * ok / tot - 1.0) if tot else None
+                mol: cra_from_counts(ok, tot)
                 for mol, (ok, tot) in stats.items()
             }
     return out

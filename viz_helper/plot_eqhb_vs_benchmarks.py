@@ -21,7 +21,6 @@ from decoy_common import (
     score_pairs_ff,
     score_pairs_letters,
 )
-from plot_equal_hbond_vs_release import _macro
 from plot_metrics_vs_release import (
     get_gfnff_ranking,
     get_mmff94_ranking,
@@ -37,6 +36,7 @@ from config.models_config import (
     model_files_by_display,
     resolve_deltae_json,
 )
+from metrics.grouped_metrics import cra_macro as _macro
 from metrics.kendall_tau_ranking import load_deltae_override, load_metadata_index
 
 GEOM = REPO / "geom-qm9"

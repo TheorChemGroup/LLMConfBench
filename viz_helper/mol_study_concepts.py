@@ -2,7 +2,7 @@
 
 One panel per chemical concept, all 28 model LOESS curves overlaid and coloured
 by the model's mean CRA. The H-bond panel uses the same rows, filter, X
-normalization and LOESS domain as ``FullPlot.png`` (viz_helper/mol_study.py), so
+normalization and LOESS domain as ``concreteness_full.png`` (viz_helper/mol_study.py), so
 its 28 curves are identical to the curves in that figure.
 
     python viz_helper/mol_study_concepts.py

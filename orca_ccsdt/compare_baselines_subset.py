@@ -6,7 +6,6 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
@@ -16,6 +15,13 @@ if str(_REPO) not in sys.path:
 
 from config.models_config import geom_seed_paths, model_files_by_display
 
+sys.path.insert(0, str(_REPO / "orca_r2scan-3c"))
+from orca_pairs import (  # noqa: E402
+    label_to_conf_ranking,
+    load_answers,
+    load_metas,
+)
+
 FLOORS = [0.5, 1.0, 1.5, 2.0]
 
 
@@ -24,47 +30,8 @@ def load_deltae_json(path: Path) -> dict[str, dict[str, float]]:
             for mol, de in json.loads(path.read_text(encoding="utf-8")).items()}
 
 
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    if not path.is_file():
-        return rows
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            rows.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue
-    return rows
 
 
-def load_metas(seed_dir: Path) -> dict[str, dict[str, Any]]:
-    return {str(r["molecule"]): r for r in load_jsonl(seed_dir / "prompt_metadata.jsonl")}
-
-
-def load_answers(path: Path) -> dict[str, list[str]]:
-    out: dict[str, list[str]] = {}
-    for r in load_jsonl(path):
-        mol = r.get("molecule")
-        rnk = r.get("ranking")
-        if mol is not None and rnk is not None:
-            out[str(mol)] = [str(x) for x in rnk]
-    return out
-
-
-def label_to_conf_ranking(row: dict[str, Any], labels: list[str]) -> list[int] | None:
-    pub_map = row.get("public_label_to_conf_index", {})
-    n = row.get("n_conformers", 0)
-    if len(labels) != n:
-        return None
-    try:
-        conf_ranking = [int(pub_map[lab]) for lab in labels]
-    except (KeyError, ValueError):
-        return None
-    if len(set(conf_ranking)) != n:
-        return None
-    return conf_ranking
 
 
 def reliable_tau(energy: dict[int, float], conf_ranking: list[int], floor: float) -> float | None:
@@ -155,7 +122,7 @@ def main() -> int:
         for model in model_files:
             r2_taus: list[float] = []
             cc_taus: list[float] = []
-            for s, d in seed_dirs:
+            for s, _d in seed_dirs:
                 meta = metas[s]
                 ans = answers[s][model]
                 for mol in mols:

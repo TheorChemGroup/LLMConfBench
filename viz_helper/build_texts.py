@@ -44,7 +44,7 @@ from metrics.option2_metrics import score_molecule
 
 SEED_NAMES = ("42", "43", "44")
 TAU_KEY = f"tau_f{TAU_FLOOR}"
-MOL_TABLE = _REPO / "figures" / "seed_spread_heatmap_molecules.tsv"
+MOL_TABLE = _REPO / "figures" / "seed_spread_heatmap_molecules_fp.tsv"
 
 
 _FF_SMILES_OVERRIDE = {

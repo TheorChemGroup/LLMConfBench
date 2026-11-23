@@ -6,7 +6,6 @@ left-to-right by mean CRA on the same pairs. Cells show CRA on those pairs. Colo
 the heatmap; model names below.
 
   python viz_helper/seed_spread_heatmap.py
-  python viz_helper/seed_spread_heatmap.py --all-models
 """
 
 from __future__ import annotations
@@ -39,6 +38,7 @@ from metrics.option2_metrics import load_valid_answers
 from viz.cohort import complete_geom_models
 from viz.plot_style import DOUBLE_COLUMN_WIDTH, FONTSIZE, FONTSIZE_LABEL, plt, style_ax
 from viz_helper.decoy_common import (
+    equal_hb_cra,
     bench_molecules,
     equal_hbond_pair_tables,
     hb_count_map,
@@ -61,7 +61,7 @@ COUNTS_YOFF_PT = 4.0
 
 FF_MODELS = ("GFN-FF", "UFF", MMFF94_NAME)
 DEFAULT_OUT = Path("figures/seed_spread_heatmap.png")
-DEFAULT_MOLECULE_TABLE = Path("figures/seed_spread_heatmap_molecules.tsv")
+DEFAULT_MOLECULE_TABLE = Path("figures/seed_spread_heatmap_molecules_fp.tsv")
 TAU_CMAP_VMIN = -1.0
 TAU_CMAP_VMAX = 1.0
 TAU_CMAP_STOPS = (
@@ -81,25 +81,6 @@ def tau_ranking_cmap() -> LinearSegmentedColormap:
     span = TAU_CMAP_VMAX - TAU_CMAP_VMIN
     stops = [((value - TAU_CMAP_VMIN) / span, color) for value, color in TAU_CMAP_STOPS]
     return LinearSegmentedColormap.from_list("tau_rowgb", stops)
-
-
-def _tau_on_equal_hb(
-    pairs: list[tuple[int, int]],
-    public_map: dict,
-    ranking: list[str],
-) -> float | None:
-    """CRA on the equal-H-bond pairs (2,997 pairs) for one ranking."""
-    conf_to_public = {int(index): str(label) for label, index in public_map.items()}
-    pos = {label: i for i, label in enumerate(ranking)}
-    ok = tot = 0
-    for lo, hi in pairs:
-        llo = conf_to_public.get(lo)
-        lhi = conf_to_public.get(hi)
-        if llo is None or lhi is None or llo not in pos or lhi not in pos:
-            continue
-        tot += 1
-        ok += pos[llo] < pos[lhi]
-    return (2.0 * ok / tot - 1.0) if tot else None
 
 
 def _fmt_mean_ci(means) -> str:
@@ -126,7 +107,7 @@ def _forcefield_column(meta, molecules, ranking_getter, pair_table):
         prediction = [conf_to_public[index] for index in rank if index in conf_to_public]
         if len(prediction) != 30:
             continue
-        tau = _tau_on_equal_hb(pair_table.get(mol, []), public_map, prediction)
+        tau = equal_hb_cra(pair_table.get(mol, []), public_map, prediction)
         if tau is None:
             continue
         hit = min_in_topk(
@@ -187,7 +168,7 @@ def load_data(
                 if mol not in answers:
                     continue
                 letter_to_de = meta[mol]["letter_to_deltaE_kcal_mol"]
-                tau = _tau_on_equal_hb(
+                tau = equal_hb_cra(
                     pair_table.get(mol, []),
                     meta[mol]["public_label_to_conf_index"],
                     answers[mol],

@@ -6,7 +6,7 @@ Claude Sonnet 4.5	anthropic/claude-sonnet-4.5	Anthropic / OpenRouter	2025-09-29 
 Claude Sonnet 4	anthropic/claude-sonnet-4	Anthropic / OpenRouter	2025-05-22 / 2026-08-18
 GPT-5.6 Sol	openai/gpt-5.6-sol	OpenAI / OpenRouter	2026-07-09 / 2026-07-31
 GPT-5	openai/gpt-5	OpenAI / OpenRouter	2025-08-07 / 2026-08-17
-o4-mini	openai/o4-mini	OpenAI / OpenRouter	2025-04-16 / 2026-08-18
+O4 Mini	openai/o4-mini	OpenAI / OpenRouter	2025-04-16 / 2026-08-18
 Gemini 3.6 Flash	google/gemini-3.6-flash	Google / OpenRouter	2026-07-21 / 2026-07-31--08-03
 Gemini 3 Flash	google/gemini-3-flash-preview	Google / OpenRouter	2025-12-17 / 2026-08-18
 Gemini 2.5 Flash	google/gemini-2.5-flash	Google / OpenRouter	2025-06-17 / 2026-08-18
@@ -18,7 +18,7 @@ Qwen 3.8 27B	qwen3.8:27b	Alibaba (Qwen) / Ollama	2026-08-14 / 2026-08-19--08-20
 Qwen 3.7 Max	qwen/qwen3.7-max	Alibaba (Qwen) / OpenRouter	2026-05-21 / 2026-07-31
 Qwen 3.6 27B	qwen3.6:27b	Alibaba (Qwen) / Ollama	2026-04-21 / 2026-08-16
 Qwen 3.5 27B	qwen3.5:27b	Alibaba (Qwen) / Ollama	2026-02-24 / 2026-08-17--08-18
-Qwen 3.5 Plus 2026-04-20	qwen/qwen3.5-plus-20260420	Alibaba (Qwen) / OpenRouter	2026-04-20 / 2026-07-31
+Qwen 3.5 Plus	qwen/qwen3.5-plus-20260420	Alibaba (Qwen) / OpenRouter	2026-04-20 / 2026-07-31
 Qwen 2.5 32B	qwen2.5:32b	Alibaba (Qwen) / Ollama	2024-09-19 / 2026-08-15
 Qwen 3 32B	qwen3:32b	Alibaba (Qwen) / Ollama	2025-04-28 / 2026-08-16
 Qwen 3.5 35B A3B	qwen3.5:35b-a3b	Alibaba (Qwen) / Ollama	2026-02-24 / 2026-08-16

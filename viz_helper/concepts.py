@@ -1,9 +1,9 @@
 """Chemical-concept vocabulary for explanation texts.
 
 Counts non-H-bond chemical concepts per explanation and writes
-``figures/concept_counts_vs_cra.tsv``. Rows, CRA values, word counts and the
+``figures/concept_counts_vs_cra_fp.tsv``. Rows, CRA values, word counts and the
 H-bond count are taken from the concreteness table, so the H-bond axis here is
-exactly the one in ``FullPlot.png``.
+exactly the one in ``concreteness_full.png``.
 
     python viz_helper/concepts.py
 """
@@ -23,10 +23,9 @@ sys.path.insert(0, str(_REPO / "viz_helper"))
 from concreteness import HBOND_RE, _reasoning_text, load_setup
 
 TEXTS_DIR = Path("texts")
-LABELS_TSV = Path("figures/seed_spread_heatmap_molecules.tsv")
-CONCRETENESS_TSV = Path("figures/concreteness_vs_cra.tsv")
-TABLE_TSV = Path("figures/concept_counts_vs_cra.tsv")
-SEEDS = ("42", "43", "44")
+LABELS_TSV = Path("figures/seed_spread_heatmap_molecules_fp.tsv")
+CONCRETENESS_TSV = Path("figures/concreteness_vs_cra_fp.tsv")
+TABLE_TSV = Path("figures/concept_counts_vs_cra_fp.tsv")
 
 # H-bonding is the concreteness definition; other concepts are independent.
 CONCEPTS = {

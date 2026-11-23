@@ -13,6 +13,11 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MODELS_YAML = REPO_ROOT / "models.yaml"
 
+# The three prompt bundles and the seed each one was generated with.
+SEEDS = ("42", "43", "44")
+BUNDLE_SEEDS = {"prompt_30x30_NEW": 42, "prompt_30x30_NEW_43": 43,
+                "prompt_30x30_NEW_44": 44}
+
 
 ARCH_VALUES: frozenset[str] = frozenset({"dense", "moe", "distill"})
 ARCH_MARKERS: dict[str | None, str] = {

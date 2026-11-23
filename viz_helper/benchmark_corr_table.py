@@ -8,33 +8,24 @@
 from __future__ import annotations
 
 import argparse
-import json
 import math
 import sys
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import linregress
 
 _REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from benchmark_scores import COHORT_BENCHMARK_SCORES, parse_row_scores
+from benchmark_scores import COHORT_BENCHMARK_SCORES, load_cohort_benchmark_scores
 from plot_eqhb_vs_benchmarks import equal_hb_rows
 from plot_metrics_vs_release import (
-    collect_model_rows,
     scatter_model_point,
     total_api_cost_by_display,
 )
-from plot_tau_vs_arcagi import DEFAULT_ARCAGI
-from plot_tau_vs_benchmark import (
-    FLOOR,
-    GPQA_TREND_EXCLUDE,
-    Y_KEY,
-    _draw_trend,
-    _jitter_xs,
-)
+from plot_tau_vs_arcagi import DEFAULT_ARCAGI, load_arc_by_display
+from plot_tau_vs_benchmark import _draw_trend, _jitter_xs
 from plot_tau_vs_release_square import (
     AXIS_LABEL_FONTSIZE,
     FLOOR_YLIM,
@@ -43,20 +34,15 @@ from plot_tau_vs_release_square import (
     _legend_handles,
     _y_of,
     apply_floor_ylim,
-    floor_tag,
     ylim_with_references,
 )
 
 from config.models_config import (
-    geom_conformers_dir,
-    geom_seed_dirs,
-    models_by_id,
     params_total_for_display,
     release_dates_by_display,
     resolve_deltae_json,
 )
 from metrics.kendall_tau_ranking import load_deltae_override
-from viz.cohort import complete_geom_models
 from viz.plot_style import (
     FONTSIZE,
     REF_GFNFF,
@@ -70,9 +56,7 @@ from viz.plot_style import (
 )
 
 DEFAULT_FIGURE = Path("figures") / "cra_vs_benchmarks_facet.png"
-DEFAULT_TSV = Path("figures") / (
-    f"cra_benchmark_correlations_{floor_tag(FLOOR)}.tsv"
-)
+
 
 def _equal_hb_context(
     baseline: str = "r2scan3c",
@@ -106,80 +90,20 @@ ARC_LABELS: dict[str, str] = {
 }
 
 
-def _tau_by_name(models: list[dict], y_key: str = Y_KEY) -> dict[str, float]:
-    return {m["name"]: float(m[y_key]) for m in models if y_key in m}
-
-
-def _load_cohort_scores(
-    scores_path: Path = COHORT_BENCHMARK_SCORES,
-) -> dict[str, dict[str, float]]:
-    short_to_display = {m.short: m.display for m in models_by_id().values()}
-    payload = json.loads(scores_path.read_text(encoding="utf-8"))
-    by_display: dict[str, dict[str, float]] = {}
-    for row in payload.get("benchmark_results", []):
-        short = row.get("model")
-        if not short:
-            continue
-        display = short_to_display.get(short)
-        if display is None:
-            continue
-        parsed = parse_row_scores(row)
-        if parsed:
-            by_display[display] = parsed
-    return by_display
-
-
-def _load_arc_scores(arcagi_path: Path = DEFAULT_ARCAGI) -> dict[str, dict[str, float]]:
-    from benchmark_scores import parse_pct_score
-
-    short_to_display = {m.short: m.display for m in models_by_id().values()}
-    payload = json.loads(arcagi_path.read_text(encoding="utf-8"))
-    by_display: dict[str, dict[str, float]] = {}
-    for row in payload.get("benchmark_results", []):
-        short = row.get("model")
-        if not short:
-            continue
-        display = short_to_display.get(short)
-        if display is None:
-            continue
-        parsed = {
-            k: parse_pct_score(row.get(k))
-            for k in ("arc_agi_1", "arc_agi_2", "arc_agi_3")
-        }
-        by_display[display] = {k: v for k, v in parsed.items() if v is not None}
-    return by_display
-
-
 def collect_scatter_data(
     *,
     scores_path: Path = COHORT_BENCHMARK_SCORES,
     arcagi_path: Path = DEFAULT_ARCAGI,
     baseline: str = "r2scan3c",
-    tau_by_name: dict[str, float] | None = None,
-    refs: tuple | None = None,
-    y_key: str = Y_KEY,
+    tau_by_name: dict[str, float],
+    refs: tuple,
 ) -> tuple[list[tuple[str, list[float], list[float], list[str]]], tuple]:
     """Per-benchmark scatter data: (label, xs, ys, names) for the facet figure."""
     deltae_override = load_deltae_override(resolve_deltae_json(baseline))
-    if tau_by_name is None:
-        bundle_dir = geom_seed_dirs()[0][1]
-        models, rand, uff, gfnff, mmff = collect_model_rows(
-            bundle_dir,
-            geom_conformers_dir(),
-            deltae_override=deltae_override,
-            three_seeds=True,
-            forcefields="all",
-            floors=[FLOOR],
-            model_files=dict(
-                complete_geom_models(deltae_override=deltae_override, warn_unregistered=False)
-            ),
-        )
-        tau = _tau_by_name(models, y_key)
-    else:
-        tau = tau_by_name
-        rand, uff, gfnff, mmff = refs if refs is not None else ({}, None, None, None)
-    cohort_scores = _load_cohort_scores(scores_path)
-    arc_scores = _load_arc_scores(arcagi_path)
+    tau = tau_by_name
+    rand, uff, gfnff, mmff = refs
+    cohort_scores = load_cohort_benchmark_scores(scores_path)
+    arc_scores = load_arc_by_display(arcagi_path, verbose=False)
     dates = release_dates_by_display()
     cost_by_name, _, _ = total_api_cost_by_display(deltae_override=deltae_override)
 
@@ -228,7 +152,7 @@ def write_facet_figure(
     tau, refs, _n_pairs = _equal_hb_context(baseline)
     panels, (_rand, uff, gfnff, mmff) = collect_scatter_data(
         scores_path=scores_path, arcagi_path=arcagi_path, baseline=baseline,
-        tau_by_name=tau, refs=refs, y_key="eqhb",
+        tau_by_name=tau, refs=refs,
     )
     ylabel = "CRA across fair pairs"
     ncol = 4
@@ -268,64 +192,13 @@ def write_facet_figure(
     return save_fig(fig, out or DEFAULT_FIGURE)
 
 
-def write_corr_tsv(
-    out: Path | None = None,
-    *,
-    scores_path: Path = COHORT_BENCHMARK_SCORES,
-    arcagi_path: Path = DEFAULT_ARCAGI,
-    baseline: str = "r2scan3c",
-) -> Path:
-    """R² / p / n of τ vs every predictor, one row per benchmark."""
-    tau, refs, _n_pairs = _equal_hb_context(baseline)
-    panels, _ = collect_scatter_data(
-        scores_path=scores_path, arcagi_path=arcagi_path, baseline=baseline,
-        tau_by_name=tau, refs=refs, y_key="eqhb",
-    )
-    lines = ["benchmark\tn\tr2\tr2_declustered\tp_value"]
-    print(
-        f"{'Benchmark':<28s} {'n':>3s}  {'R²':>6s}  "
-        f"{'R² declustered':>14s}  {'p-value':>10s}"
-    )
-    for label, xs, ys, names in panels:
-        fit = linregress(xs, ys)
-        r2 = float(fit.rvalue) ** 2
-        p = float(fit.pvalue)
-        p_s = f"{p:.2e}" if p < 0.001 else f"{p:.3f}"
-        r2_decl = ""
-        if label.startswith("GPQA"):
-            keep = [(x, y) for x, y, n in zip(xs, ys, names)
-                    if n not in GPQA_TREND_EXCLUDE]
-            if len(keep) >= 3:
-                decl = linregress([k[0] for k in keep], [k[1] for k in keep])
-                r2_decl = f"{float(decl.rvalue) ** 2:.3f}"
-        lines.append(
-            f"{label}\t{len(xs)}\t{r2:.3f}\t{r2_decl}\t{p_s}"
-        )
-        print(
-            f"{label:<28s} {len(xs):3d}  {r2:6.3f}  "
-            f"{r2_decl:>14s}  {p_s:>10s}"
-        )
-    out = out or DEFAULT_TSV
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"Saved {out}")
-    return out
-
-
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", type=Path, default=DEFAULT_FIGURE)
-    ap.add_argument("--out-tsv", type=Path, default=DEFAULT_TSV)
     ap.add_argument("--scores", type=Path, default=COHORT_BENCHMARK_SCORES)
     ap.add_argument("--arcagi", type=Path, default=DEFAULT_ARCAGI)
     ap.add_argument("--baseline", default="r2scan3c")
     args = ap.parse_args()
-    write_corr_tsv(
-        args.out_tsv,
-        scores_path=args.scores,
-        arcagi_path=args.arcagi,
-        baseline=args.baseline,
-    )
     write_facet_figure(
         args.out,
         scores_path=args.scores,

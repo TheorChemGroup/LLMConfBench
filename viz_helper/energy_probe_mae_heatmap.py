@@ -21,7 +21,7 @@ from config.models_config import models_by_id, short_label_for_display
 from viz.plot_style import DOUBLE_COLUMN_WIDTH, FONTSIZE, FONTSIZE_LABEL, plt, style_ax
 
 DEFAULT_PROBE_DIR = Path("geom-qm9")
-DEFAULT_MOL_TABLE = Path("figures/seed_spread_heatmap_molecules.tsv")
+DEFAULT_MOL_TABLE = Path("figures/seed_spread_heatmap_molecules_fp.tsv")
 DEFAULT_TEXT_DIR = Path("texts/seed_avg")
 DEFAULT_OUT = Path("figures/energy_probe_mae_heatmap.png")
 

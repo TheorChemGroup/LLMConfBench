@@ -36,6 +36,7 @@ from scipy.stats import linregress
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from metrics.grouped_metrics import fmt_p
 from config.models_config import (
     LEGEND_MARKERSIZE,
     MARKER_DEFAULT,
@@ -74,7 +75,8 @@ from viz.plot_style import (
 )
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from decoy_common import bench_molecules
+from decoy_common import bench_molecules, hb_count_map, load_r2scan
+from hb_rule_baseline import REFS, all_pairs, values as rule_values
 from plot_metrics_vs_release import collect_model_rows, scatter_model_point
 
 FIGSIZE = (ONE_HALF_COLUMN_WIDTH, ONE_HALF_COLUMN_WIDTH)
@@ -413,20 +415,6 @@ def _set_params_axis(ax: plt.Axes, xs: list[float]) -> None:
 _FLOOR_STEM_EXTRAS = ("_params", "_closed", "_os")
 
 
-def reliable_pair_count(override: dict | None, floor: float) -> int:
-    """Pairs with |ΔE| >= floor across the benchmark molecules."""
-    if not override:
-        return 0
-    total = 0
-    for mol in bench_molecules():
-        vals = sorted(override.get(mol, {}).values())
-        for i, lo in enumerate(vals):
-            for hi in vals[i + 1:]:
-                if hi - lo >= floor:
-                    total += 1
-    return total
-
-
 def with_floor_stem(path: Path, floor: float) -> Path:
     """Insert the floor tag before a trailing class/params suffix if present."""
     stem = path.stem
@@ -448,12 +436,6 @@ def _ols_r2(xs: list[float], ys: list[float]) -> tuple[float, float, float, floa
         float(fit.rvalue) ** 2,
         float(fit.pvalue),
     )
-
-
-def _fmt_p(p: float) -> str:
-    if p < 0.001:
-        return f"{p:.2e}"
-    return f"{p:.3f}"
 
 
 def _draw_trend(
@@ -511,9 +493,11 @@ def plot_square(
     size_by_params: bool = False,
     only: str | None = None,
     ylabel_x: float | None = None,
+    extra_refs: tuple[tuple[float, str, str], ...] = (),
 ) -> set[str]:
-    y_rand = 0.0
-    ax.axhline(y_rand, color=REF_RANDOM, linestyle="--", linewidth=1.1, zorder=0)
+    y_rand = _y_of(rand, y_key)
+    if y_rand is not None:
+        ax.axhline(y_rand, color=REF_RANDOM, linestyle="--", linewidth=1.1, zorder=0)
     y_uff = _y_of(uff, y_key)
     if y_uff is not None:
         ax.axhline(y_uff, color=REF_UFF, linestyle=":", linewidth=1.3, zorder=1)
@@ -525,6 +509,8 @@ def plot_square(
         ax.axhline(
             y_mmff, color=REF_MMFF, linestyle=REF_MMFF_LINESTYLE, linewidth=1.3, zorder=1,
         )
+    for y_ref, color, linestyle in extra_refs:
+        ax.axhline(y_ref, color=color, linestyle=linestyle, linewidth=1.1, zorder=1)
 
     plotted: list[tuple[str, float, float, float, float]] = []
     for m in models:
@@ -591,6 +577,7 @@ def plot_square(
         ylabel,
         ylim_with_references(
             FLOOR_YLIM if ylim is None else ylim, y_rand, y_uff, y_gfnff, y_mmff,
+            *(y for y, _c, _ls in extra_refs),
         ),
         ylabel_x=ylabel_x,
     )
@@ -600,7 +587,7 @@ def plot_square(
         slope, _, r2, pval = _ols_r2(fit_x, fit_y)
         print(
             f"release date  n={len(plotted)}  slope={slope:+.3f} τ/year  "
-            f"R²={r2:.3f}  p={_fmt_p(pval)}"
+            f"R²={r2:.3f}  p={fmt_p(pval)}"
         )
     elif x_mode == "params" and len(plotted) >= 3:
 
@@ -609,7 +596,7 @@ def plot_square(
         slope, r2, pval = _draw_trend(ax, fit_x, fit_y, linestyle="-")
         print(
             f"params  n={len(plotted)}  slope={slope:+.3f} τ/decade  "
-            f"R²={r2:.3f}  p={_fmt_p(pval)}"
+            f"R²={r2:.3f}  p={fmt_p(pval)}"
         )
     return present
 
@@ -635,6 +622,7 @@ def write_square(
     figsize: tuple[float, float] | None = None,
     ylabel_x: float | None = None,
     with_legend: bool = True,
+    extra_refs: tuple[tuple[float, str, str], ...] = (),
 ) -> None:
     if figsize is None:
         figsize = FIGSIZE
@@ -647,7 +635,7 @@ def write_square(
         ax, models, rand, uff, gfnff, mmff, dates,
         y_key=y_key, ylabel=ylabel, ylim=ylim, show_ci=show_ci,
         x_mode=x_mode, marker_by=marker_by, size_by_params=size_by_params,
-        only=only, ylabel_x=ylabel_x,
+        only=only, ylabel_x=ylabel_x, extra_refs=extra_refs,
     )
     names = legend_names if legend_names is not None else present
     if with_legend:
@@ -727,6 +715,11 @@ def collect_and_write(
                 f"No complete data available for --output-tag {output_tag!r}."
             )
 
+    extra_refs: tuple[tuple[float, str, str], ...] = ()
+    if x_mode == "date":
+        by_name = dict(rule_values(all_pairs(), hb_count_map(load_r2scan(), bench_molecules())))
+        extra_refs = tuple((by_name[n], c, ls) for n, c, ls in REFS if n in by_name)
+
     written: list[Path] = []
     single_default_floor = floors == [2.0]
     if floors:
@@ -743,6 +736,7 @@ def collect_and_write(
                 size_by_params=size_by_params,
                 only=only,
                 with_legend=with_legend,
+                extra_refs=extra_refs,
             )
             written.append(path)
     else:
@@ -760,6 +754,7 @@ def collect_and_write(
             size_by_params=size_by_params,
             only=only,
             with_legend=with_legend,
+            extra_refs=extra_refs,
         )
         written.append(out)
     return written

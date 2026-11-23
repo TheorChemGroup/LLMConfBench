@@ -9,10 +9,7 @@ Python port of the R/ggplot script (tidyverse + geom_smooth loess, span=1.5):
     coloured by the model's mean CRA (red = low ... green = high, limits -1..1)
 
 Figures (saved at dpi=500 in figures/):
-  FullPlot.png                     - 28-panel facet grid, labelled points + smooth
-  ConcretenessCRA_GPT6_square.png  - GPT-6 Astra panel
-  ConcretenessCRA_GPT5_square.png  - GPT-5 panel
-  ConcretenessCRA_all_horizontal.png - all model curves, one panel
+  concreteness_full.png  - 28-panel facet grid, labelled points + smooth
 
     python viz_helper/mol_study.py
     python viz_helper/mol_study.py --data "LLM as confsearch - Tau vs. Concreteness.csv"
@@ -33,17 +30,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from matplotlib.colors import LinearSegmentedColormap, Normalize
 
-from viz.plot_style import (
-    FIGSIZE_SQUARE,
-    ONE_HALF_COLUMN_WIDTH,
-    plt,
-    save_fig,
-    style_ax,
-)
+from viz.plot_style import plt, save_fig, style_ax
 
-DEFAULT_DATA = _REPO / "figures" / "concreteness_vs_cra.tsv"
+DEFAULT_DATA = _REPO / "figures" / "concreteness_vs_cra_fp.tsv"
 DEFAULT_OUTDIR = _REPO / "figures"
-BEST_MODELS = ("GPT-6 Astra", "GPT-5")
 XLABEL = "Relative abundance of H-bond mentions"
 YTICKS = [-1.0, -0.5, 0.0, 0.5, 1.0]
 YLIM = (-1.06, 1.0)
@@ -159,58 +149,7 @@ def plot_full(d, order, outdir: Path) -> Path:
     fig.supxlabel(XLABEL, fontsize=7)
     fig.supylabel(YLABEL, fontsize=7)
     fig.tight_layout()
-    return save_fig(fig, outdir / "FullPlot.png")
-
-
-def plot_square_model(
-    d: pd.DataFrame, model: str, outdir: Path, outname: str, *,
-    title: str | None = None, ylabel: bool = True,
-) -> Path:
-    """Single model panel on a square canvas."""
-    fig, ax = plt.subplots(figsize=FIGSIZE_SQUARE)
-    _labelled_panel(ax, d[d["model"] == model], fontsize=8)
-    style_ax(ax, square=False)
-    ax.tick_params(labelsize=9)
-    ax.set_yticks(YTICKS)
-    ax.set_ylim(*YLIM)
-    if title:
-        ax.set_title(title, fontsize=12)
-    ax.set_xlabel(XLABEL, fontsize=10)
-    if ylabel:
-        ax.set_ylabel(YLABEL, fontsize=10)
-    else:
-        ax.set_ylabel(YLABEL, fontsize=10, color="none")
-    return save_fig(fig, outdir / outname)
-
-
-def plot_all_models_horizontal(
-    d: pd.DataFrame, order: list[str], outdir: Path, outname: str, *,
-    lw: float = 0.5, title: str | None = None,
-) -> Path:
-    """All-models curves on a wide canvas, thin lines."""
-    fig, ax = plt.subplots(figsize=(2 * ONE_HALF_COLUMN_WIDTH, ONE_HALF_COLUMN_WIDTH))
-    for model in order:
-        g = d[d["model"] == model]
-        if len(g) < 4:
-            continue
-        xe, f, _ = _curve(g)
-        ax.plot(xe, f, color=_color(g["mt"].iloc[0]), lw=lw)
-    style_ax(ax, square=False)
-    ax.tick_params(labelsize=9)
-    ax.set_yticks(YTICKS)
-    ax.set_ylim(*YLIM)
-    if title:
-        ax.set_title(title, fontsize=12)
-    ax.set_xlabel(XLABEL, fontsize=10)
-    ax.set_ylabel(YLABEL, fontsize=10)
-    sm = plt.cm.ScalarMappable(norm=NORM, cmap=CMAP)
-    sm.set_array([])
-    cbar = fig.colorbar(sm, ax=ax, orientation="vertical",
-                        fraction=0.05, pad=0.02, shrink=0.6)
-    cbar.set_ticks(YTICKS)
-    cbar.set_label("Model mean τ", fontsize=9)
-    cbar.ax.tick_params(labelsize=9)
-    return save_fig(fig, outdir / outname)
+    return save_fig(fig, outdir / "concreteness_full.png")
 
 
 def build_and_save(data: Path = DEFAULT_DATA, outdir: Path = DEFAULT_OUTDIR) -> list[Path]:
@@ -218,15 +157,7 @@ def build_and_save(data: Path = DEFAULT_DATA, outdir: Path = DEFAULT_OUTDIR) -> 
     print(f"{len(d)} points from {d['model'].nunique()} models  (data: {data})")
     print("model order by mean tau:", ", ".join(f"{m} ({mt[m]:+.2f})" for m in order[:5]), "...")
     outdir.mkdir(parents=True, exist_ok=True)
-    return [
-        plot_full(d, order, outdir),
-        plot_square_model(d, BEST_MODELS[0], outdir, "ConcretenessCRA_GPT6_square.png",
-                          title="GPT-6 Astra", ylabel=False),
-        plot_square_model(d, BEST_MODELS[1], outdir, "ConcretenessCRA_GPT5_square.png",
-                          title="GPT-5"),
-        plot_all_models_horizontal(d, order, outdir, "ConcretenessCRA_all_horizontal.png",
-                                   lw=1.5, title="All 28 models"),
-    ]
+    return [plot_full(d, order, outdir)]
 
 
 def main() -> int:

@@ -63,7 +63,7 @@ OUT_DD = OUT_DIR / "deltae_pair_diff_profiles.png"
 OUT_ENSEMBLE_FLEX = OUT_DIR / "ensemble_flexibility.tsv"
 
 
-PROBE_MOL_TABLE = OUT_DIR / "seed_spread_heatmap_molecules.tsv"
+PROBE_MOL_TABLE = OUT_DIR / "seed_spread_heatmap_molecules_fp.tsv"
 
 
 PANEL_BD_FIGSIZE = (DOUBLE_COLUMN_WIDTH, ONE_HALF_COLUMN_WIDTH * 0.95)

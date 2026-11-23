@@ -24,6 +24,9 @@ local_bench_logs/
 # Regenerated per-run explanations (viz_helper/build_texts.py)
 texts/
 
+# Derived pair table (rebuild with viz_helper/build_pair_table.py)
+pair_runs_reliable.csv
+
 # Raw ORCA job trees and generated reports (rebuild from XYZ + make_*_inputs.py)
 orca_r2scan-3c/orca_r2scan3c/
 orca_ccsdt/orca_dlpno_ccsdt/

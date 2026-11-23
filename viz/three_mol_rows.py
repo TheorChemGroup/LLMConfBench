@@ -109,7 +109,7 @@ def nest(svg: str, x: float, y: float, w: float, h: float) -> str:
     )
 
 
-MOL_TABLE = Path("figures/seed_spread_heatmap_molecules.tsv")
+MOL_TABLE = Path("figures/seed_spread_heatmap_molecules_fp.tsv")
 
 
 def load_heatmap_order(table: Path) -> tuple[list[str], dict[str, str]]:

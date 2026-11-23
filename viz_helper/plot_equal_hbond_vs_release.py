@@ -30,6 +30,8 @@ from decoy_common import (
     score_pairs_ff,
     score_pairs_letters,
 )
+from hb_rule_baseline import draw as draw_hb_rule
+from metrics.grouped_metrics import cra_macro  # noqa: E402
 from plot_metrics_vs_release import (
     get_gfnff_ranking,
     get_mmff94_ranking,
@@ -65,19 +67,6 @@ YLIM = (-0.1, 1.0)
 YTICKS = np.arange(-0.1, 1.01, 0.1)
 
 
-def _macro(stats: dict) -> tuple[float, float, int]:
-    accs = np.asarray([v[0] / v[1] for v in stats.values() if v[1]])
-    taus = 2 * accs - 1
-    n = len(taus)
-    if not n:
-        return float("nan"), 0.0, 0
-    half = (float(np.std(taus, ddof=1) / np.sqrt(n)) if n > 1 else 0.0)
-    if n > 1:
-        from scipy.stats import t as t_dist
-        half *= float(t_dist.ppf(0.975, n - 1))
-    return float(np.mean(taus)), half, n
-
-
 def collect_and_write(out: Path | None = None) -> Path:
     out = Path(out) if out is not None else OUT
     r2scan = load_r2scan()
@@ -94,13 +83,13 @@ def collect_and_write(out: Path | None = None) -> Path:
         if not (bdirs[0] / pred).is_file():
             continue
         st = score_pairs_letters(bdirs, pred, {"eq": table}, override)["eq"]
-        tau, half, _ = _macro(st)
+        tau, half, _ = cra_macro(st)
         pts.append((display, release_dates_by_display()[display], tau, half))
     ff_pts = []
     for name, getter in [("UFF", get_uff_ranking), ("GFN-FF", get_gfnff_ranking),
                          ("MMFF94", get_mmff94_ranking)]:
         st = score_pairs_ff(getter, {"eq": table}, r2scan)["eq"]
-        tau, _, _ = _macro(st)
+        tau, _, _ = cra_macro(st)
         ff_pts.append((name, tau))
     print(f"equal-H-bond pairs: {n_pairs}, models: {len(pts)}, "
           f"FF: {[(n, f'{t:+.3f}') for n, t in ff_pts]}", flush=True)
@@ -119,6 +108,7 @@ def collect_and_write(out: Path | None = None) -> Path:
         ls = {"UFF": ":", "GFN-FF": "-.", "MMFF94": REF_MMFF_LINESTYLE}[name]
         if np.isfinite(tau):
             ax.axhline(tau, color=col, ls=ls, lw=1.3, zorder=1)
+    draw_hb_rule(ax, table, counts)
     ax.axhline(0.0, color="grey", ls=":", lw=0.8, zorder=1)
     _set_date_axis(ax)
     ax.set_ylim(*YLIM)

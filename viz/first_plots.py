@@ -5,6 +5,7 @@
     python viz/first_plots.py
 
 Produces:
+  pair_runs_reliable.csv                (rebuilt from the model answers)
   figures/molecules_27_3row.png (+ .svg)
   figures/cra_fair_vs_release.png       (equal-HB metric)
   figures/cra_allpairs_vs_release.png   (all-pairs metric)
@@ -24,15 +25,13 @@ Produces:
   figures/deltae_energy_profiles.png
   figures/deltae_pair_diff_profiles.png
   figures/energy_probe_mae_heatmap.png
-  figures/fig1c_term_contributions.png
+  figures/fig1c_amplified_term_contributions.png
+  figures/cra_no_hbond_vs_release.png
   figures/fig3a_decoy_gallery.png
-  figures/fig3c_decoy_accuracy_vs_angle.png
-  figures/ed_mmff94_alignment_r2.png
+  figures/fig3b_quotes.png (+ .json)
   figures/ed_mmff94_alignment_scatter.png
-  figures/ConcretenessCRA_GPT5_square.png
-  figures/ConcretenessCRA_GPT6_square.png
-  figures/ConcretenessCRA_all_horizontal.png
-  figures/FullPlot.png
+  figures/concreteness_{gpt5,gpt6,opus5}.png  (Fig. 2d-f)
+  figures/concreteness_full.png
   figures/FullPlotConcepts.png
   figures/ensemble_flexibility.tsv
   figures/cra_floor2_table.tsv
@@ -45,10 +44,8 @@ Produces:
   figures/models_reasoning_params.tsv
   figures/*_fp.tsv                        (fair-pair variants)
 
-Intermediate tables written by the same steps: concreteness_vs_cra.tsv,
-seed_spread_heatmap_molecules.tsv, cra_benchmark_correlations_2.tsv,
-concept_counts_vs_cra.tsv, mmff94_alignment_per_molecule.tsv,
-term_contributions_nohb_anyhb.tsv, decoy_hbond_geometry.tsv.
+Intermediate tables written by the same steps: concreteness_vs_cra_fp.tsv,
+seed_spread_heatmap_molecules_fp.tsv, concept_counts_vs_cra_fp.tsv.
 
 Fig. 3a assets are rendered with xyzrender by render_decoy_gallery.py within
 the decoy-gallery step.
@@ -57,7 +54,6 @@ the decoy-gallery step.
 from __future__ import annotations
 
 import os
-import shutil
 import subprocess
 import sys
 from collections.abc import Callable
@@ -90,11 +86,12 @@ def main() -> int:
 
     import mol_study as ms
     import mol_study_concepts as msc
-    from benchmark_corr_table import write_corr_tsv as write_benchmark_corr
     from benchmark_corr_table import write_facet_figure as write_benchmark_facet
+    from cohort_tables import main as write_cohort_tables
     from concepts import build_table as build_concepts
     from concreteness import build_table as build_concreteness
     from concreteness import load_setup as load_concreteness_setup
+    from concreteness_panel import main as write_concreteness_panels
     from decoy_angle import main as write_decoy_angle
     from decoy_gallery import main as write_decoy_gallery
     from energy_probe_mae_heatmap import plot_mae_heatmap as write_energy_probe
@@ -107,10 +104,13 @@ def main() -> int:
     from plot_equal_hbond_vs_release import collect_and_write as write_equal_hbond
     from plot_favorable_vs_release import collect_and_write as write_favorable
     from plot_tau_vs_release_square import collect_and_write as write_tau_square
+    from quotes_panel import main as write_quotes
     from render_decoy_gallery import main as render_decoy_gallery
     from seed_spread_heatmap import collect_and_write as write_seed_heatmap
     from tau_floor2_table import collect_and_write as write_floor2_table
+    from plot_no_hbond_vs_release import collect_and_write as write_no_hbond
     from term_contributions import main as write_term_contributions
+    from term_contributions_amplified import main as write_amplified
     from terms_old_neutral import main as write_terms_old_neutral
 
     from viz.three_mol_rows import main as write_mol_grid
@@ -121,17 +121,14 @@ def main() -> int:
 
     def _mol_study_figures():
         d, order, _mt = ms.load_prepared(ms.DEFAULT_DATA)
-        return [
-            ms.plot_full(d, order, ms.DEFAULT_OUTDIR),
-            ms.plot_square_model(d, ms.BEST_MODELS[0], ms.DEFAULT_OUTDIR,
-                                 "ConcretenessCRA_GPT6_square.png",
-                                 title="GPT-6 Astra", ylabel=False),
-            ms.plot_square_model(d, ms.BEST_MODELS[1], ms.DEFAULT_OUTDIR,
-                                 "ConcretenessCRA_GPT5_square.png", title="GPT-5"),
-            ms.plot_all_models_horizontal(d, order, ms.DEFAULT_OUTDIR,
-                                          "ConcretenessCRA_all_horizontal.png",
-                                          lw=1.5, title="All 28 models"),
-        ]
+        return [ms.plot_full(d, order, ms.DEFAULT_OUTDIR)]
+
+    def _pair_table():
+        subprocess.run(
+            [sys.executable, "viz_helper/build_pair_table.py"],
+            check=True,
+        )
+        return PROJECT_ROOT / "pair_runs_reliable.csv"
 
     def _paired_vs_uff():
         subprocess.run(
@@ -139,19 +136,12 @@ def main() -> int:
             check=True,
         )
 
-    def _cohort_tables():
-        out = []
-        for name in ("models_table.tsv", "models_reasoning_params.tsv"):
-            dst = PROJECT_ROOT / "figures" / name
-            shutil.copyfile(PROJECT_ROOT / name, dst)
-            out.append(dst)
-        return out
-
     def _decoy_gallery():
         render_decoy_gallery()
         return write_decoy_gallery()
 
     steps: tuple[tuple[str, Callable[[], Any]], ...] = (
+        ("pair table rebuild (pair_runs_reliable.csv)", _pair_table),
         (
             "all-pairs CRA vs release (supplementary AP panel)",
             lambda: write_tau_square(
@@ -159,8 +149,8 @@ def main() -> int:
                 with_legend=False,
             ),
         ),
+        ("no-H-bond CRA vs release (Fig. 2)", write_no_hbond),
         ("equal-HB CRA vs benchmarks", write_eqhb_bench),
-        ("equal-HB benchmark correlations (R^2 table) + facet", write_benchmark_corr),
         ("equal-HB CRA vs all benchmarks (facet)", write_benchmark_facet),
         ("fair CRA vs release", write_equal_hbond),
         ("unconventional CRA vs release", write_decoy_vs_release),
@@ -171,18 +161,21 @@ def main() -> int:
         ("dataset diversity panels + ensemble_flexibility.tsv", write_diversity),
         ("energy probe MAE heatmap", write_energy_probe),
         ("concreteness table (explanation-level counts)", _concreteness_table),
-        ("ConcretenessCRA + FullPlot", _mol_study_figures),
+        ("concreteness_full (28-panel facet)", _mol_study_figures),
+        ("concreteness panels (Fig. 2d-f)", write_concreteness_panels),
         ("concept counts table (explanation-level)", lambda: build_concepts()),
         ("FullPlotConcepts (concept facet)", lambda: msc.build_and_save()),
         ("27-molecule grid (PNG+SVG)", write_mol_grid),
         ("paired vs UFF TSV", _paired_vs_uff),
         ("prompt-vocabulary ablation TSVs (Muse Glimmer 30B)", write_terms_old_neutral),
-        ("cohort tables (identities / reasoning+params)", _cohort_tables),
+        ("cohort tables from models.yaml (identities / reasoning+params)", write_cohort_tables),
         ("fair-pair tables (*_fp.tsv)", write_fair_tables),
         ("MMFF94-r2SCAN alignment (ED S9)", write_mmff_alignment),
         ("MMFF94 term contributions (Fig. 1c)", write_term_contributions),
+        ("amplified term contributions (Fig. 1c)", write_amplified),
         ("decoy gallery render + assembly (Fig. 3a)", _decoy_gallery),
-        ("decoy accuracy vs H-bond angle (Fig. 3c)", write_decoy_angle),
+        ("quotes panel (Fig. 3b)", write_quotes),
+        ("decoy H-bond geometry table", write_decoy_angle),
     )
     for label, run in steps:
         _run_step(label, run)

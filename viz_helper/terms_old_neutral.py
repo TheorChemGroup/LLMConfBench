@@ -25,13 +25,42 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from concreteness import HBOND_RE
 
-from config.models_config import resolve_deltae_json
+from config.models_config import BUNDLE_SEEDS as SEEDS, resolve_deltae_json
 from metrics.kendall_tau_ranking import (
     augment_meta,
     load_deltae_override,
     load_metadata_index,
 )
 from metrics.option2_metrics import score_molecule
+
+META_COLS = ("prompt", "seed", "label", "molecule", "tau_f2.0")
+
+
+def aggregate_by_molecule(rows: list[dict]) -> tuple[list[str], list[dict]]:
+    """Per (prompt, label, molecule): seed count, mean tau, summed counts."""
+    count_cols = [c for c in rows[0]
+                  if c not in META_COLS and c != "words"]
+    agg: dict[tuple, dict] = {}
+    for r in rows:
+        a = agg.setdefault((r["prompt"], r["label"], r["molecule"]),
+                           {"n_seeds": 0, "taus": [], "words": 0,
+                            **{k: 0 for k in count_cols}})
+        a["n_seeds"] += 1
+        if r["tau_f2.0"] != "":
+            a["taus"].append(float(r["tau_f2.0"]))
+        a["words"] += int(r["words"])
+        for k in count_cols:
+            a[k] += int(r[k])
+    out = [{
+        "prompt": p, "label": lab, "molecule": mol, "n_seeds": a["n_seeds"],
+        "tau_f2.0": f"{sum(a['taus']) / len(a['taus']):.3f}" if a["taus"] else "",
+        "words": a["words"], **{k: a[k] for k in count_cols},
+    } for (p, lab, mol), a in sorted(
+        agg.items(),
+        key=lambda kv: (kv[0][0], int(kv[0][1]) if kv[0][1].isdigit() else 10**6,
+                        kv[0][2]))]
+    return count_cols, out
+
 
 TAG = "muse-glimmer30b"
 PROMPTS = {
@@ -41,8 +70,8 @@ PROMPTS = {
                 "geom-qm9-neutral/prompt_30x30_NEW_43",
                 "geom-qm9-neutral/prompt_30x30_NEW_44"],
 }
-SEEDS = {"prompt_30x30_NEW": 42, "prompt_30x30_NEW_43": 43, "prompt_30x30_NEW_44": 44}
-LABELS_TSV = _REPO / "figures" / "seed_spread_heatmap_molecules.tsv"
+
+LABELS_TSV = _REPO / "figures" / "seed_spread_heatmap_molecules_fp.tsv"
 OUT = _REPO / "figures" / "terms_old_neutral_museglimmer30b.tsv"
 
 TERMS = {
@@ -116,25 +145,7 @@ def main() -> int:
         w.writerows(rows)
     print(f"Wrote {args.output} ({len(rows)} rows)")
 
-    count_cols = ["n_hbond_all", *TERMS]
-    agg: dict[tuple, dict] = {}
-    for r in rows:
-        a = agg.setdefault((r["prompt"], r["label"], r["molecule"]),
-                           {"n_seeds": 0, "taus": [], "words": 0,
-                            **{k: 0 for k in count_cols}})
-        a["n_seeds"] += 1
-        if r["tau_f2.0"] != "":
-            a["taus"].append(float(r["tau_f2.0"]))
-        a["words"] += r["words"]
-        for k in count_cols:
-            a[k] += r[k]
-    agg_rows = [{
-        "prompt": p, "label": lab, "molecule": mol, "n_seeds": a["n_seeds"],
-        "tau_f2.0": f"{sum(a['taus'])/len(a['taus']):.3f}" if a["taus"] else "",
-        "words": a["words"], **{k: a[k] for k in count_cols},
-    } for (p, lab, mol), a in sorted(
-        agg.items(),
-        key=lambda kv: (kv[0][0], int(kv[0][1]) if kv[0][1].isdigit() else 10**6, kv[0][2]))]
+    count_cols, agg_rows = aggregate_by_molecule(rows)
     agg_path = args.output.with_name(args.output.stem + "_agg" + args.output.suffix)
     with agg_path.open("w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(

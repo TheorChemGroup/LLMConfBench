@@ -29,6 +29,7 @@ from config.models_config import (
     resolve_deltae_json,
     short_label_for_display,
 )
+from metrics.grouped_metrics import fmt_p
 from metrics.kendall_tau_ranking import (
     augment_meta,
     load_deltae_override,
@@ -101,14 +102,6 @@ def _llm_mean_per_molecule(
     return out
 
 
-def _fmt_p(p: float | None) -> str:
-    if p is None or not np.isfinite(p):
-        return ""
-    if p < 0.001:
-        return f"{p:.3e}"
-    return f"{p:.3f}"
-
-
 def _fmt_num(x: float) -> str:
     if not np.isfinite(x):
         return ""
@@ -123,8 +116,8 @@ def _tsv_row(label: str, summary: PairedDiffSummary) -> str:
             _fmt_num(summary.median),
             _fmt_num(summary.ci_lo),
             _fmt_num(summary.ci_hi),
-            _fmt_p(summary.perm_pvalue),
-            _fmt_p(summary.wilcoxon_pvalue),
+            fmt_p(summary.perm_pvalue, 3),
+            fmt_p(summary.wilcoxon_pvalue, 3),
         ]
     )
 

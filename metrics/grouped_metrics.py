@@ -61,6 +61,33 @@ def mean_std_ci(values: np.ndarray) -> tuple[float, float, float, float, float]:
     return mean, std, se, ci_lo, ci_hi
 
 
+def fmt_p(value: float | None, exp_digits: int = 2) -> str:
+    """Render a p-value: scientific below 0.001, otherwise three decimals."""
+    if value is None or not np.isfinite(value):
+        return ""
+    if value < 0.001:
+        return f"{value:.{exp_digits}e}"
+    return f"{value:.3f}"
+
+
+def summary_stats(values) -> tuple[float, float, float, int]:
+    """Mean, median, sample SD (ddof=1) and count of a score list."""
+    arr = np.asarray(values, dtype=float)
+    sd = float(np.std(arr, ddof=1)) if arr.size > 1 else 0.0
+    return float(arr.mean()), float(np.median(arr)), sd, int(arr.size)
+
+
+def cra_macro(stats: dict) -> tuple[float, float, int]:
+    """Mean CRA over molecules (2*ok/tot-1) with a 95 % t half-width."""
+    accs = np.asarray([ok / tot for ok, tot in stats.values() if tot])
+    taus = 2 * accs - 1
+    n = len(taus)
+    if not n:
+        return float("nan"), 0.0, 0
+    mean, _std, _se, lo, hi = mean_std_ci(taus)
+    return mean, (hi - lo) / 2, n
+
+
 def has_three_complete_seeds(
     answers_filename: str,
     seed_dirs: list[Path] | None = None,

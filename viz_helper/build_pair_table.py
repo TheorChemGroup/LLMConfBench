@@ -10,12 +10,10 @@ H-bond counts, answer positions and CRA are recomputed here.
 from __future__ import annotations
 
 import argparse
-import math
 import sys
 from itertools import combinations
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 REPO = Path(__file__).resolve().parent.parent
@@ -29,10 +27,8 @@ from config.models_config import (  # noqa: E402
 from decoy_common import (  # noqa: E402
     FLOOR,
     bench_molecules,
-    bonded_graph,
     hb_count_map,
     load_r2scan,
-    read_xyz,
 )
 from metrics.kendall_tau_ranking import (  # noqa: E402
     augment_meta,
@@ -49,35 +45,6 @@ KEYS = ["molecule_number", "conf1", "conf2"]
 TERMS = ["dE_Bond", "dE_Angle", "dE_StrBnd", "dE_Torsion", "dE_OOP",
          "dE_VDW", "dE_Electrostatic"]
 BONDED = TERMS[:5]
-
-
-def count_no_angle(atoms, bonded, h_max: float = 2.5) -> int:
-    """H-bond count with the angle cutoff removed (distance only)."""
-    xyz = {i: np.array(a[1:]) for i, a in enumerate(atoms)}
-    n = 0
-    for i, a in enumerate(atoms):
-        if a[0] != "H":
-            continue
-        donors = [j for j in bonded.get(i, []) if atoms[j][0] in ("O", "N")]
-        if len(donors) != 1:
-            continue
-        d = donors[0]
-        for k, b in enumerate(atoms):
-            if b[0] not in ("O", "N") or k in (i, d):
-                continue
-            r = float(np.linalg.norm(xyz[k] - xyz[i]))
-            if 0 < r <= h_max:
-                n += 1
-    return n
-
-
-def alt_counts(r2: dict) -> dict[tuple[str, int], int]:
-    out = {}
-    for mol in sorted(bench_molecules()):
-        for ci in r2[mol]:
-            atoms = read_xyz(CONF / mol / f"{mol}_conf_{ci}.xyz")
-            out[(mol, int(ci))] = count_no_angle(atoms, bonded_graph(atoms))
-    return out
 
 
 def answer_positions() -> dict[tuple[str, str, str], dict[int, int]]:
@@ -105,20 +72,6 @@ def answer_positions() -> dict[tuple[str, str, str], dict[int, int]]:
     return pos
 
 
-def hb_abundance() -> dict[tuple[int, str, int], float]:
-    """(molecule number, model, seed) -> relative H-bond mention abundance."""
-    path = REPO / "figures/concreteness_vs_cra.tsv"
-    if not path.is_file():
-        print(f"warning: {path.name} missing; hb_abundance left empty")
-        return {}
-    t = pd.read_csv(path, sep="\t")
-    x = t.assign(X=t.n_hbond / t.words)
-    x["hb"] = x.X / x.model.map(x.groupby("model").X.mean())
-    lut = pd.Series(x.hb.values, index=pd.MultiIndex.from_frame(
-        x[["label", "model", "seed"]])).to_dict()
-    return {k: round(v, 4) for k, v in lut.items()}
-
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
@@ -126,11 +79,9 @@ def main() -> int:
 
     r2 = load_r2scan()
     counts = hb_count_map(r2, bench_molecules())
-    alt = alt_counts(r2)
     terms = pd.read_csv(REPO / "mmff94_terms_by_pair.csv").set_index(KEYS)
     pos = answer_positions()
-    ab = hb_abundance()
-    labels = pd.read_csv(REPO / "figures/seed_spread_heatmap_molecules.tsv", sep="\t")
+    labels = pd.read_csv(REPO / "figures/seed_spread_heatmap_molecules_fp.tsv", sep="\t")
     num = dict(zip(labels.molecule_id, labels.label))
     models = model_files_by_display("geom_benchmark")
 
@@ -145,12 +96,6 @@ def main() -> int:
             key = (num[mol], c1, c2)
             if key not in terms.index:
                 continue
-            t = terms.loc[key]
-            hbe, se = float(t.dE_Electrostatic), float(t[BONDED].sum())
-            if hb[c1] == hb[c2]:
-                cls = "equal_hb"
-            else:
-                cls = "favourable" if (hb[c1] - hb[c2]) * dE > 0 else "unfavourable"
             for model in models:
                 for run_no, (seed, _) in enumerate(BUNDLES, start=1):
                     p = pos.get((model, seed, mol))
@@ -161,21 +106,13 @@ def main() -> int:
                     rows.append({
                         "molecule_number": num[mol], "conf1": c1, "conf2": c2,
                         "hb1": hb[c1], "hb2": hb[c2],
-                        "hb1_alt": alt[(mol, c1)], "hb2_alt": alt[(mol, c2)],
-                        "hb_abundance": ab.get((num[mol], model, int(seed)),
-                                               float("nan")),
                         "LLM": model, "run": run_no,
-                        "dE_signed": round(dE, 4),
-                        "HBE_signed": round(hbe, 6),
-                        "SE_signed": round(se, 6),
-                        "CRA": correct, "pair_class": cls,
+                        "dE_signed": round(dE, 4), "CRA": correct,
                     })
 
     out = pd.DataFrame(rows)
     out.to_csv(args.out, index=False)
     print(f"wrote {args.out} ({len(out)} rows, {len(out.columns)} cols)")
-    print("pair_class:", out.pair_class.value_counts().to_dict())
-    print("hb_abundance NaN:", int(out.hb_abundance.isna().sum()))
     return 0
 
 

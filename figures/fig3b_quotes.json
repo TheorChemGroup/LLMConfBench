@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "model": "GPT-6 Astra",
+    "molecule": "mol 16",
+    "color": "#c62828",
+    "conformers": [
+      2,
+      9,
+      13
+    ],
+    "quote": "“<...> Hydrogen-bond distance alone would overrate some structures. Although 9, 13, and 2 have short OH···O=C contacts, their hydroxymethyl torsions move toward unfavorable eclipsing regions; 13 and 2 also require appreciable backbone twisting. <...>”",
+    "inserted": "",
+    "inserted_type": "",
+    "outcome": "13 and 2 were placed 15th and 16th; they are 29th and 30th of 30 by energy.",
+    "verdict": "wrong",
+    "result": "wrong",
+    "source": {
+      "file": "texts/seed42/gpt6astra.jsonl",
+      "line": 16
+    }
+  },
+  {
+    "id": 2,
+    "model": "Claude Opus 5",
+    "molecule": "mol 16",
+    "color": "#c62828",
+    "conformers": [
+      6,
+      10,
+      11,
+      18,
+      19
+    ],
+    "quote": "“<...> the relative weight of the strong-but-strained OH···O=C macrocycle versus the strain-free NH···O 7-ring is the main ambiguity, so the boundary region (10, 11 vs 18, 19, 6) could easily reorder <...>”",
+    "inserted": "(10, 11 vs 18, 19, 6)",
+    "inserted_type": "verbatim",
+    "outcome": "10 and 11 were placed 9th and 10th, above 18, 19 and 6; they are 22nd and 24th of 30 by energy.",
+    "verdict": "wrong",
+    "result": "wrong",
+    "source": {
+      "file": "texts/seed42/claudeopus5.jsonl",
+      "line": 16
+    }
+  },
+  {
+    "id": 3,
+    "model": "Claude Opus 5",
+    "molecule": "mol 21",
+    "color": "#ef6c00",
+    "conformers": [
+      9,
+      14
+    ],
+    "quote": "“<...> These two (14, 9) are clearly the most stable; 14 has the more linear, less squeezed bond <...> so 14 is placed first <...>”",
+    "inserted": "(14, 9)",
+    "inserted_type": "expansion",
+    "outcome": "14 and 9 were placed 1st and 2nd; they are 19th and 12th of 30 by energy.",
+    "verdict": "wrong",
+    "result": "wrong",
+    "source": {
+      "file": "texts/seed42/claudeopus5.jsonl",
+      "line": 22
+    }
+  },
+  {
+    "id": 4,
+    "model": "Claude Opus 5",
+    "molecule": "mol 8",
+    "color": "#1565c0",
+    "conformers": [
+      5,
+      13,
+      22
+    ],
+    "quote": "“<...> These three (5, 22, 13) are the only ones with a genuine carbonyl hydrogen bond and are put first <...> they trade the weak ring-oxygen contact for a much stronger carbonyl bond — a net gain of a few kcal/mol. <...>”",
+    "inserted": "(5, 22, 13)",
+    "inserted_type": "expansion",
+    "outcome": "22, 5 and 13 took the top three places; 13 is 19th of 30 by energy, 5 is 3rd.",
+    "verdict": "wrong",
+    "result": "wrong",
+    "source": {
+      "file": "texts/seed42/claudeopus5.jsonl",
+      "line": 12
+    }
+  },
+  {
+    "id": 5,
+    "model": "Kimi K3",
+    "molecule": "mol 4",
+    "color": "#2e7d32",
+    "conformers": [
+      16
+    ],
+    "quote": "“<...> Conformer 16 has a short O–H···O7 contact near 2.00 Å and a 120-degree donor angle <...> Alcohol O–H donation makes 16 slightly preferable overall.”",
+    "inserted": "",
+    "inserted_type": "",
+    "outcome": "16 was placed 5th; it is 30th of 30 by energy.",
+    "verdict": "wrong",
+    "result": "wrong",
+    "source": {
+      "file": "texts/seed42/kimik3.jsonl",
+      "line": 11
+    }
+  },
+  {
+    "id": 6,
+    "model": "GPT-6 Astra",
+    "molecule": "mol 4",
+    "color": "#2e7d32",
+    "conformers": [
+      16
+    ],
+    "quote": "“<...> Torsional strain prevents ranking by hydrogen-bond distance alone. Structure 16 has an attractive OH···O(epoxide) contact, approximately 2.00 angstrom/122 degrees, but its alcohol-O–CH–CH2–N torsion is nearly eclipsed, approximately 7 degrees <...> I therefore demote it substantially.”",
+    "inserted": "",
+    "inserted_type": "",
+    "outcome": "16 was placed 21st; it is 30th of 30 by energy.",
+    "verdict": "partly corrected",
+    "result": "partly corrected",
+    "source": {
+      "file": "texts/seed42/gpt6astra.jsonl",
+      "line": 11
+    }
+  },
+  {
+    "id": 7,
+    "model": "GPT-5.6 Sol",
+    "molecule": "mol 22",
+    "color": "#6a1b9a",
+    "conformers": [
+      3,
+      9,
+      21
+    ],
+    "quote": "“<...> The strongest six-membered intramolecular O–H···O=C arrangements occur in 3 and 9 (H···O about 1.87 Å, angle about 157°) and 21 (1.91 Å, about 158°). Conformer 3 is placed just ahead of 9 <...>”",
+    "inserted": "",
+    "inserted_type": "",
+    "outcome": "3, 9 and 21 were placed 1st–3rd; they are 21st, 16th and 12th of 30 by energy.",
+    "verdict": "wrong",
+    "result": "wrong",
+    "source": {
+      "file": "texts/seed42/gpt56sol.jsonl",
+      "line": 15
+    }
+  }
+]

@@ -46,7 +46,8 @@ ARC_BENCHES: dict[str, tuple[str, str]] = {
 JSON_KEY = {"1": "arc_agi_1", "2": "arc_agi_2", "3": "arc_agi_3"}
 
 
-def load_arc_by_display(arcagi_path: Path) -> dict[str, dict[str, float]]:
+def load_arc_by_display(arcagi_path: Path,
+                        *, verbose: bool = True) -> dict[str, dict[str, float]]:
     """display name → {arc_agi_1, arc_agi_2, arc_agi_3} fractions."""
     short_to_display = {m.short: m.display for m in models_by_id().values()}
     payload = json.loads(arcagi_path.read_text(encoding="utf-8"))
@@ -64,14 +65,15 @@ def load_arc_by_display(arcagi_path: Path) -> dict[str, dict[str, float]]:
         }
         arc_by_display[display] = {k: v for k, v in parsed.items() if v is not None}
 
-    print(f"ARC-AGI models parsed: {len(arc_by_display)}")
-    if skipped:
-        print("skipped:", ", ".join(skipped))
-    for d, scores in sorted(
-        arc_by_display.items(), key=lambda kv: -kv[1].get("arc_agi_2", -1)
-    ):
-        bits = "  ".join(f"{k}={v:.3f}" for k, v in scores.items())
-        print(f"  {d:28s}  {bits}")
+    if verbose:
+        print(f"ARC-AGI models parsed: {len(arc_by_display)}")
+        if skipped:
+            print("skipped:", ", ".join(skipped))
+        for d, scores in sorted(
+            arc_by_display.items(), key=lambda kv: -kv[1].get("arc_agi_2", -1)
+        ):
+            bits = "  ".join(f"{k}={v:.3f}" for k, v in scores.items())
+            print(f"  {d:28s}  {bits}")
     return arc_by_display
 
 

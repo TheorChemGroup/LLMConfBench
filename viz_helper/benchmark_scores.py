@@ -12,7 +12,6 @@ _REPO = Path(__file__).resolve().parent.parent
 COHORT_BENCHMARK_SCORES = _REPO / "cohort_benchmark_scores.json"
 
 BENCHMARK_META_KEYS: frozenset[str] = frozenset({"model", "source"})
-SKIP_BENCH_KEYS: frozenset[str] = frozenset({"tau2"})
 
 
 def parse_pct_score(raw) -> float | None:
@@ -35,7 +34,7 @@ def parse_pct_score(raw) -> float | None:
 def parse_row_scores(row: dict) -> dict[str, float]:
     scores: dict[str, float] = {}
     for key, raw in row.items():
-        if key in BENCHMARK_META_KEYS or key in SKIP_BENCH_KEYS:
+        if key in BENCHMARK_META_KEYS:
             continue
         val = parse_pct_score(raw)
         if val is not None:
@@ -45,8 +44,6 @@ def parse_row_scores(row: dict) -> dict[str, float]:
 
 def load_cohort_benchmark_scores(
     scores_path: Path = COHORT_BENCHMARK_SCORES,
-    *,
-    bench_keys: set[str] | None = None,
 ) -> dict[str, dict[str, float]]:
     """display name → {gpqa, scicode, ...} fractions from cohort_benchmark_scores.json."""
     if not scores_path.is_file():
@@ -64,8 +61,6 @@ def load_cohort_benchmark_scores(
             skipped.append(f"{short} (unknown short)")
             continue
         parsed = parse_row_scores(row)
-        if bench_keys is not None:
-            parsed = {k: v for k, v in parsed.items() if k in bench_keys}
         if parsed:
             by_display[display] = parsed
     if by_display:

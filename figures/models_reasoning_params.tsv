@@ -6,7 +6,7 @@ Claude Sonnet 4.5	Reasoning enabled	---
 Claude Sonnet 4	Reasoning enabled	---
 GPT-5.6 Sol	Effort high; T omitted	---
 GPT-5	Effort high; T omitted	---
-o4-mini	Reasoning enabled; T omitted	---
+O4 Mini	Reasoning enabled; T omitted	---
 Gemini 3.6 Flash	Effort high	---
 Gemini 3 Flash	Effort high	---
 Gemini 2.5 Flash	Reasoning enabled	---
@@ -18,7 +18,7 @@ Qwen 3.8 27B	Thinking; effort high	27.8B dense
 Qwen 3.7 Max	Reasoning enabled	---
 Qwen 3.6 27B	Thinking; effort high	27.8B dense
 Qwen 3.5 27B	Thinking; effort high	27.8B dense
-Qwen 3.5 Plus 20260420	Reasoning enabled	397B (17B) MoE
+Qwen 3.5 Plus	Reasoning enabled	397B (17B) MoE
 Qwen 2.5 32B	No thinking	32.8B dense
 Qwen 3 32B	Thinking; effort high	32.8B dense
 Qwen 3.5 35B A3B	Thinking; effort high	35B (3B) MoE

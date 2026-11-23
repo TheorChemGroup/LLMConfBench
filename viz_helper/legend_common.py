@@ -16,6 +16,7 @@ sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from plot_tau_vs_release_square import _legend_handles
+from hb_rule_baseline import ref_handles
 
 from config.models_config import resolve_deltae_json
 from metrics.kendall_tau_ranking import load_deltae_override
@@ -34,15 +35,27 @@ def main() -> int:
         )
     }
     handles = _legend_handles(names)
-    fig = plt.figure(figsize=(ONE_HALF_COLUMN_WIDTH, 1.0))
+    fig = plt.figure(figsize=(ONE_HALF_COLUMN_WIDTH, 1.4))
     fig.legend(
         handles=handles,
-        loc="center",
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.0),
         ncol=4,
         fontsize=FONTSIZE,
         frameon=False,
         handlelength=1.5,
         columnspacing=1.0,
+        handletextpad=0.5,
+    )
+    fig.legend(
+        handles=ref_handles(),
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.02),
+        ncol=5,
+        fontsize=FONTSIZE,
+        frameon=False,
+        handlelength=1.5,
+        columnspacing=0.8,
         handletextpad=0.5,
     )
     OUT.parent.mkdir(parents=True, exist_ok=True)

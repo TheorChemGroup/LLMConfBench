@@ -10,7 +10,6 @@ number of intramolecular H-bonds.
 from __future__ import annotations
 
 import csv
-import shutil
 import sys
 from pathlib import Path
 
@@ -20,6 +19,7 @@ _REPO = Path(__file__).resolve().parent.parent
 sys.path[:0] = [str(_REPO), str(_REPO / "viz_helper")]
 
 from decoy_common import (
+    equal_hb_cra,
     BUNDLES,
     bench_molecules,
     equal_hbond_pair_tables,
@@ -29,6 +29,7 @@ from decoy_common import (
     load_r2scan,
     override_r2scan3c,
 )
+from terms_old_neutral import aggregate_by_molecule
 from plot_metrics_vs_release import (
     get_gfnff_ranking,
     get_mmff94_ranking,
@@ -40,6 +41,7 @@ from config.models_config import (
     model_files_by_display,
     short_label_for_display,
 )
+from metrics.grouped_metrics import fmt_p, summary_stats
 from metrics.option2_metrics import load_valid_answers
 from metrics.paired_vs_baseline import summarize_llm_vs_baseline
 
@@ -55,20 +57,6 @@ SEED_BY_BUNDLE = {
     "prompt_30x30_NEW_44": "44",
 }
 TAG = "muse-glimmer30b"
-
-
-def _fair_tau(pairs, public_map: dict, ranking: list[str]) -> float | None:
-    conf_to_public = {int(i): str(label) for label, i in public_map.items()}
-    pos = {label: i for i, label in enumerate(ranking)}
-    ok = tot = 0
-    for lo, hi in pairs:
-        a = conf_to_public.get(lo)
-        b = conf_to_public.get(hi)
-        if a is None or b is None or a not in pos or b not in pos:
-            continue
-        tot += 1
-        ok += pos[a] < pos[b]
-    return (2.0 * ok / tot - 1.0) if tot else None
 
 
 class _Context:
@@ -87,7 +75,7 @@ class _Context:
             for d in SEED_DIRS:
                 if mol not in answers[d]:
                     continue
-                tau = _fair_tau(
+                tau = equal_hb_cra(
                     self.eq.get(mol, []),
                     self.metas[d][mol]["public_label_to_conf_index"],
                     answers[d][mol],
@@ -108,16 +96,10 @@ class _Context:
             if not ranking:
                 continue
             prediction = [conf_to_public[i] for i in ranking if i in conf_to_public]
-            tau = _fair_tau(self.eq.get(mol, []), public_map, prediction)
+            tau = equal_hb_cra(self.eq.get(mol, []), public_map, prediction)
             if tau is not None:
                 out[mol] = tau
         return out
-
-
-def _stats(values: list[float]) -> tuple[float, float, float, int]:
-    arr = np.asarray(values, dtype=float)
-    sd = float(np.std(arr, ddof=1)) if arr.size > 1 else 0.0
-    return float(arr.mean()), float(np.median(arr)), sd, int(arr.size)
 
 
 def write_cra_table(ctx: _Context) -> Path:
@@ -125,7 +107,7 @@ def write_cra_table(ctx: _Context) -> Path:
     for display, filename in model_files_by_display("geom_benchmark").items():
         taus = ctx.model_taus(filename)
         if taus:
-            mean, median, sd, n = _stats(list(taus.values()))
+            mean, median, sd, n = summary_stats(list(taus.values()))
             rows.append((short_label_for_display(display), mean, median, sd, n))
     for name, getter in (
         ("UFF", get_uff_ranking),
@@ -134,7 +116,7 @@ def write_cra_table(ctx: _Context) -> Path:
     ):
         taus = ctx.ff_taus(getter)
         if taus:
-            mean, median, sd, n = _stats(list(taus.values()))
+            mean, median, sd, n = summary_stats(list(taus.values()))
             rows.append((name, mean, median, sd, n))
     rows.sort(key=lambda row: -row[1])
 
@@ -145,12 +127,6 @@ def write_cra_table(ctx: _Context) -> Path:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Saved {path}")
     return path
-
-
-def _fmt_p(value: float | None) -> str:
-    if value is None or not np.isfinite(value):
-        return ""
-    return f"{value:.3e}" if value < 0.001 else f"{value:.3f}"
 
 
 def write_paired_table(ctx: _Context) -> Path:
@@ -180,8 +156,8 @@ def write_paired_table(ctx: _Context) -> Path:
                 f"{summary.median:.3f}",
                 f"{summary.ci_lo:.3f}",
                 f"{summary.ci_hi:.3f}",
-                _fmt_p(summary.perm_pvalue),
-                _fmt_p(summary.wilcoxon_pvalue),
+                fmt_p(summary.perm_pvalue, 3),
+                fmt_p(summary.wilcoxon_pvalue, 3),
             ])
         )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -210,7 +186,7 @@ def write_terms_tables(ctx: _Context) -> list[Path]:
         prompt = row["prompt"]
         seed = str(row["seed"])
         mol = row["molecule"]
-        tau = _fair_tau(
+        tau = equal_hb_cra(
             ctx.eq.get(mol, []),
             metas[(prompt, seed)][mol]["public_label_to_conf_index"],
             predictions[(prompt, seed)].get(mol, []),
@@ -226,44 +202,11 @@ def write_terms_tables(ctx: _Context) -> list[Path]:
         writer.writeheader()
         writer.writerows(fair_rows)
 
-    count_cols = [c for c in fieldnames
-                  if c not in ("prompt", "seed", "label", "molecule", "tau_f2.0")]
-    agg = {}
-    for row in fair_rows:
-        key = (row["prompt"], row["label"], row["molecule"])
-        item = agg.setdefault(
-            key,
-            {"n_seeds": 0, "taus": [], "words": 0, **{c: 0 for c in count_cols}},
-        )
-        item["n_seeds"] += 1
-        if row["tau_f2.0"]:
-            item["taus"].append(float(row["tau_f2.0"]))
-        item["words"] += int(row["words"])
-        for c in count_cols:
-            if c != "words":
-                item[c] += int(row[c])
-
-    agg_rows = []
-    for (prompt, label, mol), item in sorted(
-        agg.items(),
-        key=lambda kv: (kv[0][0],
-                        int(kv[0][1]) if kv[0][1].isdigit() else 10**6,
-                        kv[0][2]),
-    ):
-        agg_rows.append({
-            "prompt": prompt,
-            "label": label,
-            "molecule": mol,
-            "n_seeds": item["n_seeds"],
-            "tau_f2.0": (f"{sum(item['taus']) / len(item['taus']):.3f}"
-                         if item["taus"] else ""),
-            "words": item["words"],
-            **{c: item[c] for c in count_cols},
-        })
+    count_cols, agg_rows = aggregate_by_molecule(fair_rows)
 
     per_molecule = FIG / "terms_old_neutral_museglimmer30b_agg_fp.tsv"
     agg_fields = ["prompt", "label", "molecule", "n_seeds", "tau_f2.0", "words"]
-    agg_fields += [c for c in count_cols if c != "words"]
+    agg_fields += count_cols
     with per_molecule.open("w", encoding="utf-8", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=agg_fields, delimiter="\t",
                                 lineterminator="\n")
@@ -275,30 +218,11 @@ def write_terms_tables(ctx: _Context) -> list[Path]:
     return [per_row, per_molecule]
 
 
-def copy_fair_tables() -> list[Path]:
-    """These tables already use the fair-pair metric; expose the _fp names."""
-    names = (
-        "concreteness_vs_cra",
-        "concept_counts_vs_cra",
-        "cra_benchmark_correlations_2",
-        "seed_spread_heatmap_molecules",
-    )
-    out = []
-    for name in names:
-        src = FIG / f"{name}.tsv"
-        dst = FIG / f"{name}_fp.tsv"
-        shutil.copyfile(src, dst)
-        out.append(dst)
-    return out
-
-
 def main() -> int:
     ctx = _Context()
     write_cra_table(ctx)
     write_paired_table(ctx)
     write_terms_tables(ctx)
-    for path in copy_fair_tables():
-        print(f"  -> {path}")
     return 0
 
 
