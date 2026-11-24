@@ -26,6 +26,7 @@ texts/
 
 # Derived pair table (rebuild with viz_helper/build_pair_table.py)
 pair_runs_reliable.csv
+mmff94_terms_by_pair.csv
 
 # Raw ORCA job trees and generated reports (rebuild from XYZ + make_*_inputs.py)
 orca_r2scan-3c/orca_r2scan3c/

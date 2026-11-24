@@ -9,7 +9,8 @@ conda activate llmconfbench
 
 ```bash
 python viz_helper/build_texts.py   # explanation texts (texts/, not tracked)
-python viz/first_plots.py          # rebuilds pair_runs_reliable.csv, then figures/ and tables
+python viz/first_plots.py          # rebuilds mmff94_terms_by_pair.csv, pair_runs_reliable.csv
+                                   # and then everything in figures/
 ```
 
 ## Citation

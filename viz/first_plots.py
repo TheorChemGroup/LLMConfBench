@@ -26,6 +26,7 @@ Produces:
   figures/deltae_pair_diff_profiles.png
   figures/energy_probe_mae_heatmap.png
   figures/recovery_pooled_fit8_normalised_above_uff.png
+  mmff94_terms_by_pair.csv
   figures/cra_no_hbond_vs_release.png
   figures/fig3a_decoy_gallery.png
   figures/fig3b_quotes.png (+ .json)
@@ -123,6 +124,13 @@ def main() -> int:
         d, order, _mt = ms.load_prepared(ms.DEFAULT_DATA)
         return [ms.plot_full(d, order, ms.DEFAULT_OUTDIR)]
 
+    def _mmff94_terms():
+        subprocess.run(
+            [sys.executable, "viz_helper/mmff94_terms.py"],
+            check=True,
+        )
+        return PROJECT_ROOT / "mmff94_terms_by_pair.csv"
+
     def _pair_table():
         subprocess.run(
             [sys.executable, "viz_helper/build_pair_table.py"],
@@ -141,6 +149,7 @@ def main() -> int:
         return write_decoy_gallery()
 
     steps: tuple[tuple[str, Callable[[], Any]], ...] = (
+        ("MMFF94 term decomposition (mmff94_terms_by_pair.csv)", _mmff94_terms),
         ("pair table rebuild (pair_runs_reliable.csv)", _pair_table),
         (
             "all-pairs CRA vs release (supplementary AP panel)",

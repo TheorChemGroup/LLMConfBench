@@ -2,8 +2,8 @@
 
 Reconstructs ``pair_runs_reliable.csv`` from the model answers, r2SCAN-3c
 energies, conformer geometries and the MMFF94 term table. MMFF94 terms are read
-from ``mmff94_terms_by_pair.csv`` (originally computed with OpenBabel); the
-H-bond counts, answer positions and CRA are recomputed here.
+from ``mmff94_terms_by_pair.csv``, written by ``mmff94_terms.py``; the H-bond
+counts, answer positions and CRA are recomputed here.
 
     python viz_helper/build_pair_table.py [--out PATH]
 """
