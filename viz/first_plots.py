@@ -149,6 +149,10 @@ def main() -> int:
         return write_decoy_gallery()
 
     steps: tuple[tuple[str, Callable[[], Any]], ...] = (
+        # Writes figures/seed_spread_heatmap_molecules_fp.tsv (the molecule
+        # numbering used by the term table and the pair table), so it must run
+        # before both.
+        ("seed spread heatmap (all models, min@10, equal-HB pairs)", write_seed_heatmap),
         ("MMFF94 term decomposition (mmff94_terms_by_pair.csv)", _mmff94_terms),
         ("pair table rebuild (pair_runs_reliable.csv)", _pair_table),
         (
@@ -165,7 +169,6 @@ def main() -> int:
         ("unconventional CRA vs release", write_decoy_vs_release),
         ("conventional CRA vs release", write_favorable),
         ("common CRA legend", write_common_legend),
-        ("seed spread heatmap (all models, min@10, equal-HB pairs)", write_seed_heatmap),
         ("CRA @ 2.0 table (mean / median / SD)", write_floor2_table),
         ("dataset diversity panels + ensemble_flexibility.tsv", write_diversity),
         ("energy probe MAE heatmap", write_energy_probe),

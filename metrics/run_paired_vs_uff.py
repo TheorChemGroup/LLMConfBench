@@ -188,8 +188,7 @@ def main() -> int:
             n_perm=args.n_perm,
             seed=args.seed,
         )
-        label = short_label_for_display(display)
-        rows.append((label, summary))
+        rows.append((short_label_for_display(display), summary))
         print(
             f"{display:40s} {summary.n:3d} {summary.mean:+8.3f} {summary.median:+8.3f} "
             f"{summary.ci_lo:+8.3f} {summary.ci_hi:+8.3f} "

@@ -61,7 +61,11 @@ def main() -> int:
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args()
 
-    labels = pd.read_csv(REPO / "figures/seed_spread_heatmap_molecules_fp.tsv", sep="\t")
+    labels_path = REPO / "figures/seed_spread_heatmap_molecules_fp.tsv"
+    if not labels_path.is_file():
+        raise SystemExit(f"{labels_path} is missing: run "
+                         "viz_helper/seed_spread_heatmap.py first")
+    labels = pd.read_csv(labels_path, sep="\t")
     num_of = dict(zip(labels.molecule_id, labels.label))
     energy = load_r2scan()
 
