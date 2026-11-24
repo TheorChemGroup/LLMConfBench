@@ -50,7 +50,7 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument(
         "--bench-json",
         type=Path,
-        default=_REPO / "geom-qm9/molecules.json",
+        default=_REPO / "geom-qm9/molecules_for_ep.json",
         help="JSON with molecules[].id list",
     )
     ap.add_argument(
