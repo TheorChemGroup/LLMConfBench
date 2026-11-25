@@ -74,7 +74,13 @@ def main() -> list[Path]:
     d = pd.read_csv(REPO / "pair_runs_reliable.csv")
     t = pd.read_csv(REPO / "figures/concreteness_vs_cra_fp.tsv", sep="\t")
     t["X"] = t.n_hbond / t.words
-    t["abundance"] = t.X / t.groupby("model").X.transform("mean")
+    # Same per-model 3-sigma filter as mol_study.load_prepared (concreteness_full
+    # and the H-bond panel of FullPlotConcepts).
+    sd = t.groupby("model")["X"].transform("std")
+    mean = t.groupby("model")["X"].transform("mean")
+    fact = (t.X - mean).abs() / sd
+    t = t[(fact < 3) | sd.isna() | (sd == 0)].copy()
+    t["abundance"] = t.X / t.groupby("model")["X"].transform("mean")
     t["run"] = t.seed - 41
 
     g = merged(t, d[d.hb1 == d.hb2])
