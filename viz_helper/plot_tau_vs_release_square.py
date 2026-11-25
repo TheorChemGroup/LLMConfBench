@@ -494,6 +494,7 @@ def plot_square(
     only: str | None = None,
     ylabel_x: float | None = None,
     extra_refs: tuple[tuple[float, str, str], ...] = (),
+    frontier: bool = False,
 ) -> set[str]:
     y_rand = _y_of(rand, y_key)
     if y_rand is not None:
@@ -568,6 +569,16 @@ def plot_square(
         )
         present.add(name)
 
+    if frontier and x_mode == "date" and len(plotted) >= 3:
+        order = sorted(range(len(plotted)), key=lambda i: plotted[i][1])
+        fx = [xs[i] for i in order]
+        fy: list[float] = []
+        best = float("-inf")
+        for i in order:
+            best = max(best, plotted[i][2])
+            fy.append(best)
+        ax.step(fx, fy, where="post", color=TEXT_COLOR, lw=1.3, zorder=4)
+
     if x_mode == "params":
         _set_params_axis(ax, xs)
     else:
@@ -623,6 +634,7 @@ def write_square(
     ylabel_x: float | None = None,
     with_legend: bool = True,
     extra_refs: tuple[tuple[float, str, str], ...] = (),
+    frontier: bool = False,
 ) -> None:
     if figsize is None:
         figsize = FIGSIZE
@@ -636,6 +648,7 @@ def write_square(
         y_key=y_key, ylabel=ylabel, ylim=ylim, show_ci=show_ci,
         x_mode=x_mode, marker_by=marker_by, size_by_params=size_by_params,
         only=only, ylabel_x=ylabel_x, extra_refs=extra_refs,
+        frontier=frontier,
     )
     names = legend_names if legend_names is not None else present
     if with_legend:
@@ -668,6 +681,7 @@ def collect_and_write(
     size_by_params: bool = False,
     only: str | None = None,
     with_legend: bool = True,
+    frontier: bool = False,
 ) -> list[Path]:
     if bundle_dir is None:
         bundle_dir = geom_seed_dirs()[0][1]
@@ -737,6 +751,7 @@ def collect_and_write(
                 only=only,
                 with_legend=with_legend,
                 extra_refs=extra_refs,
+                frontier=frontier,
             )
             written.append(path)
     else:
@@ -755,6 +770,7 @@ def collect_and_write(
             only=only,
             with_legend=with_legend,
             extra_refs=extra_refs,
+            frontier=frontier,
         )
         written.append(out)
     return written

@@ -66,6 +66,7 @@ GEOM = REPO / "geom-qm9"
 OUT = Path("figures/cra_unconventional_vs_release.png")
 YLIM = (-1.05, 1.05)
 YTICKS = np.arange(-1.0, 1.01, 0.2)
+MIN_COLOR = "#8B1A1A"
 
 
 def collect_and_write(out: Path | None = None) -> Path:
@@ -103,6 +104,13 @@ def collect_and_write(out: Path | None = None) -> Path:
                     elinewidth=0.8, capsize=0, zorder=2)
         ax.scatter([x], [tau], s=28, c=family_legend_color(fam, present),
                    marker=marker_for_display(display), zorder=3)
+    order = sorted(range(len(pts)), key=lambda i: pts[i][1])
+    worst, running = float("inf"), []
+    for i in order:
+        worst = min(worst, pts[i][2])
+        running.append(worst)
+    ax.step([xs[i] for i in order], running, where="post",
+            color=MIN_COLOR, lw=1.3, zorder=4)
     for name, tau in ff_pts:
         col = {"UFF": REF_UFF, "GFN-FF": REF_GFNFF, "MMFF94": REF_MMFF}[name]
         ls = {"UFF": ":", "GFN-FF": "-.", "MMFF94": REF_MMFF_LINESTYLE}[name]

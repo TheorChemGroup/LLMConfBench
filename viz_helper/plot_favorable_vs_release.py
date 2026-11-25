@@ -58,6 +58,7 @@ from viz.plot_style import (
     REF_MMFF,
     REF_MMFF_LINESTYLE,
     REF_UFF,
+    TEXT_COLOR,
     style_ax,
 )
 
@@ -103,6 +104,13 @@ def collect_and_write(out: Path | None = None) -> Path:
                     elinewidth=0.8, capsize=0, zorder=2)
         ax.scatter([x], [tau], s=28, c=family_legend_color(fam, present),
                    marker=marker_for_display(display), zorder=3)
+    order = sorted(range(len(pts)), key=lambda i: pts[i][1])
+    frontier, best = [], float("-inf")
+    for i in order:
+        best = max(best, pts[i][2])
+        frontier.append(best)
+    ax.step([xs[i] for i in order], frontier, where="post",
+            color=TEXT_COLOR, lw=1.3, zorder=4)
     for name, tau in ff_pts:
         col = {"UFF": REF_UFF, "GFN-FF": REF_GFNFF, "MMFF94": REF_MMFF}[name]
         ls = {"UFF": ":", "GFN-FF": "-.", "MMFF94": REF_MMFF_LINESTYLE}[name]

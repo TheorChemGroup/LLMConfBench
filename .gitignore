@@ -44,3 +44,6 @@ casestudy.ipynb
 benchmark_corr.ipynb
 *.sh
 tex_v04/
+
+# Neutral-prompt ablation data (not part of the paper)
+geom-qm9-neutral/

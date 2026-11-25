@@ -9,7 +9,6 @@ number of intramolecular H-bonds.
 
 from __future__ import annotations
 
-import csv
 import sys
 from pathlib import Path
 
@@ -25,11 +24,9 @@ from decoy_common import (
     equal_hbond_pair_tables,
     hb_count_map,
     load_meta,
-    load_predictions,
     load_r2scan,
     override_r2scan3c,
 )
-from terms_old_neutral import aggregate_by_molecule
 from plot_metrics_vs_release import (
     get_gfnff_ranking,
     get_mmff94_ranking,
@@ -47,16 +44,6 @@ from viz_helper.hb_rule_baseline import per_molecule
 
 FIG = _REPO / "figures"
 SEED_DIRS = [_REPO / "geom-qm9" / b for b in BUNDLES]
-PROMPTS = {
-    "old": SEED_DIRS,
-    "neutral": [_REPO / "geom-qm9-neutral" / b for b in BUNDLES],
-}
-SEED_BY_BUNDLE = {
-    "prompt_30x30_NEW": "42",
-    "prompt_30x30_NEW_43": "43",
-    "prompt_30x30_NEW_44": "44",
-}
-TAG = "muse-glimmer30b"
 
 
 class _Context:
@@ -133,63 +120,9 @@ def write_cra_table(ctx: _Context) -> Path:
     return path
 
 
-def write_terms_tables(ctx: _Context) -> list[Path]:
-    source = FIG / "terms_old_neutral_museglimmer30b.tsv"
-    with source.open(encoding="utf-8", newline="") as fh:
-        rows = list(csv.DictReader(fh, delimiter="\t"))
-    fieldnames = list(rows[0])
-
-    predictions = {}
-    metas = {}
-    for prompt, dirs in PROMPTS.items():
-        for bundle in dirs:
-            seed = SEED_BY_BUNDLE[bundle.name]
-            metas[(prompt, seed)] = load_meta(bundle, ctx.override)
-            predictions[(prompt, seed)] = load_predictions(
-                bundle, f"predictions_{TAG}.jsonl"
-            )
-
-    fair_rows = []
-    for row in rows:
-        prompt = row["prompt"]
-        seed = str(row["seed"])
-        mol = row["molecule"]
-        tau = equal_hb_cra(
-            ctx.eq.get(mol, []),
-            metas[(prompt, seed)][mol]["public_label_to_conf_index"],
-            predictions[(prompt, seed)].get(mol, []),
-        )
-        fair = dict(row)
-        fair["tau_f2.0"] = "" if tau is None else f"{tau:.3f}"
-        fair_rows.append(fair)
-
-    per_row = FIG / "terms_old_neutral_museglimmer30b_fp.tsv"
-    with per_row.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=fieldnames, delimiter="\t",
-                                lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(fair_rows)
-
-    count_cols, agg_rows = aggregate_by_molecule(fair_rows)
-
-    per_molecule = FIG / "terms_old_neutral_museglimmer30b_agg_fp.tsv"
-    agg_fields = ["prompt", "label", "molecule", "n_seeds", "tau_f2.0", "words"]
-    agg_fields += count_cols
-    with per_molecule.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=agg_fields, delimiter="\t",
-                                lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(agg_rows)
-
-    print(f"Saved {per_row}")
-    print(f"Saved {per_molecule}")
-    return [per_row, per_molecule]
-
-
 def main() -> int:
     ctx = _Context()
     write_cra_table(ctx)
-    write_terms_tables(ctx)
     return 0
 
 

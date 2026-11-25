@@ -34,7 +34,6 @@ Produces:
   figures/cra_floor2_table.tsv
   figures/paired_llm_minus_uff_floor2.tsv
   figures/mmff94_alignment_per_molecule.tsv
-  figures/terms_old_neutral_museglimmer30b.tsv (+ _agg.tsv)
   figures/models_table.tsv
   figures/models_reasoning_params.tsv
   figures/*_fp.tsv                        (fair-pair variants)
@@ -102,7 +101,6 @@ def main() -> int:
     from tau_floor2_table import collect_and_write as write_floor2_table
     from plot_no_hbond_vs_release import collect_and_write as write_no_hbond
     from recovery_above_uff import main as write_recovery_uff
-    from terms_old_neutral import main as write_terms_old_neutral
 
     from viz.three_mol_rows import main as write_mol_grid
 
@@ -150,6 +148,7 @@ def main() -> int:
             lambda: write_tau_square(
                 out=PROJECT_ROOT / "figures" / "cra_allpairs_vs_release.png",
                 with_legend=False,
+                frontier=True,
             ),
         ),
         ("no-H-bond CRA vs release (Fig. 2)", write_no_hbond),
@@ -167,7 +166,6 @@ def main() -> int:
         ("FullPlotConcepts (concept facet)", lambda: msc.build_and_save()),
         ("27-molecule grid (PNG+SVG)", write_mol_grid),
         ("paired vs UFF TSV", _paired_vs_uff),
-        ("prompt-vocabulary ablation TSVs (Muse Glimmer 30B)", write_terms_old_neutral),
         ("cohort tables from models.yaml (identities / reasoning+params)", write_cohort_tables),
         ("fair-pair tables (*_fp.tsv)", write_fair_tables),
         ("MMFF94-r2SCAN alignment (ED S9)", write_mmff_alignment),
