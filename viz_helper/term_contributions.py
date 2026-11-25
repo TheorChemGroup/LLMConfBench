@@ -1,12 +1,8 @@
-"""Normalised MMFF94 term shares per H-bond class (table only).
+"""Shared MMFF94 term fit used by the manuscript figures.
 
-Coefficients from a per-LLM logistic fit on the eight MMFF94-aligned molecules
-are scaled by mean term amplitudes over all 27 molecules and normalised to
-shares. Writes ``figures/term_contributions_nohb_anyhb.tsv``; the plotted
-version of this decomposition is ``recovery_above_uff.py``. Depends on
+Coefficients come from a per-LLM logistic fit on the eight MMFF94-aligned
+molecules; ``recovery_above_uff.py`` plots them. Depends on
 ``figures/mmff94_alignment_per_molecule.tsv`` written by ``mmff_alignment.py``.
-
-    python viz_helper/term_contributions.py
 """
 from pathlib import Path
 import sys
@@ -88,36 +84,4 @@ def amplitudes(q_all: pd.DataFrame, mols: set[int]) -> np.ndarray:
             .apply(lambda g: g.abs().mean()).mean().values)
 
 
-def shares(q_all: pd.DataFrame, fit: list[int], test: list[int]) -> pd.DataFrame:
-    """Per-LLM normalised term shares for one H-bond class."""
-    amp = amplitudes(q_all, set(test))
-    rows = {}
-    for llm, g in q_all[q_all.molecule_number.isin(fit)].groupby("LLM"):
-        C = fit_terms(g) * amp
-        rows[llm] = C / C.sum() if C.sum() > 0 else C * np.nan
-    return pd.DataFrame(rows, index=SHORT).T[SHORT]
 
-
-def main() -> list[Path]:
-    fit, test = split_molecules()
-    frames = class_frames(load_pairs())
-
-    S = {
-        "no H-bond": shares(frames["noHB"], fit, sorted(test)),
-        "any H-bond": shares(frames["other"], fit, sorted(test)),
-    }
-    tsv = OUT / "term_contributions_nohb_anyhb.tsv"
-    out = []
-    for name, s in S.items():
-        t = s.reset_index().rename(columns={"index": "model"})
-        t.insert(1, "class", name.replace(" ", "_"))
-        out.append(t.melt(id_vars=["model", "class"], var_name="term",
-                          value_name="share"))
-    pd.concat(out).to_csv(tsv, sep="\t", index=False, float_format="%.6f")
-
-    return [tsv]
-
-
-if __name__ == "__main__":
-    for path in main():
-        print(f"Saved {path}")

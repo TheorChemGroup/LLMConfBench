@@ -41,9 +41,9 @@ from config.models_config import (
     model_files_by_display,
     short_label_for_display,
 )
-from metrics.grouped_metrics import fmt_p, summary_stats
+from metrics.grouped_metrics import summary_stats
 from metrics.option2_metrics import load_valid_answers
-from metrics.paired_vs_baseline import summarize_llm_vs_baseline
+from viz_helper.hb_rule_baseline import per_molecule
 
 FIG = _REPO / "figures"
 SEED_DIRS = [_REPO / "geom-qm9" / b for b in BUNDLES]
@@ -63,7 +63,8 @@ class _Context:
     def __init__(self) -> None:
         self.r2 = load_r2scan()
         self.molecules = sorted(bench_molecules())
-        self.eq = equal_hbond_pair_tables(self.r2, hb_count_map(self.r2, self.molecules))
+        self.counts = hb_count_map(self.r2, self.molecules)
+        self.eq = equal_hbond_pair_tables(self.r2, self.counts)
         self.override = override_r2scan3c()
         self.metas = {d: load_meta(d, self.override) for d in SEED_DIRS}
 
@@ -118,48 +119,15 @@ def write_cra_table(ctx: _Context) -> Path:
         if taus:
             mean, median, sd, n = summary_stats(list(taus.values()))
             rows.append((name, mean, median, sd, n))
+    hb = per_molecule(ctx.eq, ctx.counts)
+    if hb:
+        rows.append(("HBC", *summary_stats(hb)))
     rows.sort(key=lambda row: -row[1])
 
     path = FIG / "cra_floor2_table_fp.tsv"
     lines = ["model\tmean_tau_f2.0\tmedian_tau_f2.0\tsd_tau_f2.0\tn_molecules"]
     lines += [f"{name}\t{mean:.3f}\t{median:.3f}\t{sd:.3f}\t{n}"
               for name, mean, median, sd, n in rows]
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"Saved {path}")
-    return path
-
-
-def write_paired_table(ctx: _Context) -> Path:
-    uff = ctx.ff_taus(get_uff_ranking)
-    rows = []
-    for display, filename in model_files_by_display("geom_benchmark").items():
-        taus = ctx.model_taus(filename)
-        common = sorted(set(taus) & set(uff))
-        if not common:
-            continue
-        summary = summarize_llm_vs_baseline(
-            [taus[m] for m in common],
-            [uff[m] for m in common],
-            n_perm=10_000,
-            seed=0,
-        )
-        rows.append((short_label_for_display(display), summary))
-    rows.sort(key=lambda row: -row[1].mean)
-
-    path = FIG / "paired_llm_minus_uff_floor2_fp.tsv"
-    lines = ["model\tmean_d\tmedian_d\tci_lo\tci_hi\tperm_pvalue\twilcoxon_pvalue"]
-    for label, summary in rows:
-        lines.append(
-            "\t".join([
-                label,
-                f"{summary.mean:.3f}",
-                f"{summary.median:.3f}",
-                f"{summary.ci_lo:.3f}",
-                f"{summary.ci_hi:.3f}",
-                fmt_p(summary.perm_pvalue, 3),
-                fmt_p(summary.wilcoxon_pvalue, 3),
-            ])
-        )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Saved {path}")
     return path
@@ -221,7 +189,6 @@ def write_terms_tables(ctx: _Context) -> list[Path]:
 def main() -> int:
     ctx = _Context()
     write_cra_table(ctx)
-    write_paired_table(ctx)
     write_terms_tables(ctx)
     return 0
 

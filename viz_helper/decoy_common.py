@@ -6,7 +6,7 @@ Single source for: geometry reading, geometric H-bond detection/counting,
 pair-table construction (H-bond buckets, gauche-vs-anti traps, contrast
 triples) and all-model pair scoring over the three seed bundles.
 
-Used by plot_equal_hbond_vs_release.py and plot_eqhb_vs_benchmarks.py.
+Used by plot_eqhb_vs_benchmarks.py and the heatmap/table steps.
 """
 
 from __future__ import annotations

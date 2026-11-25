@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import os
-import re
 import sys
 from io import BytesIO
 from pathlib import Path
@@ -50,7 +49,6 @@ def _resolve_font() -> Path:
 
 FONT_FILE = str(_resolve_font())
 OUT_PNG = Path("figures/molecules_27_3row.png")
-OUT_SVG = Path("figures/molecules_27_3row.svg")
 
 
 _PLOT_SMILES_CANONICAL = {
@@ -61,10 +59,6 @@ _PLOT_SMILES_CANONICAL = {
 
 def mol_to_png(smi: str, width: int, height: int, fixed_bond_px: float) -> Image.Image:
     return Image.open(BytesIO(_draw(smi, width, height, fixed_bond_px, png=True))).convert("RGBA")
-
-
-def mol_to_svg(smi: str, width: int, height: int, fixed_bond_px: float) -> str:
-    return _draw(smi, width, height, fixed_bond_px, png=False)
 
 
 def _draw(smi: str, width: int, height: int, fixed_bond_px: float, *, png: bool) -> bytes | str:
@@ -94,19 +88,6 @@ def _draw(smi: str, width: int, height: int, fixed_bond_px: float, *, png: bool)
     drawer.DrawMolecule(mol)
     drawer.FinishDrawing()
     return drawer.GetDrawingText()
-
-
-def nest(svg: str, x: float, y: float, w: float, h: float) -> str:
-    svg = re.sub(r"<\?xml[^>]*\?>", "", svg).strip()
-    svg = re.sub(r"<!-- END OF HEADER -->", "", svg)
-    svg = re.sub(r"""\s+width=['"][^'"]*['"]""", "", svg, count=1)
-    svg = re.sub(r"""\s+height=['"][^'"]*['"]""", "", svg, count=1)
-    return re.sub(
-        r"<svg\b",
-        f'<svg x="{x}" y="{y}" width="{w}" height="{h}"',
-        svg,
-        count=1,
-    )
 
 
 MOL_TABLE = Path("figures/seed_spread_heatmap_molecules_fp.tsv")
@@ -149,7 +130,6 @@ def main() -> Path:
     fixed_bond_px = BOND_PT * draw_h / 60.0
 
     canvas = Image.new("RGBA", (WIDTH_PX, HEIGHT_PX), (255, 255, 255, 0))
-    svgs: list[str] = []
     for i, mol in enumerate(molecules):
         smi = smiles_map[mol]
         plot_smi = _PLOT_SMILES_CANONICAL.get(mol, smi)
@@ -158,7 +138,6 @@ def main() -> Path:
         y = round(r * cell_h + pad_y)
         cell = mol_to_png(plot_smi, draw_w, draw_h, fixed_bond_px)
         canvas.paste(cell, (x, y), cell)
-        svgs.append(nest(mol_to_svg(plot_smi, draw_w, draw_h, fixed_bond_px), x, y, draw_w, draw_h))
         if plot_smi != smi:
             print(mol, smi, "->", plot_smi)
         else:
@@ -166,19 +145,8 @@ def main() -> Path:
 
     OUT_PNG.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(OUT_PNG, dpi=(500, 500))
-    OUT_SVG.write_text(
-        "\n".join([
-            (
-                f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH_PX}" '
-                f'height="{HEIGHT_PX}" viewBox="0 0 {WIDTH_PX} {HEIGHT_PX}">'
-            ),
-            *svgs,
-            "</svg>",
-        ]),
-        encoding="utf-8",
-    )
     print(
-        f"Saved {OUT_PNG} and {OUT_SVG}  ({WIDTH_PX}×{HEIGHT_PX} px, "
+        f"Saved {OUT_PNG}  ({WIDTH_PX}×{HEIGHT_PX} px, "
         f"cell {draw_w}×{draw_h}, bond {fixed_bond_px:.1f} px; "
         f"{len(molecules)} molecules in seed-spread heatmap order)"
     )

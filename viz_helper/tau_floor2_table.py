@@ -32,7 +32,9 @@ from metrics.kendall_tau_ranking import (
 )
 from metrics.option2_metrics import load_valid_answers, score_molecule
 from viz.cohort import complete_geom_models
+from viz_helper.decoy_common import bench_molecules, hb_count_map, load_r2scan
 from viz_helper.plot_metrics_vs_release import get_gfnff_ranking, get_uff_ranking
+from viz_helper.hb_rule_baseline import all_pairs as hb_all_pairs, per_molecule as hb_per_molecule
 from viz_helper.seed_spread_heatmap import MMFF94_NAME, get_mmff94_ranking
 
 FLOOR = TAU_FLOOR
@@ -171,12 +173,15 @@ def collect_and_write(
 
     meta42 = seed_metas[seed_dirs[0]]
     print("Computing UFF, GFN-FF and MMFF94 rankings...")
-    rows = model_rows(
-        seed_metas,
-        molecules,
-        model_files,
-        extra=forcefield_rows(molecules, meta42),
+    extra = forcefield_rows(molecules, meta42)
+    hb_vals = hb_per_molecule(
+        hb_all_pairs(),
+        hb_count_map(load_r2scan(), bench_molecules()),
     )
+    if hb_vals:
+        extra.append(("HBC", *summary_stats(hb_vals)))
+        print(f"  HBC: {len(hb_vals)} molecules, mean τ@2.0={np.mean(hb_vals):+.3f}")
+    rows = model_rows(seed_metas, molecules, model_files, extra=extra)
     write_tsv(rows, out)
     for name, mean, median, sd, n in rows:
         print(f"{name:20s}  mean={_fmt_tau(mean)}  median={_fmt_tau(median)}  sd={sd:.3f}  n={n}")

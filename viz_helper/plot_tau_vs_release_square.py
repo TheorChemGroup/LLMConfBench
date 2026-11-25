@@ -485,7 +485,7 @@ def plot_square(
     dates: dict[str, datetime],
     *,
     y_key: str = "tau",
-    ylabel: str = "Conformers Ranking Accuracy (CRA) across all pairs",
+    ylabel: str = "Conformer Ranking Accuracy (CRA) across all pairs",
     ylim: tuple[float, float] | None = None,
     show_ci: bool = False,
     x_mode: str = "date",
@@ -611,7 +611,7 @@ def write_square(
     dates: dict[str, datetime],
     *,
     y_key: str = "tau",
-    ylabel: str = "Conformers Ranking Accuracy (CRA) across all pairs",
+    ylabel: str = "Conformer Ranking Accuracy (CRA) across all pairs",
     ylim: tuple[float, float] | None = None,
     show_ci: bool = False,
     x_mode: str = "date",
@@ -725,7 +725,7 @@ def collect_and_write(
     if floors:
         for floor in floors:
             y_key = f"tau_f{floor}"
-            ylabel = "Conformers Ranking Accuracy (CRA) across all pairs"
+            ylabel = "Conformer Ranking Accuracy (CRA) across all pairs"
             path = out if single_default_floor else with_floor_stem(out, floor)
             write_square(
                 path, models, rand, uff, gfnff, mmff, dates,

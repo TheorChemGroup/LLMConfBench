@@ -29,7 +29,6 @@ from plot_metrics_vs_release import (
 )
 from plot_tau_vs_arcagi import DEFAULT_ARCAGI, load_arc_by_display
 from plot_tau_vs_benchmark import GPQA_TREND_EXCLUDE, write_tau_vs_aa
-from plot_tau_vs_release_square import write_square
 
 from config.models_config import (
     geom_seed_dirs,
@@ -149,7 +148,6 @@ def main() -> None:
         ("gpqa", "GPQA Diamond", bench_scores("gpqa"), GPQA_TREND_EXCLUDE),
         ("scicode", "SciCode", bench_scores("scicode"), None),
         ("arcagi1", "ARC-AGI-1", arc_scores("arc_agi_1"), None),
-        ("arcagi2", "ARC-AGI-2", arc_scores("arc_agi_2"), None),
     ]
     for stem, xlabel, scores, exclude in panels:
         dest = OUT / f"cra_vs_{stem}.png"
@@ -157,24 +155,6 @@ def main() -> None:
                         second_trend_exclude=exclude, **common)
         print(f"Saved {dest}")
 
-    params_dest = OUT / "cra_vs_params.png"
-    write_square(
-        params_dest,
-        rows,
-        {},
-        ff["UFF"],
-        ff["GFN-FF"],
-        ff["MMFF94"],
-        {},
-        y_key="eqhb",
-        ylabel=ylabel,
-        show_ci=True,
-        x_mode="params",
-        marker_by="reasoning",
-        size_by_params=False,
-        with_legend=True,
-    )
-    print(f"Saved {params_dest}")
 
 
 if __name__ == "__main__":

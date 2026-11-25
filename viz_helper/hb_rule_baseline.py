@@ -38,20 +38,26 @@ def all_pairs() -> dict[str, list[tuple[int, int]]]:
     return out
 
 
-def values(table: dict, counts: dict) -> list[tuple[str, float]]:
-    """[(name, macro CRA)] for the H-bond counting rule on a pair table.
+def per_molecule(table: dict, counts: dict) -> list[float]:
+    """CRA of the H-bond counting rule, one value per molecule.
 
     ``table``: {folder: [(lo, hi)]}, lo = lower-energy conformer.
     ``counts``: {folder: {conf: n_H-bonds}} from ``decoy_common.hb_count_map``.
     Pairs with equal counts count as 0.5 (random choice).
     """
-    per_mol = []
+    out = []
     for mol, pairs in table.items():
         cnt = {int(k): v for k, v in counts.get(mol, {}).items()}
         rows = [1.0 if cnt[lo] > cnt[hi] else 0.0 if cnt[lo] < cnt[hi] else 0.5
                 for lo, hi in pairs if lo in cnt and hi in cnt]
         if rows:
-            per_mol.append(2 * float(np.mean(rows)) - 1)
+            out.append(2 * float(np.mean(rows)) - 1)
+    return out
+
+
+def values(table: dict, counts: dict) -> list[tuple[str, float]]:
+    """[(name, macro CRA)] for the H-bond counting rule on a pair table."""
+    per_mol = per_molecule(table, counts)
     return [(RULE, float(np.mean(per_mol)))] if per_mol else []
 
 

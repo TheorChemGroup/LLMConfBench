@@ -6,17 +6,13 @@
 
 Produces:
   pair_runs_reliable.csv                (rebuilt from the model answers)
-  figures/molecules_27_3row.png (+ .svg)
-  figures/cra_fair_vs_release.png       (equal-HB metric)
+  figures/molecules_27_3row.png
   figures/cra_allpairs_vs_release.png   (all-pairs metric)
-  figures/cra_vs_params.png             (equal-HB metric)
   figures/cra_vs_arcagi1.png            (equal-HB metric)
-  figures/cra_vs_arcagi2.png            (equal-HB metric)
   figures/cra_vs_cost.png               (equal-HB metric)
   figures/cra_vs_gpqa.png               (equal-HB metric)
   figures/cra_vs_scicode.png            (equal-HB metric)
   figures/cra_vs_benchmarks_facet.png   (equal-HB metric)
-  figures/cra_common_legend.png
   figures/cra_unconventional_vs_release.png
   figures/cra_conventional_vs_release.png
   figures/seed_spread_heatmap.png
@@ -38,8 +34,6 @@ Produces:
   figures/cra_floor2_table.tsv
   figures/paired_llm_minus_uff_floor2.tsv
   figures/mmff94_alignment_per_molecule.tsv
-  figures/term_contributions_nohb_anyhb.tsv
-  figures/decoy_hbond_geometry.tsv
   figures/terms_old_neutral_museglimmer30b.tsv (+ _agg.tsv)
   figures/models_table.tsv
   figures/models_reasoning_params.tsv
@@ -93,16 +87,13 @@ def main() -> int:
     from concreteness import build_table as build_concreteness
     from concreteness import load_setup as load_concreteness_setup
     from concreteness_panel import main as write_concreteness_panels
-    from decoy_angle import main as write_decoy_angle
     from decoy_gallery import main as write_decoy_gallery
     from energy_probe_mae_heatmap import plot_mae_heatmap as write_energy_probe
     from fair_pair_tables import main as write_fair_tables
-    from legend_common import main as write_common_legend
     from mmff_alignment import main as write_mmff_alignment
     from plot_dataset_diversity_panels import write_figures as write_diversity
     from plot_decoy_vs_release import collect_and_write as write_decoy_vs_release
     from plot_eqhb_vs_benchmarks import main as write_eqhb_bench
-    from plot_equal_hbond_vs_release import collect_and_write as write_equal_hbond
     from plot_favorable_vs_release import collect_and_write as write_favorable
     from plot_tau_vs_release_square import collect_and_write as write_tau_square
     from quotes_panel import main as write_quotes
@@ -110,7 +101,6 @@ def main() -> int:
     from seed_spread_heatmap import collect_and_write as write_seed_heatmap
     from tau_floor2_table import collect_and_write as write_floor2_table
     from plot_no_hbond_vs_release import collect_and_write as write_no_hbond
-    from term_contributions import main as write_term_contributions
     from recovery_above_uff import main as write_recovery_uff
     from terms_old_neutral import main as write_terms_old_neutral
 
@@ -165,10 +155,8 @@ def main() -> int:
         ("no-H-bond CRA vs release (Fig. 2)", write_no_hbond),
         ("equal-HB CRA vs benchmarks", write_eqhb_bench),
         ("equal-HB CRA vs all benchmarks (facet)", write_benchmark_facet),
-        ("fair CRA vs release", write_equal_hbond),
         ("unconventional CRA vs release", write_decoy_vs_release),
         ("conventional CRA vs release", write_favorable),
-        ("common CRA legend", write_common_legend),
         ("CRA @ 2.0 table (mean / median / SD)", write_floor2_table),
         ("dataset diversity panels + ensemble_flexibility.tsv", write_diversity),
         ("energy probe MAE heatmap", write_energy_probe),
@@ -183,11 +171,9 @@ def main() -> int:
         ("cohort tables from models.yaml (identities / reasoning+params)", write_cohort_tables),
         ("fair-pair tables (*_fp.tsv)", write_fair_tables),
         ("MMFF94-r2SCAN alignment (ED S9)", write_mmff_alignment),
-        ("MMFF94 term shares per class (TSV)", write_term_contributions),
         ("term recovery above UFF (Fig. 1c, normalised)", write_recovery_uff),
         ("decoy gallery render + assembly (Fig. 3a)", _decoy_gallery),
         ("quotes panel (Fig. 3b)", write_quotes),
-        ("decoy H-bond geometry table", write_decoy_angle),
     )
     for label, run in steps:
         _run_step(label, run)

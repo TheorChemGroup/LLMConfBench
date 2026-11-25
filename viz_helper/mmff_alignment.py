@@ -17,7 +17,6 @@ OUT = REPO / "figures"
 sys.path[:0] = [str(REPO), str(REPO / "viz")]
 
 from viz.plot_style import (  # noqa: E402
-    FONTSIZE,
     FONTSIZE_LABEL,
     SAVE_DPI,
     TEXT_COLOR,
@@ -55,38 +54,6 @@ def alignment_table() -> pd.DataFrame:
     a = pd.DataFrame(rows).sort_values("mol").reset_index(drop=True)
     a["aligned"] = a.R2 >= R2_MIN
     return a
-
-
-def plot_scatter(a: pd.DataFrame, out: Path) -> Path:
-    fit = sorted(a[a.aligned].mol.tolist())
-    u = load_pairs().drop_duplicates(KEYS).copy()
-    u["MMFF"] = u[TERMS].sum(axis=1)
-    p = u[u.molecule_number.isin(fit)].merge(a[["mol", "b", "R2"]],
-                                             left_on="molecule_number",
-                                             right_on="mol")
-    fig, axes = plt.subplots(2, 4, figsize=(183 / 25.4, 96 / 25.4))
-    fig.subplots_adjust(left=0.095, right=0.985, bottom=0.135, top=0.93,
-                        wspace=0.30, hspace=0.42)
-    for ax, mol in zip(axes.ravel(), fit):
-        q = p[p.mol == mol]
-        ax.scatter(q.MMFF, q.dE_signed, s=4, color=COLOR, alpha=0.45, lw=0,
-                   zorder=3)
-        lo = float(min(q.MMFF.min(), q.dE_signed.min()))
-        hi = float(max(q.MMFF.max(), q.dE_signed.max()))
-        pad = 0.06 * (hi - lo)
-        xs = np.array([lo - pad, hi + pad])
-        ax.plot(xs, float(q.b.iloc[0]) * xs, color=TEXT_COLOR, lw=0.9, zorder=4)
-        ax.set_xlim(xs)
-        ax.set_ylim(xs)
-        ax.set_title(f"mol {mol}   $R^2$ = {q.R2.iloc[0]:.2f}",
-                     fontsize=FONTSIZE, color=TEXT_COLOR, pad=2)
-        ax.tick_params(labelsize=7)
-        style_ax(ax)
-    fig.supxlabel("MMFF94 $\\Delta E$ (kcal mol$^{-1}$)",
-                  fontsize=FONTSIZE_LABEL, color=TEXT_COLOR, y=0.015)
-    fig.supylabel("r$^2$SCAN-3c $\\Delta E$ (kcal mol$^{-1}$)",
-                  fontsize=FONTSIZE_LABEL, color=TEXT_COLOR, x=0.012)
-    return save_fig(fig, out, dpi=SAVE_DPI)
 
 
 def plot_scatter_all(a: pd.DataFrame, out: Path) -> Path:
@@ -135,7 +102,6 @@ def main() -> list[Path]:
     a.to_csv(tsv, sep="\t", index=False, float_format="%.6f")
     return [
         tsv,
-        plot_scatter(a, OUT / "ed_mmff94_alignment_scatter.png"),
         plot_scatter_all(a, OUT / "ed_mmff94_alignment_scatter_all.png"),
     ]
 

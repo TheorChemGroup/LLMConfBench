@@ -123,7 +123,7 @@ def write_tau_vs_aa(
     *,
     xlabel: str,
     y_key: str = Y_KEY,
-    ylabel: str = "Conformers Ranking Accuracy (CRA) across all pairs",
+    ylabel: str = "Conformer Ranking Accuracy (CRA) across all pairs",
     legend_names: set[str] | None = None,
     second_trend_exclude: frozenset[str] | None = None,
 ) -> Path:
